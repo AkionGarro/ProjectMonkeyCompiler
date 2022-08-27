@@ -3,10 +3,7 @@ grammar MonkeyGrammar;
 
 
 //Productions
-
-
-
-
+startRule: identifier;
 
 //Tokens
 identifier:LETTER(LETTER|DIGIT)*;
