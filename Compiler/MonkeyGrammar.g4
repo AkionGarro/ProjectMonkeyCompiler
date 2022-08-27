@@ -1,45 +1,44 @@
-
 grammar MonkeyGrammar;
 
 
-program: PROGRAM ID BRACKET_OPEN expr* BRACKET_CLOSE;
 
-expr: var_decl;
-
-var_decl: VAR ID SEMICOLON;
+//Productions
 
 
-PROGRAM: 'program';
-VAR: 'var';
-PRINTLN: 'println';
-
-PLUS:'+';
-MINUS:'-';
-MULT:'*';
-DIV: '/';
-
-AND: '&&';
-OR: '||';
-NOT:'!';
-ASSIGN:'=';
-
-GT: '>';
-LT: '<';
-GEQ:'>=';
-LEQ:'<=';
-EQ:'==';
-NEQ:'!=';
 
 
+
+//Tokens
+identifier:LETTER(LETTER|DIGIT)*;
+char: QUOTE CHARIN QUOTE;
+LET:'let';
+RETURN:'return';
+
+
+//Comparison tokens
+GreaterT: '>';
+LowerT: '<';
+GreaterEQ:'>=';
+LowerEQ:'<=';
+Equeals:'==';
+
+//Brackets tokens
+BLOCK_OPEN: '[';
+BLOCK_CLOSE:']';
 BRACKET_OPEN: '{';
 BRACKET_CLOSE:'}';
 PAR_OPEN: '(';
 PAR_CLOSE:')';
 
-SEMICOLON:';';
 
-ID: [a-zA-Z][a-zA-Z0-9]*;
+LETTER: [a-zA-Z_]*;
+DIGIT: [0-9]*;
+CHARIN: [a-zA-Z0-9]*;
+QUOTE:'"';
 
-NUMBER: [0-9]*;
+NotEqueals:'!=';
 
-WS: [ \t\n\r]+ ->skip;
+
+
+
+
