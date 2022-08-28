@@ -1,4 +1,4 @@
-# Generated from C:/Users/garroakion/Desktop/Projects2Semestre/Compiladores/ProjectMonkeyCompiler/Compiler\MonkeyGrammar.g4 by ANTLR 4.10.1
+# Generated from C:/Users/bryam/Desktop/ProjectMonkeyCompiler/Compiler\MonkeyGrammar.g4 by ANTLR 4.10.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -10,13 +10,12 @@ else:
 
 def serializedATN():
     return [
-        4,1,25,24,2,0,7,0,2,1,7,1,2,2,7,2,1,0,1,0,1,0,1,0,5,0,11,8,0,10,
-        0,12,0,14,9,0,1,0,1,0,1,1,1,1,1,2,1,2,1,2,1,2,1,2,0,0,3,0,2,4,0,
-        0,21,0,6,1,0,0,0,2,17,1,0,0,0,4,19,1,0,0,0,6,7,5,1,0,0,7,8,5,23,
-        0,0,8,12,5,18,0,0,9,11,3,2,1,0,10,9,1,0,0,0,11,14,1,0,0,0,12,10,
-        1,0,0,0,12,13,1,0,0,0,13,15,1,0,0,0,14,12,1,0,0,0,15,16,5,19,0,0,
-        16,1,1,0,0,0,17,18,3,4,2,0,18,3,1,0,0,0,19,20,5,2,0,0,20,21,5,23,
-        0,0,21,22,5,22,0,0,22,5,1,0,0,0,1,12
+        4,1,40,20,2,0,7,0,2,1,7,1,2,2,7,2,1,0,1,0,1,1,1,1,5,1,11,8,1,10,
+        1,12,1,14,9,1,1,2,1,2,1,2,1,2,1,2,0,0,3,0,2,4,0,1,1,0,14,15,17,0,
+        6,1,0,0,0,2,8,1,0,0,0,4,15,1,0,0,0,6,7,3,2,1,0,7,1,1,0,0,0,8,12,
+        5,14,0,0,9,11,7,0,0,0,10,9,1,0,0,0,11,14,1,0,0,0,12,10,1,0,0,0,12,
+        13,1,0,0,0,13,3,1,0,0,0,14,12,1,0,0,0,15,16,5,17,0,0,16,17,5,16,
+        0,0,17,18,5,17,0,0,18,5,1,0,0,0,1,12
     ]
 
 class MonkeyGrammarParser ( Parser ):
@@ -29,49 +28,70 @@ class MonkeyGrammarParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'program'", "'var'", "'println'", "'+'", 
-                     "'-'", "'*'", "'/'", "'&&'", "'||'", "'!'", "'='", 
-                     "'>'", "'<'", "'>='", "'<='", "'=='", "'!='", "'{'", 
-                     "'}'", "'('", "')'", "';'" ]
+    literalNames = [ "<INVALID>", "'let'", "'return'", "'>'", "'<'", "'>='", 
+                     "'<='", "'=='", "'['", "']'", "'{'", "'}'", "'('", 
+                     "')'", "<INVALID>", "<INVALID>", "<INVALID>", "'\"'", 
+                     "'!='", "'+'", "'-'", "'*'", "'/'", "'%'", "'//'", 
+                     "'/*'", "'*/'", "<INVALID>", "'len'", "'first'", "'last'", 
+                     "'rest'", "'push'", "<INVALID>", "<INVALID>", "','", 
+                     "';'", "'true'", "'false'", "'if'", "'else'" ]
 
-    symbolicNames = [ "<INVALID>", "PROGRAM", "VAR", "PRINTLN", "PLUS", 
-                      "MINUS", "MULT", "DIV", "AND", "OR", "NOT", "ASSIGN", 
-                      "GT", "LT", "GEQ", "LEQ", "EQ", "NEQ", "BRACKET_OPEN", 
-                      "BRACKET_CLOSE", "PAR_OPEN", "PAR_CLOSE", "SEMICOLON", 
-                      "ID", "NUMBER", "WS" ]
+    symbolicNames = [ "<INVALID>", "LET", "RETURN", "GreaterT", "LowerT", 
+                      "GreaterEQ", "LowerEQ", "Equeals", "BLOCK_OPEN", "BLOCK_CLOSE", 
+                      "BRACKET_OPEN", "BRACKET_CLOSE", "PAR_OPEN", "PAR_CLOSE", 
+                      "LETTER", "DIGIT", "CHARIN", "QUOTE", "NotEqueals", 
+                      "Sum", "Res", "Mul", "Div", "Mod", "DivEnt", "Open", 
+                      "Close", "Comment", "Len", "First", "Last", "Rest", 
+                      "Push", "Boolean", "WS", "COMMA", "SEMICOLON", "TRUE", 
+                      "FALSE", "IF", "ELSE" ]
 
-    RULE_program = 0
-    RULE_expr = 1
-    RULE_var_decl = 2
+    RULE_startRule = 0
+    RULE_identifier = 1
+    RULE_char = 2
 
-    ruleNames =  [ "program", "expr", "var_decl" ]
+    ruleNames =  [ "startRule", "identifier", "char" ]
 
     EOF = Token.EOF
-    PROGRAM=1
-    VAR=2
-    PRINTLN=3
-    PLUS=4
-    MINUS=5
-    MULT=6
-    DIV=7
-    AND=8
-    OR=9
-    NOT=10
-    ASSIGN=11
-    GT=12
-    LT=13
-    GEQ=14
-    LEQ=15
-    EQ=16
-    NEQ=17
-    BRACKET_OPEN=18
-    BRACKET_CLOSE=19
-    PAR_OPEN=20
-    PAR_CLOSE=21
-    SEMICOLON=22
-    ID=23
-    NUMBER=24
-    WS=25
+    LET=1
+    RETURN=2
+    GreaterT=3
+    LowerT=4
+    GreaterEQ=5
+    LowerEQ=6
+    Equeals=7
+    BLOCK_OPEN=8
+    BLOCK_CLOSE=9
+    BRACKET_OPEN=10
+    BRACKET_CLOSE=11
+    PAR_OPEN=12
+    PAR_CLOSE=13
+    LETTER=14
+    DIGIT=15
+    CHARIN=16
+    QUOTE=17
+    NotEqueals=18
+    Sum=19
+    Res=20
+    Mul=21
+    Div=22
+    Mod=23
+    DivEnt=24
+    Open=25
+    Close=26
+    Comment=27
+    Len=28
+    First=29
+    Last=30
+    Rest=31
+    Push=32
+    Boolean=33
+    WS=34
+    COMMA=35
+    SEMICOLON=36
+    TRUE=37
+    FALSE=38
+    IF=39
+    ELSE=40
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -82,182 +102,174 @@ class MonkeyGrammarParser ( Parser ):
 
 
 
-    class ProgramContext(ParserRuleContext):
+    class StartRuleContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def PROGRAM(self):
-            return self.getToken(MonkeyGrammarParser.PROGRAM, 0)
-
-        def ID(self):
-            return self.getToken(MonkeyGrammarParser.ID, 0)
-
-        def BRACKET_OPEN(self):
-            return self.getToken(MonkeyGrammarParser.BRACKET_OPEN, 0)
-
-        def BRACKET_CLOSE(self):
-            return self.getToken(MonkeyGrammarParser.BRACKET_CLOSE, 0)
-
-        def expr(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(MonkeyGrammarParser.ExprContext)
-            else:
-                return self.getTypedRuleContext(MonkeyGrammarParser.ExprContext,i)
+        def identifier(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.IdentifierContext,0)
 
 
         def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_program
+            return MonkeyGrammarParser.RULE_startRule
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterProgram" ):
-                listener.enterProgram(self)
+            if hasattr( listener, "enterStartRule" ):
+                listener.enterStartRule(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitProgram" ):
-                listener.exitProgram(self)
+            if hasattr( listener, "exitStartRule" ):
+                listener.exitStartRule(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitProgram" ):
-                return visitor.visitProgram(self)
+            if hasattr( visitor, "visitStartRule" ):
+                return visitor.visitStartRule(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def program(self):
+    def startRule(self):
 
-        localctx = MonkeyGrammarParser.ProgramContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 0, self.RULE_program)
-        self._la = 0 # Token type
+        localctx = MonkeyGrammarParser.StartRuleContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 0, self.RULE_startRule)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 6
-            self.match(MonkeyGrammarParser.PROGRAM)
-            self.state = 7
-            self.match(MonkeyGrammarParser.ID)
+            self.identifier()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class IdentifierContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def LETTER(self, i:int=None):
+            if i is None:
+                return self.getTokens(MonkeyGrammarParser.LETTER)
+            else:
+                return self.getToken(MonkeyGrammarParser.LETTER, i)
+
+        def DIGIT(self, i:int=None):
+            if i is None:
+                return self.getTokens(MonkeyGrammarParser.DIGIT)
+            else:
+                return self.getToken(MonkeyGrammarParser.DIGIT, i)
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_identifier
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIdentifier" ):
+                listener.enterIdentifier(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIdentifier" ):
+                listener.exitIdentifier(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdentifier" ):
+                return visitor.visitIdentifier(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def identifier(self):
+
+        localctx = MonkeyGrammarParser.IdentifierContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 2, self.RULE_identifier)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
             self.state = 8
-            self.match(MonkeyGrammarParser.BRACKET_OPEN)
+            self.match(MonkeyGrammarParser.LETTER)
             self.state = 12
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==MonkeyGrammarParser.VAR:
+            while _la==MonkeyGrammarParser.LETTER or _la==MonkeyGrammarParser.DIGIT:
                 self.state = 9
-                self.expr()
+                _la = self._input.LA(1)
+                if not(_la==MonkeyGrammarParser.LETTER or _la==MonkeyGrammarParser.DIGIT):
+                    self._errHandler.recoverInline(self)
+                else:
+                    self._errHandler.reportMatch(self)
+                    self.consume()
                 self.state = 14
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class CharContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def QUOTE(self, i:int=None):
+            if i is None:
+                return self.getTokens(MonkeyGrammarParser.QUOTE)
+            else:
+                return self.getToken(MonkeyGrammarParser.QUOTE, i)
+
+        def CHARIN(self):
+            return self.getToken(MonkeyGrammarParser.CHARIN, 0)
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_char
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterChar" ):
+                listener.enterChar(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitChar" ):
+                listener.exitChar(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitChar" ):
+                return visitor.visitChar(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def char(self):
+
+        localctx = MonkeyGrammarParser.CharContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 4, self.RULE_char)
+        try:
+            self.enterOuterAlt(localctx, 1)
             self.state = 15
-            self.match(MonkeyGrammarParser.BRACKET_CLOSE)
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class ExprContext(ParserRuleContext):
-        __slots__ = 'parser'
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def var_decl(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.Var_declContext,0)
-
-
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_expr
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpr" ):
-                listener.enterExpr(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpr" ):
-                listener.exitExpr(self)
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitExpr" ):
-                return visitor.visitExpr(self)
-            else:
-                return visitor.visitChildren(self)
-
-
-
-
-    def expr(self):
-
-        localctx = MonkeyGrammarParser.ExprContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 2, self.RULE_expr)
-        try:
-            self.enterOuterAlt(localctx, 1)
+            self.match(MonkeyGrammarParser.QUOTE)
+            self.state = 16
+            self.match(MonkeyGrammarParser.CHARIN)
             self.state = 17
-            self.var_decl()
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class Var_declContext(ParserRuleContext):
-        __slots__ = 'parser'
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def VAR(self):
-            return self.getToken(MonkeyGrammarParser.VAR, 0)
-
-        def ID(self):
-            return self.getToken(MonkeyGrammarParser.ID, 0)
-
-        def SEMICOLON(self):
-            return self.getToken(MonkeyGrammarParser.SEMICOLON, 0)
-
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_var_decl
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterVar_decl" ):
-                listener.enterVar_decl(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitVar_decl" ):
-                listener.exitVar_decl(self)
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitVar_decl" ):
-                return visitor.visitVar_decl(self)
-            else:
-                return visitor.visitChildren(self)
-
-
-
-
-    def var_decl(self):
-
-        localctx = MonkeyGrammarParser.Var_declContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 4, self.RULE_var_decl)
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 19
-            self.match(MonkeyGrammarParser.VAR)
-            self.state = 20
-            self.match(MonkeyGrammarParser.ID)
-            self.state = 21
-            self.match(MonkeyGrammarParser.SEMICOLON)
+            self.match(MonkeyGrammarParser.QUOTE)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
