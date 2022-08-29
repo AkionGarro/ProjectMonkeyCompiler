@@ -9,11 +9,11 @@ from KeyPrinter import KeyPrinter
 
 
 
-eel.init('GUI')
+'''eel.init('GUI')
 eel.start('index.html', mode='my_portable_chromium',
                         host='localhost',
                         port=27000,
-                        block=True )
+                        block=True )'''
 print("hola mundo")
 input = 'test.txt'
 input_stream = FileStream(input)

@@ -10,12 +10,12 @@ else:
 
 def serializedATN():
     return [
-        4,1,40,20,2,0,7,0,2,1,7,1,2,2,7,2,1,0,1,0,1,1,1,1,5,1,11,8,1,10,
-        1,12,1,14,9,1,1,2,1,2,1,2,1,2,1,2,0,0,3,0,2,4,0,1,1,0,14,15,17,0,
-        6,1,0,0,0,2,8,1,0,0,0,4,15,1,0,0,0,6,7,3,2,1,0,7,1,1,0,0,0,8,12,
-        5,14,0,0,9,11,7,0,0,0,10,9,1,0,0,0,11,14,1,0,0,0,12,10,1,0,0,0,12,
-        13,1,0,0,0,13,3,1,0,0,0,14,12,1,0,0,0,15,16,5,17,0,0,16,17,5,16,
-        0,0,17,18,5,17,0,0,18,5,1,0,0,0,1,12
+        4,1,54,20,2,0,7,0,2,1,7,1,2,2,7,2,1,0,1,0,1,1,1,1,5,1,11,8,1,10,
+        1,12,1,14,9,1,1,2,1,2,1,2,1,2,1,2,0,0,3,0,2,4,0,1,1,0,4,5,17,0,6,
+        1,0,0,0,2,8,1,0,0,0,4,15,1,0,0,0,6,7,3,2,1,0,7,1,1,0,0,0,8,12,5,
+        4,0,0,9,11,7,0,0,0,10,9,1,0,0,0,11,14,1,0,0,0,12,10,1,0,0,0,12,13,
+        1,0,0,0,13,3,1,0,0,0,14,12,1,0,0,0,15,16,5,40,0,0,16,17,5,39,0,0,
+        17,18,5,40,0,0,18,5,1,0,0,0,1,12
     ]
 
 class MonkeyGrammarParser ( Parser ):
@@ -28,22 +28,29 @@ class MonkeyGrammarParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'let'", "'return'", "'>'", "'<'", "'>='", 
-                     "'<='", "'=='", "'['", "']'", "'{'", "'}'", "'('", 
-                     "')'", "<INVALID>", "<INVALID>", "<INVALID>", "'\"'", 
-                     "'!='", "'+'", "'-'", "'*'", "'/'", "'%'", "'//'", 
-                     "'/*'", "'*/'", "<INVALID>", "'len'", "'first'", "'last'", 
-                     "'rest'", "'push'", "<INVALID>", "<INVALID>", "','", 
-                     "';'", "'true'", "'false'", "'if'", "'else'" ]
+    literalNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", 
+                     "'-'", "'*'", "'/'", "'%'", "'//'", "'&&'", "'||'", 
+                     "'!'", "'='", "'+='", "'-='", "'*='", "'/='", "'%='", 
+                     "'//='", "'['", "']'", "'{'", "'}'", "'('", "')'", 
+                     "'.'", "'let'", "'return'", "<INVALID>", "'\"'", "'len'", 
+                     "'first'", "'last'", "'rest'", "'push'", "','", "';'", 
+                     "'true'", "'false'", "'if'", "'elseif'", "'else'", 
+                     "'puts'", "'fn'" ]
 
-    symbolicNames = [ "<INVALID>", "LET", "RETURN", "GreaterT", "LowerT", 
-                      "GreaterEQ", "LowerEQ", "Equeals", "BLOCK_OPEN", "BLOCK_CLOSE", 
-                      "BRACKET_OPEN", "BRACKET_CLOSE", "PAR_OPEN", "PAR_CLOSE", 
-                      "LETTER", "DIGIT", "CHARIN", "QUOTE", "NotEqueals", 
-                      "Sum", "Res", "Mul", "Div", "Mod", "DivEnt", "Open", 
-                      "Close", "Comment", "Len", "First", "Last", "Rest", 
-                      "Push", "Boolean", "WS", "COMMA", "SEMICOLON", "TRUE", 
-                      "FALSE", "IF", "ELSE" ]
+    symbolicNames = [ "<INVALID>", "LINE_COMMENT", "COMMENT", "WS", "LETTER", 
+                      "DIGIT", "Boolean", "STRING", "EQUAL", "NOT_EQUAL", 
+                      "LESS_THAN", "LESS_THAN_OR_EQUAL", "GREATER_THAN", 
+                      "GREATER_THAN_OR_EQUAL", "PLUS", "MINUS", "MULTIPLY", 
+                      "DIVIDE", "MODULO", "DIVIDE_INT", "AND", "OR", "NOT", 
+                      "ASSIGN", "ASSIGN_PLUS", "ASSIGN_MINUS", "ASSIGN_MULTIPLY", 
+                      "ASSIGN_DIVIDE", "ASSIGN_MODULO", "ASSIGN_DIVIDE_INT", 
+                      "BLOCK_OPEN", "BLOCK_CLOSE", "BRACKET_OPEN", "BRACKET_CLOSE", 
+                      "PAR_OPEN", "PAR_CLOSE", "DOT", "LET", "RETURN", "CHARIN", 
+                      "QUOTE", "Len", "First", "Last", "Rest", "Push", "COMMA", 
+                      "SEMICOLON", "TRUE", "FALSE", "IF", "ELSEIF", "ELSE", 
+                      "PUTS", "FN" ]
 
     RULE_startRule = 0
     RULE_identifier = 1
@@ -52,46 +59,60 @@ class MonkeyGrammarParser ( Parser ):
     ruleNames =  [ "startRule", "identifier", "char" ]
 
     EOF = Token.EOF
-    LET=1
-    RETURN=2
-    GreaterT=3
-    LowerT=4
-    GreaterEQ=5
-    LowerEQ=6
-    Equeals=7
-    BLOCK_OPEN=8
-    BLOCK_CLOSE=9
-    BRACKET_OPEN=10
-    BRACKET_CLOSE=11
-    PAR_OPEN=12
-    PAR_CLOSE=13
-    LETTER=14
-    DIGIT=15
-    CHARIN=16
-    QUOTE=17
-    NotEqueals=18
-    Sum=19
-    Res=20
-    Mul=21
-    Div=22
-    Mod=23
-    DivEnt=24
-    Open=25
-    Close=26
-    Comment=27
-    Len=28
-    First=29
-    Last=30
-    Rest=31
-    Push=32
-    Boolean=33
-    WS=34
-    COMMA=35
-    SEMICOLON=36
-    TRUE=37
-    FALSE=38
-    IF=39
-    ELSE=40
+    LINE_COMMENT=1
+    COMMENT=2
+    WS=3
+    LETTER=4
+    DIGIT=5
+    Boolean=6
+    STRING=7
+    EQUAL=8
+    NOT_EQUAL=9
+    LESS_THAN=10
+    LESS_THAN_OR_EQUAL=11
+    GREATER_THAN=12
+    GREATER_THAN_OR_EQUAL=13
+    PLUS=14
+    MINUS=15
+    MULTIPLY=16
+    DIVIDE=17
+    MODULO=18
+    DIVIDE_INT=19
+    AND=20
+    OR=21
+    NOT=22
+    ASSIGN=23
+    ASSIGN_PLUS=24
+    ASSIGN_MINUS=25
+    ASSIGN_MULTIPLY=26
+    ASSIGN_DIVIDE=27
+    ASSIGN_MODULO=28
+    ASSIGN_DIVIDE_INT=29
+    BLOCK_OPEN=30
+    BLOCK_CLOSE=31
+    BRACKET_OPEN=32
+    BRACKET_CLOSE=33
+    PAR_OPEN=34
+    PAR_CLOSE=35
+    DOT=36
+    LET=37
+    RETURN=38
+    CHARIN=39
+    QUOTE=40
+    Len=41
+    First=42
+    Last=43
+    Rest=44
+    Push=45
+    COMMA=46
+    SEMICOLON=47
+    TRUE=48
+    FALSE=49
+    IF=50
+    ELSEIF=51
+    ELSE=52
+    PUTS=53
+    FN=54
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
