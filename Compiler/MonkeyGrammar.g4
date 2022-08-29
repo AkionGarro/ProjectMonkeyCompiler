@@ -10,10 +10,10 @@ COMMENT : '/*' .*? '*/' -> skip ; // Match "/*" stuff "*/"
 //Caracteres ignorados
 WS: (' '|'\t'|'\r'|'\n')+ -> skip;
 
-//Tokens
+//tokens
 LETTER: [a-zA-Z_]*;
 DIGIT: [0-9]*;
-identifier:LETTER(LETTER|DIGIT)*;
+
 
 //Constantes booleana
 Boolean: ('true' | 'false');
@@ -61,7 +61,6 @@ PAR_CLOSE:')';
 
 //Otros caracteres o palabras reservadas
 DOT: '.' ;
-char: QUOTE CHARIN QUOTE;
 LET:'let';
 RETURN:'return';
 CHARIN: [a-zA-Z0-9]*;
@@ -82,5 +81,8 @@ PUTS: 'puts';
 FN: 'fn';
 
 
+//Tokens
+identifier:LETTER(LETTER|DIGIT)*;
+char: QUOTE CHARIN QUOTE;
 
 
