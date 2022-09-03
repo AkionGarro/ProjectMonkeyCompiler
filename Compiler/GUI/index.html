@@ -17,19 +17,30 @@
 </header>
 <main>
     <div class="d-flex flex-column container">
+
+        <div class="flex-row  buttons">
+            <div>
+                <button id="uploadButton" class="btn btn-upload">
+                    Upload File
+                </button>
+
+                <button id="compileButton" class="btn btn-compile">
+                    Compile
+                </button>
+            </div>
+        </div>
         <div class="d-flex flex-row compilerContent">
 
-            <textarea rows="15" cols="20" class="form-control" placeholder="Leave a comment here" id="floatingTextarea1"
+            <textarea id="simpleCode" rows="15" cols="20" class="form-control" placeholder="Start Coding"
             ></textarea>
 
-            <textarea rows="15" cols="20" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+            <textarea id="intrepreterCode" rows="15" cols="20" class="form-control" placeholder="Real time parsing"
             ></textarea>
 
         </div>
 
         <div class="d-flex flex-column compilerResult">
-            <textarea  class="form-control result-control" placeholder="Leave a comment here" id="floatingTextarea1"
-            ></textarea>
+            <textarea class="form-control result-control" placeholder="Results" id="resultConsole" readonly></textarea>
         </div>
 
     </div>
@@ -38,4 +49,6 @@
 
 </footer>
 </body>
+<script type="text/javascript" src="/eel.js"></script>
+<script src="parser.js"></script>
 </html>
