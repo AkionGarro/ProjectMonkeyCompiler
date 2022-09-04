@@ -1,6 +1,5 @@
 from antlr4 import *
 import eel
-import logic.controller
 
 from Generated.MonkeyGrammarLexer import MonkeyGrammarLexer
 from Generated.MonkeyGrammarListener import MonkeyGrammarListener
@@ -37,7 +36,7 @@ def startInterpreter(text):
     res = ""
 
     for t in lista:
-        res += str(t.type) + ":" + t.text;
+        res += "type: " + str(t.type) + " Lexeme:" + t.text+ "Row"+t.getL;
         res += "\n";
     global consoleResult
     consoleResult = res;

@@ -1,25 +1,83 @@
 grammar MonkeyGrammar;
 
 //Productions
-startRule: identifier;
+
+program:                    statement*;
+
+statement:                  LET letStatement | RETURN returnStatement | expressionStatement;
+
+letStatement:               identifier ASSIGN expression ( SEMICOLON | );
+
+returnStatement:            expression ( SEMICOLON | );
+
+expressionStatement:        expression ( SEMICOLON | );
+
+expression:                 additionExpression comparison;
+
+comparison:                 ((LESS_THAN|GREATER_THAN|LESS_THAN_OR_EQUAL|GREATER_THAN_OR_EQUAL|EQUAL|NOT_EQUAL) additionExpression)*;
+
+additionExpression:         multiplicationExpression additionFactor;
+
+additionFactor:             ((PLUS|MINUS) multiplicationExpression)*;
+
+multiplicationExpression:   elementExpression multiplicationFactor;
+
+multiplicationFactor:       ((MULTIPLY|DIVIDE) elementExpression)*;
+
+elementExpression:          primitiveExpression (elementAccess | callExpression | );
+
+elementAccess:              BLOCK_OPEN expression BLOCK_CLOSE;
+
+callExpression:             PAR_OPEN expressionList PAR_CLOSE;
+
+primitiveExpression:        INTEGER | STRING | identifier | TRUE | FALSE | PAR_OPEN expression PAR_CLOSE | arrayLiteral
+                            | arrayFunctions PAR_OPEN expressionList PAR_CLOSE | functionLiteral | hashLiteral
+                            | printExpression | ifExpression;
+
+arrayFunctions: LEN | FIRST | LAST | REST | PUSH;
+
+arrayLiteral: BLOCK_OPEN expressionList BLOCK_CLOSE;
+
+functionLiteral: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement;
+
+functionParameters: identifier moreIdentifiers;
+
+moreIdentifiers: (SEMICOLON identifier)*;
+
+hashLiteral: BRACKET_OPEN hashContent moreHashContent BRACKET_CLOSE;
+
+hashContent: expression COLON expression;
+
+moreHashContent: (SEMICOLON hashContent)*;
+
+expressionList: expression moreExpressions | ;
+
+moreExpressions: (SEMICOLON expression)*;
+
+printExpression: PUTS PAR_OPEN expression PAR_CLOSE;
+
+ifExpression: IF expression blockStatement (ELSE blockStatement | );
+
+blockStatement: BRACKET_OPEN statement* BRACKET_CLOSE;
+
+identifier:LETTER(LETTER|DIGIT)*;
+
+char: QUOTE CHARIN QUOTE;
 
 //Comments
 LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ; // Match "//" stuff '\n'
 COMMENT : '/*' .*? '*/' -> skip ; // Match "/*" stuff "*/"
 
-//Caracteres ignorados
-WS: (' '|'\t'|'\r'|'\n')+ -> skip;
-
 //tokens
 LETTER: [a-zA-Z_]*;
 DIGIT: [0-9]*;
-
 
 //Constantes booleana
 Boolean: ('true' | 'false');
 
 //Constante para cadena de caracteres
 STRING : '"' .*? '"' ;
+INTEGER: 'integer';
 
 //Operadores relacionales
 EQUAL: '==' ;
@@ -59,19 +117,23 @@ BRACKET_CLOSE:'}';
 PAR_OPEN: '(';
 PAR_CLOSE:')';
 
+
+//Arrays Functions
+LEN: 'len';
+FIRST: 'first';
+LAST:'last';
+REST:'rest';
+PUSH:'push';
+
 //Otros caracteres o palabras reservadas
-DOT: '.' ;
 LET:'let';
 RETURN:'return';
+DOT: '.' ;
 CHARIN: [a-zA-Z0-9]*;
 QUOTE:'"';
-Len: 'len';
-First: 'first';
-Last:'last';
-Rest:'rest';
-Push:'push';
 COMMA: ',';
 SEMICOLON: ';';
+COLON:':';
 TRUE: 'true';
 FALSE: 'false';
 IF: 'if';
@@ -81,8 +143,9 @@ PUTS: 'puts';
 FN: 'fn';
 
 
-//Tokens
-identifier:LETTER(LETTER|DIGIT)*;
-char: QUOTE CHARIN QUOTE;
 
 
+
+
+//Caracteres ignorados
+WS: (' '|'\t'|'\r'|'\n')+ -> skip;
