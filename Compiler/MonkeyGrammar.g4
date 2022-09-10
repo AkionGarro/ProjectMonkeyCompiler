@@ -30,7 +30,7 @@ elementAccess:              BLOCK_OPEN expression BLOCK_CLOSE;
 
 callExpression:             PAR_OPEN expressionList PAR_CLOSE;
 
-primitiveExpression:        INTEGER | STRING | identifier | TRUE | FALSE | PAR_OPEN expression PAR_CLOSE | arrayLiteral
+primitiveExpression:        DIGIT | STRING | identifier | TRUE | FALSE | PAR_OPEN expression PAR_CLOSE | arrayLiteral
                             | arrayFunctions PAR_OPEN expressionList PAR_CLOSE | functionLiteral | hashLiteral
                             | printExpression | ifExpression;
 
@@ -42,17 +42,17 @@ functionLiteral: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement;
 
 functionParameters: identifier moreIdentifiers;
 
-moreIdentifiers: (SEMICOLON identifier)*;
+moreIdentifiers: (COMMA identifier)*;
 
 hashLiteral: BRACKET_OPEN hashContent moreHashContent BRACKET_CLOSE;
 
 hashContent: expression COLON expression;
 
-moreHashContent: (SEMICOLON hashContent)*;
+moreHashContent: (COMMA hashContent)*;
 
 expressionList: expression moreExpressions | ;
 
-moreExpressions: (SEMICOLON expression)*;
+moreExpressions: (COMMA expression)*;
 
 printExpression: PUTS PAR_OPEN expression PAR_CLOSE;
 
@@ -64,13 +64,12 @@ identifier:LETTER(LETTER|DIGIT)*;
 
 char: QUOTE CHARIN QUOTE;
 
-//Comments
-LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ; // Match "//" stuff '\n'
-COMMENT : '/*' .*? '*/' -> skip ; // Match "/*" stuff "*/"
+//line comment
 
-//tokens
-LETTER: [a-zA-Z_]*;
-DIGIT: [0-9]*;
+//Comments
+LINE_COMMENT : '//'.*?'\r'?'\n'->skip ; // Match "//" stuff '\n'
+COMMENT : '/*'.*?'*/'->skip; // Match "/*" stuff "*/"
+
 
 //Constantes booleana
 Boolean: ('true' | 'false');
@@ -93,7 +92,7 @@ MINUS: '-' ;
 MULTIPLY: '*' ;
 DIVIDE: '/' ;
 MODULO: '%' ;
-DIVIDE_INT: '//' ;
+DIVIDE_INT: '//' ; //19
 
 //Operadores logicos
 AND: '&&' ;
@@ -129,7 +128,6 @@ PUSH:'push';
 LET:'let';
 RETURN:'return';
 DOT: '.' ;
-CHARIN: [a-zA-Z0-9]*;
 QUOTE:'"';
 COMMA: ',';
 SEMICOLON: ';';
@@ -143,9 +141,12 @@ PUTS: 'puts';
 FN: 'fn';
 
 
+//tokens
+LETTER: [a-zA-Z_]*;
 
+DIGIT: [0-9]*;
 
-
+CHARIN: [a-zA-Z0-9]*;
 
 //Caracteres ignorados
 WS: (' '|'\t'|'\r'|'\n')+ -> skip;
