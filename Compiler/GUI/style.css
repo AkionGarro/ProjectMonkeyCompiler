@@ -47,7 +47,7 @@ body {
 
 .fileContainer {
   width: 15vw;
-  height: 100%;
+  height: 5vh;
   resize: none;
   border-radius: 0.5rem;
   color: #fff;
@@ -55,6 +55,16 @@ body {
 }
 .fileTitle {
   margin: 0.5rem;
+}
+
+.fileHeader{
+  height: 10vh;
+}
+
+.uploadedFiles{
+  align-items: flex-start;
+  width: 80vw;
+  height: 90vh;
 }
 
 .form-control {
