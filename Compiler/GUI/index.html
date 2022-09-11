@@ -1,82 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
     <title>Monkey Compiler</title>
-</head>
-<body>
-<header class="d-flex headerContent justify-content-between" id="headerCont">
-    <h3 class="title">Monkey Compiler</h3>
-    <div class="headerOptions d-flex align-items-center justify-content-end ">
-        <button id="compileButton" class=" btn-compile">Run
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="44"
-                 height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00AC2D" fill="none" stroke-linecap="round"
-                 stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M7 4v16l13 -8z"/>
-            </svg>
+  </head>
+  <body>
+    <header
+      class="d-flex headerContent justify-content-between"
+      id="headerCont"
+    >
+      <h3 class="title">Monkey Compiler</h3>
+      <div class="headerOptions d-flex align-items-center justify-content-end">
+        <button id="compileButton" class="btn-compile">
+          Run
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-player-play"
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="#00AC2D"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M7 4v16l13 -8z" />
+          </svg>
         </button>
+        <div>
+          <svg
+            id="btnUploadfile"
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-file-upload btn-Uploadfile"
+            width="35"
+            height="44"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="#ffffff"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+            <path
+              d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
+            />
+            <line x1="12" y1="11" x2="12" y2="17" />
+            <polyline points="9 14 12 11 15 14" />
+          </svg>
+          <input
+            id="fileid"
+            type="file"
+            hidden
+            accept=".txt"
+            onchange='onChooseFile(event, onFileLoad.bind(this, "simpleCode"))'
+          />
+        </div>
+
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="darkModeCheck" onclick="checkMode(this)" checked>
-            <label class="form-check-label" for="darkModeCheck">Dark Mode</label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="darkModeCheck"
+            onclick="checkMode(this)"
+            checked
+          />
+          <label class="form-check-label" for="darkModeCheck">Dark Mode</label>
         </div>
-    </div>
+      </div>
+    </header>
 
-</header>
-
-<main class="mainContent">
-    <div class="d-flex flex-row compilerContent justify-content-between">
-
-        <div class=" d-flex flex-column fileContainer justify-content-between" id="filesCont">
-
-            <div class="d-flex flex-row fileHeader justify-content-between">
-                <h4 class="fileTitle">Upload File</h4>
-                <div>
-                    <svg id="btnUploadfile" xmlns="http://www.w3.org/2000/svg"
-                         class="icon icon-tabler icon-tabler-file-upload btn-Uploadfile " width="35" height="44"
-                         viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
-                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/>
-                        <line x1="12" y1="11" x2="12" y2="17"/>
-                        <polyline points="9 14 12 11 15 14"/>
-                    </svg>
-                </div>
-
-            </div>
-            <div class="uploadedFiles">
-                <input id='fileid' type='file' hidden accept=".txt" onchange='onChooseFile(event, onFileLoad.bind(this, "simpleCode"))' />
-            </div>
-
+    <main class="mainContent">
+      <div class="d-flex flex-row compilerContent justify-content-between">
+        <div class="d-flex containerText">
+          <textarea class="form-control" id="lineCounter1" wrap="off" readonly>
+1.</textarea
+          >
+          <textarea
+            id="simpleCode"
+            class="form-control"
+            placeholder="Start Coding"
+          ></textarea>
         </div>
 
-        <textarea
-                id="simpleCode"
-                rows="15"
-                cols="20"
-                class="form-control"
-                placeholder="Start Coding"
-        ></textarea>
-
-        <textarea
-                id="interpreterCode"
-                rows="15"
-                cols="20"
-                class="form-control"
-                placeholder="Real time parsing"
-        ></textarea>
-    </div>
-    <!-- Box container -->
-</main>
-</body>
-<script type="text/javascript" src="/eel.js"></script>
-<script src="parser.js"></script>
+        <div class="d-flex">
+          <textarea class="form-control" id="lineCounter2" wrap="off" readonly>
+1.</textarea
+          >
+          <textarea
+            id="interpreterCode"
+            class="form-control"
+            placeholder="Real time parsing"
+          ></textarea>
+        </div>
+      </div>
+      <!-- Box container -->
+    </main>
+  </body>
+  <script type="text/javascript" src="/eel.js"></script>
+  <script src="parser.js"></script>
+  <script src="gui.js"></script>
 </html>

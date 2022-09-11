@@ -45,28 +45,6 @@ body {
   position: relative;
 }
 
-.fileContainer {
-  width: 15vw;
-  height: 5vh;
-  resize: none;
-  border-radius: 0.5rem;
-  color: #fff;
-  border: 1px solid #ced4da;
-}
-.fileTitle {
-  margin: 0.5rem;
-}
-
-.fileHeader{
-  height: 10vh;
-}
-
-.uploadedFiles{
-  align-items: flex-start;
-  width: 80vw;
-  height: 90vh;
-}
-
 .form-control {
   width: 37.5vw;
   height: 100%;
@@ -79,10 +57,29 @@ body {
 .form-control:focus {
   background-color: #06071d;
   color: #fff;
+  box-shadow: none;
 }
 .form-control::placeholder {
   text-align: center;
   color: #fff;
+}
+
+#lineCounter1,
+#lineCounter2 {
+  width: 4vw;
+  height: 100%;
+  resize: none;
+  border-radius: 0.5rem;
+  background-color: #06071d;
+  color: #fff;
+  text-align: center;
+  border: none;
+  outline: none;
+  overflow: hidden;
+}
+#lineCounter1:focus-visible,
+#lineCounter2:focus-visible {
+  outline: none;
 }
 
 .flex-row {
