@@ -24,8 +24,6 @@ class MyErrorListener( ErrorListener ):
     def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
         global consoleResult
         consoleResult = "Attempting full context ERROR, " + str(configs)
-
-
     def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
         global consoleResult
         consoleResult = "Context ERROR, " + str(configs)
