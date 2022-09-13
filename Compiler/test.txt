@@ -1,0 +1,56 @@
+let age = 1;
+let name = "Monkey";
+let result = 10 * (20 / 2);
+
+let myArray = [1, 2, 3, 4, 5];
+
+let thorsten = {"name": "Thorsten", "age": 28};
+
+myArray[0] // => 1
+thorsten["name"] // => "Thorsten"
+
+let add = fn(a, b) { return a + b; };
+
+let fibonacci = fn(x) {
+  if (x == 0) {
+    0
+  } else {
+    if (x == 1) {
+      1
+    } else {
+      fibonacci(x - 1) + fibonacci(x - 2);
+    }
+  }
+};
+
+// Define the higher-order function `map`, that calls the given function `f`
+// on each element in `arr` and returns an array of the produced values.
+let map = fn(arr, f) {
+  let iter = fn(arr, accumulated) {
+    if (len(arr) == 0) {
+      accumulated
+    } else {
+      iter(rest(arr), push(accumulated, f(first(arr))));
+    }
+  };
+
+  iter(arr, []);
+};
+
+// Now let's take the `people` array and the `getName` function from above and
+// use them with `map`.
+map(people, getName); // => ["Anna", "Bob"]
+
+// --------------------------------------------------------------------
+// newGreeter returns a new function, that greets a `name` with the given
+// `greeting`.
+let newGreeter = fn(greeting) {
+  // `puts` is a built-in function we add to the interpreter
+  return fn(name) { puts(greeting + " " + name); }
+};
+
+// `hello` is a greeter function that says "Hello"
+let hello = newGreeter("Hello");
+
+// Calling it outputs the greeting:
+hello("dear, future Reader!"); // => Hello dear, future Reader!

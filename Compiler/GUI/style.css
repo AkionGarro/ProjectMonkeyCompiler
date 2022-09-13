@@ -54,10 +54,8 @@ body {
     border-radius: 0.5rem;
     background-color: #06071d;
     color: #fff;
-    overflow: scroll;
-    overflow-y: scroll;
-    overflow-x: scroll;
-    white-space: nowrap;
+
+
 
 
 }

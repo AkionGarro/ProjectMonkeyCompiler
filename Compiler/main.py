@@ -8,42 +8,48 @@ from antlr4.tree.Tree import TerminalNodeImpl
 from antlr4.error.ErrorListener import ErrorListener
 
 eel.init('GUI')
-consoleResult = ""
+consoleResultError = ""
+consoleResultTokens = ""
 
-class MyErrorListener( ErrorListener ):
+
+class MyErrorListener(ErrorListener):
+    def __init__(self):
+        super(MyErrorListener, self).__init__()
+
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        global consoleResult
-        consoleResult = str(line) + ":" + str(column) + ": sintax ERROR, " + str(msg)
-
-
-    def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
-        global consoleResult
-        consoleResult = "Ambiguity ERROR, " + str(configs)
-
-
-    def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
-        global consoleResult
-        consoleResult = "Attempting full context ERROR, " + str(configs)
-    def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
-        global consoleResult
-        consoleResult = "Context ERROR, " + str(configs)
+        global consoleResultError
+        consoleResultError += str(line) + ":" + str(column) + ": Syntax Error, " + str(msg)
+        consoleResultError += "\n"
+        consoleResultError += "\n"
 
 
 @eel.expose
 def getConsoleResult():
-    print (consoleResult)
-    return consoleResult
+    global consoleResultError
+    if consoleResultError !="" :
+        txt = consoleResultError
+    else:
+        txt = "Syntactic analysis Sucessfull"
+    consoleResultError = ""
+    return txt
+
 
 @eel.expose
 def send_data(msg):
     print(msg)
 
+
+def printTokens(lista):
+    global consoleResultTokens
+    res = ""
+    for t in lista:
+        res += "Line: " + str(t) + "  |  Type: " + str(t.type) + "  |  Lexeme: " + t.text;
+        res += "\n";
+    consoleResultTokens += res
+
+
 @eel.expose
 def startInterpreter(text):
-    print("---------------------")
-    global consoleResult
-    consoleResult = ""
-    print(text)
     inputText = InputStream(text)
     lexer = MonkeyGrammarLexer(inputText)
     stream = CommonTokenStream(lexer)
@@ -54,4 +60,4 @@ def startInterpreter(text):
     visitor.visit(tree)
 
 
-eel.start('index.html', mode='my_portable_chromium',host='localhost',port=27000,block=True )
+eel.start('index.html', mode='my_portable_chromium', host='localhost', port=27000, block=True)
