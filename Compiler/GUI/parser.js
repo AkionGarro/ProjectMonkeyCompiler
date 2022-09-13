@@ -1,26 +1,34 @@
-
-
+const interpreterCodeTxt = document.getElementById("interpreterCode");
+const lineCounter2 = document.getElementById("lineCounter2");
 var msg = document.getElementById("simpleCode");
-async function showConsoleResults() {
-  document.getElementById("interpreterCode").value ='';
-  result = await eel.getConsoleResult()();
-  document.getElementById("interpreterCode").value = result;
-  line_counter2();
+var msgEnter = document.getElementById("interpreterCode");
+var error = ""
+var gbText= ""
+
+async function showConsoleWithButton() {
+    document.getElementById("interpreterCode").value = '';
+    result = await eel.getConsoleResult()();
+    document.getElementById("interpreterCode").value = result;
+    line_counter2();
+}
+
+async function showConsoleWithEnter() {
+    error = await eel.getConsoleResult()();
+    gbText+=error
+    document.getElementById("interpreterCode").value = (gbText);
+    gbText=""
+    line_counter2();
 }
 
 document.getElementById("compileButton").addEventListener("click", async () => {
-  await eel.startInterpreter(this.msg.value);
-  showConsoleResults();
+    await eel.startInterpreter(this.msg.value);
+    showConsoleWithButton();
 
 });
 
 
-
-
-
 /*Lines Updating*/
-const interpreterCodeTxt = document.getElementById("interpreterCode");
-const lineCounter2 = document.getElementById("lineCounter2");
+
 
 interpreterCodeTxt.addEventListener("scroll", () => {
     lineCounter2.scrollTop = interpreterCodeTxt.scrollTop;
@@ -59,4 +67,14 @@ function line_counter2() {
 
 interpreterCodeTxt.addEventListener("input", () => {
     line_counter2();
+});
+
+
+interpreterCodeTxt.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        var text = msgEnter.value.toString().replace(error,'');
+        gbText+= text;
+        eel.startInterpreter(text);
+        showConsoleWithEnter();
+    }
 });
