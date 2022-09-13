@@ -14,7 +14,9 @@ async function showConsoleWithButton() {
 
 async function showConsoleWithEnter() {
     error = await eel.getConsoleResult()();
+    gbText+="\n"
     gbText+=error
+    gbText+="\n"
     document.getElementById("interpreterCode").value = (gbText);
     gbText=""
     line_counter2();
