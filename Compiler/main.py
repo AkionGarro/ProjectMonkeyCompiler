@@ -11,7 +11,6 @@ eel.init('GUI')
 consoleResultError = ""
 consoleResultTokens = ""
 
-
 class MyErrorListener(ErrorListener):
     def __init__(self):
         super(MyErrorListener, self).__init__()
