@@ -14,8 +14,10 @@ async function showConsoleWithButton() {
 
 async function showConsoleWithEnter() {
     error = await eel.getConsoleResult()();
+    console.log("El error:", error);
     gbText+="\n"
     gbText+=error
+
     gbText+="\n"
     document.getElementById("interpreterCode").value = (gbText);
     gbText=""
