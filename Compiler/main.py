@@ -6,11 +6,14 @@ from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from antlr4.tree.Tree import TerminalNodeImpl
 from antlr4.error.ErrorListener import ErrorListener
 
-from MyVisitor import MyVisitor
+from Interpreter import MyVisitor
+from REPL import REPL
 
 eel.init('GUI')
 consoleResultError = ""
 consoleResultTokens = ""
+repl = REPL()
+
 
 class MyErrorListener(ErrorListener):
     def __init__(self):
@@ -58,6 +61,6 @@ def startInterpreter(text):
     tree = parser.program()
     visitor = MyVisitor()
     visitor.visit(tree)
-
+    repl.data.print()
 
 eel.start('index.html', mode='my_portable_chromium', host='localhost', port=27000, block=True)

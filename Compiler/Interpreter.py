@@ -1,8 +1,12 @@
 from Generated.MonkeyGrammarParser import MonkeyGrammarParser
 from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
+from REPL import REPL
+from antlr4.CommonTokenFactory import CommonToken
 
 
 class MyVisitor(MonkeyGrammarVisitor):
+
+    replVisitor = REPL()
 
 
     def visitProgramAST(self, ctx: MonkeyGrammarParser.ProgramASTContext):
@@ -10,7 +14,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         return self.visitChildren(ctx)
 
     def visitStatementLetAST(self, ctx: MonkeyGrammarParser.StatementLetASTContext):
-        print("Visit Let Statament")
+
         return self.visitChildren(ctx)
 
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
@@ -23,6 +27,8 @@ class MyVisitor(MonkeyGrammarVisitor):
 
     def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext):
         print("LetStatament")
+        self.replVisitor.data.add(ctx.identifier().start.text,0)
+        print("hola")
         return self.visitChildren(ctx)
 
     def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
