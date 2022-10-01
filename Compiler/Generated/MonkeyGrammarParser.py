@@ -1,4 +1,4 @@
-# Generated from C:/Users/bryam/Desktop/ProjectMonkeyCompiler/Compiler\MonkeyGrammar.g4 by ANTLR 4.10.1
+# Generated from C:/Users/garroakion/Desktop/Projects2Semestre/Compiladores/ProjectMonkeyCompiler/Compiler\MonkeyGrammar.g4 by ANTLR 4.10.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -241,6 +241,22 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_program
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ProgramASTContext(ProgramContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ProgramContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def statement(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.StatementContext)
@@ -248,23 +264,11 @@ class MonkeyGrammarParser ( Parser ):
                 return self.getTypedRuleContext(MonkeyGrammarParser.StatementContext,i)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_program
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterProgram" ):
-                listener.enterProgram(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitProgram" ):
-                listener.exitProgram(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitProgram" ):
-                return visitor.visitProgram(self)
+            if hasattr( visitor, "visitProgramAST" ):
+                return visitor.visitProgramAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -274,6 +278,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 0, self.RULE_program)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.ProgramASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 63
             self._errHandler.sync(self)
@@ -301,41 +306,69 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_statement
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class StatementReturnASTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def RETURN(self):
+            return self.getToken(MonkeyGrammarParser.RETURN, 0)
+        def returnStatement(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ReturnStatementContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatementReturnAST" ):
+                return visitor.visitStatementReturnAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class StatementLetASTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def LET(self):
             return self.getToken(MonkeyGrammarParser.LET, 0)
-
         def letStatement(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.LetStatementContext,0)
 
 
-        def RETURN(self):
-            return self.getToken(MonkeyGrammarParser.RETURN, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatementLetAST" ):
+                return visitor.visitStatementLetAST(self)
+            else:
+                return visitor.visitChildren(self)
 
-        def returnStatement(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ReturnStatementContext,0)
 
+    class StatementExpressionASTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def expressionStatement(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionStatementContext,0)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_statement
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterStatement" ):
-                listener.enterStatement(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitStatement" ):
-                listener.exitStatement(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitStatement" ):
-                return visitor.visitStatement(self)
+            if hasattr( visitor, "visitStatementExpressionAST" ):
+                return visitor.visitStatementExpressionAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -348,6 +381,7 @@ class MonkeyGrammarParser ( Parser ):
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [MonkeyGrammarParser.LET]:
+                localctx = MonkeyGrammarParser.StatementLetASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 66
                 self.match(MonkeyGrammarParser.LET)
@@ -355,6 +389,7 @@ class MonkeyGrammarParser ( Parser ):
                 self.letStatement()
                 pass
             elif token in [MonkeyGrammarParser.RETURN]:
+                localctx = MonkeyGrammarParser.StatementReturnASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 68
                 self.match(MonkeyGrammarParser.RETURN)
@@ -362,6 +397,7 @@ class MonkeyGrammarParser ( Parser ):
                 self.returnStatement()
                 pass
             elif token in [MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT]:
+                localctx = MonkeyGrammarParser.StatementExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 70
                 self.expressionStatement()
@@ -385,37 +421,38 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def identifier(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.IdentifierContext,0)
-
-
-        def ASSIGN(self):
-            return self.getToken(MonkeyGrammarParser.ASSIGN, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
-
-
-        def SEMICOLON(self):
-            return self.getToken(MonkeyGrammarParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_letStatement
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLetStatement" ):
-                listener.enterLetStatement(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLetStatement" ):
-                listener.exitLetStatement(self)
+
+
+    class LetStatementASTContext(LetStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.LetStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def identifier(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.IdentifierContext,0)
+
+        def ASSIGN(self):
+            return self.getToken(MonkeyGrammarParser.ASSIGN, 0)
+        def expression(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
+
+        def SEMICOLON(self):
+            return self.getToken(MonkeyGrammarParser.SEMICOLON, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitLetStatement" ):
-                return visitor.visitLetStatement(self)
+            if hasattr( visitor, "visitLetStatementAST" ):
+                return visitor.visitLetStatementAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -424,6 +461,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.LetStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 4, self.RULE_letStatement)
         try:
+            localctx = MonkeyGrammarParser.LetStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 73
             self.identifier()
@@ -459,30 +497,33 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def expression(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
-
-
-        def SEMICOLON(self):
-            return self.getToken(MonkeyGrammarParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_returnStatement
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterReturnStatement" ):
-                listener.enterReturnStatement(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitReturnStatement" ):
-                listener.exitReturnStatement(self)
+
+
+    class ReturnStatementASTContext(ReturnStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ReturnStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
+
+        def SEMICOLON(self):
+            return self.getToken(MonkeyGrammarParser.SEMICOLON, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitReturnStatement" ):
-                return visitor.visitReturnStatement(self)
+            if hasattr( visitor, "visitReturnStatementAST" ):
+                return visitor.visitReturnStatementAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -491,6 +532,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.ReturnStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 6, self.RULE_returnStatement)
         try:
+            localctx = MonkeyGrammarParser.ReturnStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 80
             self.expression()
@@ -522,30 +564,33 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def expression(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
-
-
-        def SEMICOLON(self):
-            return self.getToken(MonkeyGrammarParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_expressionStatement
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpressionStatement" ):
-                listener.enterExpressionStatement(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpressionStatement" ):
-                listener.exitExpressionStatement(self)
+
+
+    class ExpressionStatementASTContext(ExpressionStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ExpressionStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
+
+        def SEMICOLON(self):
+            return self.getToken(MonkeyGrammarParser.SEMICOLON, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitExpressionStatement" ):
-                return visitor.visitExpressionStatement(self)
+            if hasattr( visitor, "visitExpressionStatementAST" ):
+                return visitor.visitExpressionStatementAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -554,6 +599,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.ExpressionStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 8, self.RULE_expressionStatement)
         try:
+            localctx = MonkeyGrammarParser.ExpressionStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 85
             self.expression()
@@ -585,31 +631,34 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_expression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ExpressionASTContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def additionExpression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.AdditionExpressionContext,0)
-
 
         def comparison(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.ComparisonContext,0)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_expression
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpression" ):
-                listener.enterExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpression" ):
-                listener.exitExpression(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitExpression" ):
-                return visitor.visitExpression(self)
+            if hasattr( visitor, "visitExpressionAST" ):
+                return visitor.visitExpressionAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -618,6 +667,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.ExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 10, self.RULE_expression)
         try:
+            localctx = MonkeyGrammarParser.ExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 90
             self.additionExpression()
@@ -639,66 +689,64 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_comparison
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ComparisonASTContext(ComparisonContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ComparisonContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def additionExpression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.AdditionExpressionContext)
             else:
                 return self.getTypedRuleContext(MonkeyGrammarParser.AdditionExpressionContext,i)
 
-
         def LESS_THAN(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.LESS_THAN)
             else:
                 return self.getToken(MonkeyGrammarParser.LESS_THAN, i)
-
         def GREATER_THAN(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.GREATER_THAN)
             else:
                 return self.getToken(MonkeyGrammarParser.GREATER_THAN, i)
-
         def LESS_THAN_OR_EQUAL(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.LESS_THAN_OR_EQUAL)
             else:
                 return self.getToken(MonkeyGrammarParser.LESS_THAN_OR_EQUAL, i)
-
         def GREATER_THAN_OR_EQUAL(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.GREATER_THAN_OR_EQUAL)
             else:
                 return self.getToken(MonkeyGrammarParser.GREATER_THAN_OR_EQUAL, i)
-
         def EQUAL(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.EQUAL)
             else:
                 return self.getToken(MonkeyGrammarParser.EQUAL, i)
-
         def NOT_EQUAL(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.NOT_EQUAL)
             else:
                 return self.getToken(MonkeyGrammarParser.NOT_EQUAL, i)
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_comparison
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterComparison" ):
-                listener.enterComparison(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitComparison" ):
-                listener.exitComparison(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitComparison" ):
-                return visitor.visitComparison(self)
+            if hasattr( visitor, "visitComparisonAST" ):
+                return visitor.visitComparisonAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -708,6 +756,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 12, self.RULE_comparison)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.ComparisonASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 97
             self._errHandler.sync(self)
@@ -742,31 +791,34 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_additionExpression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class AdditionExpressionASTContext(AdditionExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.AdditionExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def multiplicationExpression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.MultiplicationExpressionContext,0)
-
 
         def additionFactor(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.AdditionFactorContext,0)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_additionExpression
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAdditionExpression" ):
-                listener.enterAdditionExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAdditionExpression" ):
-                listener.exitAdditionExpression(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitAdditionExpression" ):
-                return visitor.visitAdditionExpression(self)
+            if hasattr( visitor, "visitAdditionExpressionAST" ):
+                return visitor.visitAdditionExpressionAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -775,6 +827,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.AdditionExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 14, self.RULE_additionExpression)
         try:
+            localctx = MonkeyGrammarParser.AdditionExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 100
             self.multiplicationExpression()
@@ -796,42 +849,44 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_additionFactor
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class AdditionFactorASTContext(AdditionFactorContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.AdditionFactorContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def multiplicationExpression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.MultiplicationExpressionContext)
             else:
                 return self.getTypedRuleContext(MonkeyGrammarParser.MultiplicationExpressionContext,i)
 
-
         def PLUS(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.PLUS)
             else:
                 return self.getToken(MonkeyGrammarParser.PLUS, i)
-
         def MINUS(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.MINUS)
             else:
                 return self.getToken(MonkeyGrammarParser.MINUS, i)
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_additionFactor
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAdditionFactor" ):
-                listener.enterAdditionFactor(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAdditionFactor" ):
-                listener.exitAdditionFactor(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitAdditionFactor" ):
-                return visitor.visitAdditionFactor(self)
+            if hasattr( visitor, "visitAdditionFactorAST" ):
+                return visitor.visitAdditionFactorAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -841,6 +896,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 16, self.RULE_additionFactor)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.AdditionFactorASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 107
             self._errHandler.sync(self)
@@ -875,31 +931,34 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_multiplicationExpression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MultiplicationExpressionASTContext(MultiplicationExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.MultiplicationExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def elementExpression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.ElementExpressionContext,0)
-
 
         def multiplicationFactor(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.MultiplicationFactorContext,0)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_multiplicationExpression
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMultiplicationExpression" ):
-                listener.enterMultiplicationExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMultiplicationExpression" ):
-                listener.exitMultiplicationExpression(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitMultiplicationExpression" ):
-                return visitor.visitMultiplicationExpression(self)
+            if hasattr( visitor, "visitMultiplicationExpressionAST" ):
+                return visitor.visitMultiplicationExpressionAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -908,6 +967,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.MultiplicationExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 18, self.RULE_multiplicationExpression)
         try:
+            localctx = MonkeyGrammarParser.MultiplicationExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 110
             self.elementExpression()
@@ -929,42 +989,44 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_multiplicationFactor
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MultiplicationFactorASTContext(MultiplicationFactorContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.MultiplicationFactorContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def elementExpression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.ElementExpressionContext)
             else:
                 return self.getTypedRuleContext(MonkeyGrammarParser.ElementExpressionContext,i)
 
-
         def MULTIPLY(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.MULTIPLY)
             else:
                 return self.getToken(MonkeyGrammarParser.MULTIPLY, i)
-
         def DIVIDE(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.DIVIDE)
             else:
                 return self.getToken(MonkeyGrammarParser.DIVIDE, i)
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_multiplicationFactor
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMultiplicationFactor" ):
-                listener.enterMultiplicationFactor(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMultiplicationFactor" ):
-                listener.exitMultiplicationFactor(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitMultiplicationFactor" ):
-                return visitor.visitMultiplicationFactor(self)
+            if hasattr( visitor, "visitMultiplicationFactorAST" ):
+                return visitor.visitMultiplicationFactorAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -974,6 +1036,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 20, self.RULE_multiplicationFactor)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.MultiplicationFactorASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 117
             self._errHandler.sync(self)
@@ -1008,35 +1071,37 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_elementExpression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ElementExpressionASTContext(ElementExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ElementExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def primitiveExpression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.PrimitiveExpressionContext,0)
 
-
         def elementAccess(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.ElementAccessContext,0)
-
 
         def callExpression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.CallExpressionContext,0)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_elementExpression
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterElementExpression" ):
-                listener.enterElementExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitElementExpression" ):
-                listener.exitElementExpression(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitElementExpression" ):
-                return visitor.visitElementExpression(self)
+            if hasattr( visitor, "visitElementExpressionAST" ):
+                return visitor.visitElementExpressionAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1045,6 +1110,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.ElementExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 22, self.RULE_elementExpression)
         try:
+            localctx = MonkeyGrammarParser.ElementExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 120
             self.primitiveExpression()
@@ -1081,33 +1147,35 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def BLOCK_OPEN(self):
-            return self.getToken(MonkeyGrammarParser.BLOCK_OPEN, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
-
-
-        def BLOCK_CLOSE(self):
-            return self.getToken(MonkeyGrammarParser.BLOCK_CLOSE, 0)
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_elementAccess
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterElementAccess" ):
-                listener.enterElementAccess(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitElementAccess" ):
-                listener.exitElementAccess(self)
+
+
+    class ElementAccessASTContext(ElementAccessContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ElementAccessContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def BLOCK_OPEN(self):
+            return self.getToken(MonkeyGrammarParser.BLOCK_OPEN, 0)
+        def expression(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
+
+        def BLOCK_CLOSE(self):
+            return self.getToken(MonkeyGrammarParser.BLOCK_CLOSE, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitElementAccess" ):
-                return visitor.visitElementAccess(self)
+            if hasattr( visitor, "visitElementAccessAST" ):
+                return visitor.visitElementAccessAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1116,6 +1184,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.ElementAccessContext(self, self._ctx, self.state)
         self.enterRule(localctx, 24, self.RULE_elementAccess)
         try:
+            localctx = MonkeyGrammarParser.ElementAccessASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 126
             self.match(MonkeyGrammarParser.BLOCK_OPEN)
@@ -1139,33 +1208,35 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def PAR_OPEN(self):
-            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
-
-        def expressionList(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionListContext,0)
-
-
-        def PAR_CLOSE(self):
-            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_callExpression
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCallExpression" ):
-                listener.enterCallExpression(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCallExpression" ):
-                listener.exitCallExpression(self)
+
+
+    class CallExpressionASTContext(CallExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.CallExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def PAR_OPEN(self):
+            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
+        def expressionList(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionListContext,0)
+
+        def PAR_CLOSE(self):
+            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitCallExpression" ):
-                return visitor.visitCallExpression(self)
+            if hasattr( visitor, "visitCallExpressionAST" ):
+                return visitor.visitCallExpressionAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1174,6 +1245,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.CallExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 26, self.RULE_callExpression)
         try:
+            localctx = MonkeyGrammarParser.CallExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 130
             self.match(MonkeyGrammarParser.PAR_OPEN)
@@ -1197,77 +1269,225 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def DIGIT(self):
-            return self.getToken(MonkeyGrammarParser.DIGIT, 0)
 
-        def STRING(self):
-            return self.getToken(MonkeyGrammarParser.STRING, 0)
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_primitiveExpression
 
-        def identifier(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.IdentifierContext,0)
-
-
-        def TRUE(self):
-            return self.getToken(MonkeyGrammarParser.TRUE, 0)
-
-        def FALSE(self):
-            return self.getToken(MonkeyGrammarParser.FALSE, 0)
-
-        def PAR_OPEN(self):
-            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
-        def PAR_CLOSE(self):
-            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
 
-        def arrayLiteral(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ArrayLiteralContext,0)
+    class PrimitiveExprArrFuncASTContext(PrimitiveExpressionContext):
 
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def arrayFunctions(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.ArrayFunctionsContext,0)
 
-
+        def PAR_OPEN(self):
+            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
         def expressionList(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionListContext,0)
 
+        def PAR_CLOSE(self):
+            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
 
-        def functionLiteral(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.FunctionLiteralContext,0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprArrFuncAST" ):
+                return visitor.visitPrimitiveExprArrFuncAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
-        def hashLiteral(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.HashLiteralContext,0)
+    class PrimitiveExprPrintASTContext(PrimitiveExpressionContext):
 
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def printExpression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.PrintExpressionContext,0)
 
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprPrintAST" ):
+                return visitor.visitPrimitiveExprPrintAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprFalseASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def FALSE(self):
+            return self.getToken(MonkeyGrammarParser.FALSE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprFalseAST" ):
+                return visitor.visitPrimitiveExprFalseAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprArrLitASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def arrayLiteral(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ArrayLiteralContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprArrLitAST" ):
+                return visitor.visitPrimitiveExprArrLitAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprHashASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def hashLiteral(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.HashLiteralContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprHashAST" ):
+                return visitor.visitPrimitiveExprHashAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprStringASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def STRING(self):
+            return self.getToken(MonkeyGrammarParser.STRING, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprStringAST" ):
+                return visitor.visitPrimitiveExprStringAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprBlockExprASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def PAR_OPEN(self):
+            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
+        def expression(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
+
+        def PAR_CLOSE(self):
+            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprBlockExprAST" ):
+                return visitor.visitPrimitiveExprBlockExprAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprFuncASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def functionLiteral(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.FunctionLiteralContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprFuncAST" ):
+                return visitor.visitPrimitiveExprFuncAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprDigitASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def DIGIT(self):
+            return self.getToken(MonkeyGrammarParser.DIGIT, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprDigitAST" ):
+                return visitor.visitPrimitiveExprDigitAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprTrueASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def TRUE(self):
+            return self.getToken(MonkeyGrammarParser.TRUE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprTrueAST" ):
+                return visitor.visitPrimitiveExprTrueAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrimitiveExprIfASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def ifExpression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.IfExpressionContext,0)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_primitiveExpression
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrimitiveExpression" ):
-                listener.enterPrimitiveExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrimitiveExpression" ):
-                listener.exitPrimitiveExpression(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitPrimitiveExpression" ):
-                return visitor.visitPrimitiveExpression(self)
+            if hasattr( visitor, "visitPrimitiveExprIfAST" ):
+                return visitor.visitPrimitiveExprIfAST(self)
             else:
                 return visitor.visitChildren(self)
 
+
+    class PrimitiveExprIdASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def identifier(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.IdentifierContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprIdAST" ):
+                return visitor.visitPrimitiveExprIdAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1280,31 +1500,37 @@ class MonkeyGrammarParser ( Parser ):
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [MonkeyGrammarParser.DIGIT]:
+                localctx = MonkeyGrammarParser.PrimitiveExprDigitASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 134
                 self.match(MonkeyGrammarParser.DIGIT)
                 pass
             elif token in [MonkeyGrammarParser.STRING]:
+                localctx = MonkeyGrammarParser.PrimitiveExprStringASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 135
                 self.match(MonkeyGrammarParser.STRING)
                 pass
             elif token in [MonkeyGrammarParser.LETTER]:
+                localctx = MonkeyGrammarParser.PrimitiveExprIdASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 136
                 self.identifier()
                 pass
             elif token in [MonkeyGrammarParser.TRUE]:
+                localctx = MonkeyGrammarParser.PrimitiveExprTrueASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 137
                 self.match(MonkeyGrammarParser.TRUE)
                 pass
             elif token in [MonkeyGrammarParser.FALSE]:
+                localctx = MonkeyGrammarParser.PrimitiveExprFalseASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 138
                 self.match(MonkeyGrammarParser.FALSE)
                 pass
             elif token in [MonkeyGrammarParser.PAR_OPEN]:
+                localctx = MonkeyGrammarParser.PrimitiveExprBlockExprASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
                 self.state = 139
                 self.match(MonkeyGrammarParser.PAR_OPEN)
@@ -1314,11 +1540,13 @@ class MonkeyGrammarParser ( Parser ):
                 self.match(MonkeyGrammarParser.PAR_CLOSE)
                 pass
             elif token in [MonkeyGrammarParser.BLOCK_OPEN]:
+                localctx = MonkeyGrammarParser.PrimitiveExprArrLitASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
                 self.state = 143
                 self.arrayLiteral()
                 pass
             elif token in [MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH]:
+                localctx = MonkeyGrammarParser.PrimitiveExprArrFuncASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
                 self.state = 144
                 self.arrayFunctions()
@@ -1330,21 +1558,25 @@ class MonkeyGrammarParser ( Parser ):
                 self.match(MonkeyGrammarParser.PAR_CLOSE)
                 pass
             elif token in [MonkeyGrammarParser.FN]:
+                localctx = MonkeyGrammarParser.PrimitiveExprFuncASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 9)
                 self.state = 149
                 self.functionLiteral()
                 pass
             elif token in [MonkeyGrammarParser.BRACKET_OPEN]:
+                localctx = MonkeyGrammarParser.PrimitiveExprHashASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 10)
                 self.state = 150
                 self.hashLiteral()
                 pass
             elif token in [MonkeyGrammarParser.PUTS]:
+                localctx = MonkeyGrammarParser.PrimitiveExprPrintASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 11)
                 self.state = 151
                 self.printExpression()
                 pass
             elif token in [MonkeyGrammarParser.IF]:
+                localctx = MonkeyGrammarParser.PrimitiveExprIfASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 12)
                 self.state = 152
                 self.ifExpression()
@@ -1386,14 +1618,6 @@ class MonkeyGrammarParser ( Parser ):
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_arrayFunctions
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayFunctions" ):
-                listener.enterArrayFunctions(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayFunctions" ):
-                listener.exitArrayFunctions(self)
-
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitArrayFunctions" ):
                 return visitor.visitArrayFunctions(self)
@@ -1433,33 +1657,35 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def BLOCK_OPEN(self):
-            return self.getToken(MonkeyGrammarParser.BLOCK_OPEN, 0)
-
-        def expressionList(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionListContext,0)
-
-
-        def BLOCK_CLOSE(self):
-            return self.getToken(MonkeyGrammarParser.BLOCK_CLOSE, 0)
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_arrayLiteral
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayLiteral" ):
-                listener.enterArrayLiteral(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayLiteral" ):
-                listener.exitArrayLiteral(self)
+
+
+    class ArrayLitetalASContext(ArrayLiteralContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ArrayLiteralContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def BLOCK_OPEN(self):
+            return self.getToken(MonkeyGrammarParser.BLOCK_OPEN, 0)
+        def expressionList(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionListContext,0)
+
+        def BLOCK_CLOSE(self):
+            return self.getToken(MonkeyGrammarParser.BLOCK_CLOSE, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitArrayLiteral" ):
-                return visitor.visitArrayLiteral(self)
+            if hasattr( visitor, "visitArrayLitetalAS" ):
+                return visitor.visitArrayLitetalAS(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1468,6 +1694,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.ArrayLiteralContext(self, self._ctx, self.state)
         self.enterRule(localctx, 32, self.RULE_arrayLiteral)
         try:
+            localctx = MonkeyGrammarParser.ArrayLitetalASContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 157
             self.match(MonkeyGrammarParser.BLOCK_OPEN)
@@ -1491,40 +1718,40 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def FN(self):
-            return self.getToken(MonkeyGrammarParser.FN, 0)
-
-        def PAR_OPEN(self):
-            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
-
-        def functionParameters(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.FunctionParametersContext,0)
-
-
-        def PAR_CLOSE(self):
-            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
-
-        def blockStatement(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.BlockStatementContext,0)
-
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_functionLiteral
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFunctionLiteral" ):
-                listener.enterFunctionLiteral(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFunctionLiteral" ):
-                listener.exitFunctionLiteral(self)
+
+
+    class FunctionLiteralASTContext(FunctionLiteralContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.FunctionLiteralContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def FN(self):
+            return self.getToken(MonkeyGrammarParser.FN, 0)
+        def PAR_OPEN(self):
+            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
+        def functionParameters(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.FunctionParametersContext,0)
+
+        def PAR_CLOSE(self):
+            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
+        def blockStatement(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.BlockStatementContext,0)
+
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitFunctionLiteral" ):
-                return visitor.visitFunctionLiteral(self)
+            if hasattr( visitor, "visitFunctionLiteralAST" ):
+                return visitor.visitFunctionLiteralAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1533,6 +1760,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.FunctionLiteralContext(self, self._ctx, self.state)
         self.enterRule(localctx, 34, self.RULE_functionLiteral)
         try:
+            localctx = MonkeyGrammarParser.FunctionLiteralASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 161
             self.match(MonkeyGrammarParser.FN)
@@ -1560,31 +1788,34 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_functionParameters
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class FunctionParametersASTContext(FunctionParametersContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.FunctionParametersContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def identifier(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.IdentifierContext,0)
-
 
         def moreIdentifiers(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.MoreIdentifiersContext,0)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_functionParameters
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFunctionParameters" ):
-                listener.enterFunctionParameters(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFunctionParameters" ):
-                listener.exitFunctionParameters(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitFunctionParameters" ):
-                return visitor.visitFunctionParameters(self)
+            if hasattr( visitor, "visitFunctionParametersAST" ):
+                return visitor.visitFunctionParametersAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1593,6 +1824,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.FunctionParametersContext(self, self._ctx, self.state)
         self.enterRule(localctx, 36, self.RULE_functionParameters)
         try:
+            localctx = MonkeyGrammarParser.FunctionParametersASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 167
             self.identifier()
@@ -1614,12 +1846,27 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_moreIdentifiers
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MoreIdentifiersASTContext(MoreIdentifiersContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.MoreIdentifiersContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def COMMA(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.COMMA)
             else:
                 return self.getToken(MonkeyGrammarParser.COMMA, i)
-
         def identifier(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.IdentifierContext)
@@ -1627,23 +1874,11 @@ class MonkeyGrammarParser ( Parser ):
                 return self.getTypedRuleContext(MonkeyGrammarParser.IdentifierContext,i)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_moreIdentifiers
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMoreIdentifiers" ):
-                listener.enterMoreIdentifiers(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMoreIdentifiers" ):
-                listener.exitMoreIdentifiers(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitMoreIdentifiers" ):
-                return visitor.visitMoreIdentifiers(self)
+            if hasattr( visitor, "visitMoreIdentifiersAST" ):
+                return visitor.visitMoreIdentifiersAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1653,6 +1888,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 38, self.RULE_moreIdentifiers)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.MoreIdentifiersASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 174
             self._errHandler.sync(self)
@@ -1682,37 +1918,38 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def BRACKET_OPEN(self):
-            return self.getToken(MonkeyGrammarParser.BRACKET_OPEN, 0)
-
-        def hashContent(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.HashContentContext,0)
-
-
-        def moreHashContent(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.MoreHashContentContext,0)
-
-
-        def BRACKET_CLOSE(self):
-            return self.getToken(MonkeyGrammarParser.BRACKET_CLOSE, 0)
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_hashLiteral
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterHashLiteral" ):
-                listener.enterHashLiteral(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitHashLiteral" ):
-                listener.exitHashLiteral(self)
+
+
+    class HashLiteralASTContext(HashLiteralContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.HashLiteralContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def BRACKET_OPEN(self):
+            return self.getToken(MonkeyGrammarParser.BRACKET_OPEN, 0)
+        def hashContent(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.HashContentContext,0)
+
+        def moreHashContent(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.MoreHashContentContext,0)
+
+        def BRACKET_CLOSE(self):
+            return self.getToken(MonkeyGrammarParser.BRACKET_CLOSE, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitHashLiteral" ):
-                return visitor.visitHashLiteral(self)
+            if hasattr( visitor, "visitHashLiteralAST" ):
+                return visitor.visitHashLiteralAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1721,6 +1958,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.HashLiteralContext(self, self._ctx, self.state)
         self.enterRule(localctx, 40, self.RULE_hashLiteral)
         try:
+            localctx = MonkeyGrammarParser.HashLiteralASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 177
             self.match(MonkeyGrammarParser.BRACKET_OPEN)
@@ -1746,33 +1984,36 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_hashContent
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class HashContentASTContext(HashContentContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.HashContentContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def expression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.ExpressionContext)
             else:
                 return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,i)
 
-
         def COLON(self):
             return self.getToken(MonkeyGrammarParser.COLON, 0)
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_hashContent
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterHashContent" ):
-                listener.enterHashContent(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitHashContent" ):
-                listener.exitHashContent(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitHashContent" ):
-                return visitor.visitHashContent(self)
+            if hasattr( visitor, "visitHashContentAST" ):
+                return visitor.visitHashContentAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1781,6 +2022,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.HashContentContext(self, self._ctx, self.state)
         self.enterRule(localctx, 42, self.RULE_hashContent)
         try:
+            localctx = MonkeyGrammarParser.HashContentASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 182
             self.expression()
@@ -1804,12 +2046,27 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_moreHashContent
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MoreHashContentASTContext(MoreHashContentContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.MoreHashContentContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def COMMA(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.COMMA)
             else:
                 return self.getToken(MonkeyGrammarParser.COMMA, i)
-
         def hashContent(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.HashContentContext)
@@ -1817,23 +2074,11 @@ class MonkeyGrammarParser ( Parser ):
                 return self.getTypedRuleContext(MonkeyGrammarParser.HashContentContext,i)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_moreHashContent
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMoreHashContent" ):
-                listener.enterMoreHashContent(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMoreHashContent" ):
-                listener.exitMoreHashContent(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitMoreHashContent" ):
-                return visitor.visitMoreHashContent(self)
+            if hasattr( visitor, "visitMoreHashContentAST" ):
+                return visitor.visitMoreHashContentAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1843,6 +2088,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 44, self.RULE_moreHashContent)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.MoreHashContentASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 190
             self._errHandler.sync(self)
@@ -1872,31 +2118,48 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_expressionList
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ExpressionListASTContext(ExpressionListContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ExpressionListContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def expression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
-
 
         def moreExpressions(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.MoreExpressionsContext,0)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_expressionList
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpressionList" ):
-                listener.enterExpressionList(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpressionList" ):
-                listener.exitExpressionList(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitExpressionList" ):
-                return visitor.visitExpressionList(self)
+            if hasattr( visitor, "visitExpressionListAST" ):
+                return visitor.visitExpressionListAST(self)
             else:
                 return visitor.visitChildren(self)
 
+
+    class ExpressionListEmptyASTContext(ExpressionListContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ExpressionListContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionListEmptyAST" ):
+                return visitor.visitExpressionListEmptyAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1909,6 +2172,7 @@ class MonkeyGrammarParser ( Parser ):
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT]:
+                localctx = MonkeyGrammarParser.ExpressionListASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 193
                 self.expression()
@@ -1916,6 +2180,7 @@ class MonkeyGrammarParser ( Parser ):
                 self.moreExpressions()
                 pass
             elif token in [MonkeyGrammarParser.BLOCK_CLOSE, MonkeyGrammarParser.PAR_CLOSE]:
+                localctx = MonkeyGrammarParser.ExpressionListEmptyASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
 
                 pass
@@ -1938,12 +2203,27 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_moreExpressions
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MoreExpressionsASTContext(MoreExpressionsContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.MoreExpressionsContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def COMMA(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.COMMA)
             else:
                 return self.getToken(MonkeyGrammarParser.COMMA, i)
-
         def expression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.ExpressionContext)
@@ -1951,23 +2231,11 @@ class MonkeyGrammarParser ( Parser ):
                 return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,i)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_moreExpressions
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMoreExpressions" ):
-                listener.enterMoreExpressions(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMoreExpressions" ):
-                listener.exitMoreExpressions(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitMoreExpressions" ):
-                return visitor.visitMoreExpressions(self)
+            if hasattr( visitor, "visitMoreExpressionsAST" ):
+                return visitor.visitMoreExpressionsAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -1977,6 +2245,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 48, self.RULE_moreExpressions)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.MoreExpressionsASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 203
             self._errHandler.sync(self)
@@ -2006,36 +2275,37 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def PUTS(self):
-            return self.getToken(MonkeyGrammarParser.PUTS, 0)
-
-        def PAR_OPEN(self):
-            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
-
-
-        def PAR_CLOSE(self):
-            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
 
         def getRuleIndex(self):
             return MonkeyGrammarParser.RULE_printExpression
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrintExpression" ):
-                listener.enterPrintExpression(self)
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrintExpression" ):
-                listener.exitPrintExpression(self)
+
+
+    class PrintExpressionASTContext(PrintExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrintExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def PUTS(self):
+            return self.getToken(MonkeyGrammarParser.PUTS, 0)
+        def PAR_OPEN(self):
+            return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
+        def expression(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
+
+        def PAR_CLOSE(self):
+            return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitPrintExpression" ):
-                return visitor.visitPrintExpression(self)
+            if hasattr( visitor, "visitPrintExpressionAST" ):
+                return visitor.visitPrintExpressionAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -2044,6 +2314,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.PrintExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 50, self.RULE_printExpression)
         try:
+            localctx = MonkeyGrammarParser.PrintExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 206
             self.match(MonkeyGrammarParser.PUTS)
@@ -2069,12 +2340,26 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_ifExpression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class IfExpressionASTContext(IfExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.IfExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def IF(self):
             return self.getToken(MonkeyGrammarParser.IF, 0)
-
         def expression(self):
             return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
-
 
         def blockStatement(self, i:int=None):
             if i is None:
@@ -2082,27 +2367,14 @@ class MonkeyGrammarParser ( Parser ):
             else:
                 return self.getTypedRuleContext(MonkeyGrammarParser.BlockStatementContext,i)
 
-
         def ELSE(self):
             return self.getToken(MonkeyGrammarParser.ELSE, 0)
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_ifExpression
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterIfExpression" ):
-                listener.enterIfExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitIfExpression" ):
-                listener.exitIfExpression(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitIfExpression" ):
-                return visitor.visitIfExpression(self)
+            if hasattr( visitor, "visitIfExpressionAST" ):
+                return visitor.visitIfExpressionAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -2111,6 +2383,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.IfExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 52, self.RULE_ifExpression)
         try:
+            localctx = MonkeyGrammarParser.IfExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 211
             self.match(MonkeyGrammarParser.IF)
@@ -2148,12 +2421,26 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_blockStatement
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class BlockStatementASTContext(BlockStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.BlockStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def BRACKET_OPEN(self):
             return self.getToken(MonkeyGrammarParser.BRACKET_OPEN, 0)
-
         def BRACKET_CLOSE(self):
             return self.getToken(MonkeyGrammarParser.BRACKET_CLOSE, 0)
-
         def statement(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(MonkeyGrammarParser.StatementContext)
@@ -2161,23 +2448,11 @@ class MonkeyGrammarParser ( Parser ):
                 return self.getTypedRuleContext(MonkeyGrammarParser.StatementContext,i)
 
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_blockStatement
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterBlockStatement" ):
-                listener.enterBlockStatement(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitBlockStatement" ):
-                listener.exitBlockStatement(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitBlockStatement" ):
-                return visitor.visitBlockStatement(self)
+            if hasattr( visitor, "visitBlockStatementAST" ):
+                return visitor.visitBlockStatementAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -2187,6 +2462,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 54, self.RULE_blockStatement)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.BlockStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 219
             self.match(MonkeyGrammarParser.BRACKET_OPEN)
@@ -2218,35 +2494,38 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_identifier
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class IdentifierASTContext(IdentifierContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.IdentifierContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def LETTER(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.LETTER)
             else:
                 return self.getToken(MonkeyGrammarParser.LETTER, i)
-
         def DIGIT(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.DIGIT)
             else:
                 return self.getToken(MonkeyGrammarParser.DIGIT, i)
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_identifier
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterIdentifier" ):
-                listener.enterIdentifier(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitIdentifier" ):
-                listener.exitIdentifier(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitIdentifier" ):
-                return visitor.visitIdentifier(self)
+            if hasattr( visitor, "visitIdentifierAST" ):
+                return visitor.visitIdentifierAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -2256,6 +2535,7 @@ class MonkeyGrammarParser ( Parser ):
         self.enterRule(localctx, 56, self.RULE_identifier)
         self._la = 0 # Token type
         try:
+            localctx = MonkeyGrammarParser.IdentifierASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 228
             self.match(MonkeyGrammarParser.LETTER)
@@ -2291,32 +2571,35 @@ class MonkeyGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return MonkeyGrammarParser.RULE_char
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class CharASTContext(CharContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.CharContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def QUOTE(self, i:int=None):
             if i is None:
                 return self.getTokens(MonkeyGrammarParser.QUOTE)
             else:
                 return self.getToken(MonkeyGrammarParser.QUOTE, i)
-
         def CHARIN(self):
             return self.getToken(MonkeyGrammarParser.CHARIN, 0)
 
-        def getRuleIndex(self):
-            return MonkeyGrammarParser.RULE_char
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterChar" ):
-                listener.enterChar(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitChar" ):
-                listener.exitChar(self)
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitChar" ):
-                return visitor.visitChar(self)
+            if hasattr( visitor, "visitCharAST" ):
+                return visitor.visitCharAST(self)
             else:
                 return visitor.visitChildren(self)
-
 
 
 
@@ -2325,6 +2608,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.CharContext(self, self._ctx, self.state)
         self.enterRule(localctx, 58, self.RULE_char)
         try:
+            localctx = MonkeyGrammarParser.CharASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 235
             self.match(MonkeyGrammarParser.QUOTE)

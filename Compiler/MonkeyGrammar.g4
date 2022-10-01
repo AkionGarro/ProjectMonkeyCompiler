@@ -2,67 +2,82 @@ grammar MonkeyGrammar;
 
 //Productions
 
-program:                    statement*;
+program:                    statement*                                              #programAST;
 
-statement:                  LET letStatement | RETURN returnStatement | expressionStatement;
+statement:                  LET letStatement                                        #statementLetAST
+                            | RETURN returnStatement                                #statementReturnAST
+                            | expressionStatement                                   #statementExpressionAST;
 
-letStatement:               identifier ASSIGN expression ( SEMICOLON | );
+letStatement:               identifier ASSIGN expression ( SEMICOLON | )            #letStatementAST;
 
-returnStatement:            expression ( SEMICOLON | );
+returnStatement:            expression ( SEMICOLON | )                              #returnStatementAST;
 
-expressionStatement:        expression ( SEMICOLON | );
+expressionStatement:        expression ( SEMICOLON | )                              #expressionStatementAST;
 
-expression:                 additionExpression comparison;
+expression:                 additionExpression comparison                           #expressionAST;
 
-comparison:                 ((LESS_THAN|GREATER_THAN|LESS_THAN_OR_EQUAL|GREATER_THAN_OR_EQUAL|EQUAL|NOT_EQUAL) additionExpression)*;
+comparison:                 ((LESS_THAN|GREATER_THAN
+                            |LESS_THAN_OR_EQUAL|
+                            GREATER_THAN_OR_EQUAL|
+                            EQUAL|NOT_EQUAL) additionExpression)*                   #comparisonAST;
 
-additionExpression:         multiplicationExpression additionFactor;
+additionExpression:         multiplicationExpression additionFactor                 #additionExpressionAST;
 
-additionFactor:             ((PLUS|MINUS) multiplicationExpression)*;
+additionFactor:             ((PLUS|MINUS) multiplicationExpression)*                #additionFactorAST;
 
-multiplicationExpression:   elementExpression multiplicationFactor;
+multiplicationExpression:   elementExpression multiplicationFactor                  #multiplicationExpressionAST;
 
-multiplicationFactor:       ((MULTIPLY|DIVIDE) elementExpression)*;
+multiplicationFactor:       ((MULTIPLY|DIVIDE) elementExpression)*                  #multiplicationFactorAST;
 
-elementExpression:          primitiveExpression (elementAccess | callExpression | );
+elementExpression:          primitiveExpression (elementAccess | callExpression | ) #elementExpressionAST;
 
-elementAccess:              BLOCK_OPEN expression BLOCK_CLOSE;
+elementAccess:              BLOCK_OPEN expression BLOCK_CLOSE                       #elementAccessAST;
 
-callExpression:             PAR_OPEN expressionList PAR_CLOSE;
+callExpression:             PAR_OPEN expressionList PAR_CLOSE                       #callExpressionAST;
 
-primitiveExpression:        DIGIT | STRING | identifier | TRUE | FALSE | PAR_OPEN expression PAR_CLOSE | arrayLiteral
-                            | arrayFunctions PAR_OPEN expressionList PAR_CLOSE | functionLiteral | hashLiteral
-                            | printExpression | ifExpression;
+primitiveExpression:        DIGIT                                                   #primitiveExprDigitAST
+                            | STRING                                                #primitiveExprStringAST
+                            | identifier                                            #primitiveExprIdAST
+                            | TRUE                                                  #primitiveExprTrueAST
+                            | FALSE                                                 #primitiveExprFalseAST
+                            | PAR_OPEN expression PAR_CLOSE                         #primitiveExprBlockExprAST
+                            | arrayLiteral                                          #primitiveExprArrLitAST
+                            | arrayFunctions PAR_OPEN expressionList PAR_CLOSE      #primitiveExprArrFuncAST
+                            | functionLiteral                                       #primitiveExprFuncAST
+                            | hashLiteral                                           #primitiveExprHashAST
+                            | printExpression                                       #primitiveExprPrintAST
+                            | ifExpression                                          #primitiveExprIfAST;
 
-arrayFunctions: LEN | FIRST | LAST | REST | PUSH;
+arrayFunctions: LEN | FIRST | LAST | REST | PUSH                                    #arrayFunctionsAST;
 
-arrayLiteral: BLOCK_OPEN expressionList BLOCK_CLOSE;
+arrayLiteral: BLOCK_OPEN expressionList BLOCK_CLOSE                                 #arrayLitetalAS;
 
-functionLiteral: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement;
+functionLiteral: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement            #functionLiteralAST;
 
-functionParameters: identifier moreIdentifiers;
+functionParameters: identifier moreIdentifiers                                      #functionParametersAST;
 
-moreIdentifiers: (COMMA identifier)*;
+moreIdentifiers: (COMMA identifier)*                                                #moreIdentifiersAST;
 
-hashLiteral: BRACKET_OPEN hashContent moreHashContent BRACKET_CLOSE;
+hashLiteral: BRACKET_OPEN hashContent moreHashContent BRACKET_CLOSE                 #hashLiteralAST;
 
-hashContent: expression COLON expression;
+hashContent: expression COLON expression                                            #hashContentAST;
 
-moreHashContent: (COMMA hashContent)*;
+moreHashContent: (COMMA hashContent)*                                               #moreHashContentAST;
 
-expressionList: expression moreExpressions | ;
+expressionList: expression moreExpressions                                          #expressionListAST
+                |                                                                   #expressionListEmptyAST;
 
-moreExpressions: (COMMA expression)*;
+moreExpressions: (COMMA expression)*                                                #moreExpressionsAST;
 
-printExpression: PUTS PAR_OPEN expression PAR_CLOSE;
+printExpression: PUTS PAR_OPEN expression PAR_CLOSE                                 #printExpressionAST;
 
-ifExpression: IF expression blockStatement (ELSE blockStatement | );
+ifExpression: IF expression blockStatement (ELSE blockStatement | )                 #ifExpressionAST;
 
-blockStatement: BRACKET_OPEN statement* BRACKET_CLOSE;
+blockStatement: BRACKET_OPEN statement* BRACKET_CLOSE                               #blockStatementAST;
 
-identifier:LETTER(LETTER|DIGIT)*;
+identifier:LETTER(LETTER|DIGIT)*                                                    #identifierAST;
 
-char: QUOTE CHARIN QUOTE;
+char: QUOTE CHARIN QUOTE                                                            #charAST;
 
 //line comment
 

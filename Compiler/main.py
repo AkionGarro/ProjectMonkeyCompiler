@@ -1,7 +1,6 @@
 from antlr4 import *
 import eel
 from Generated.MonkeyGrammarLexer import MonkeyGrammarLexer
-from Generated.MonkeyGrammarListener import MonkeyGrammarListener
 from Generated.MonkeyGrammarParser import MonkeyGrammarParser
 from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from antlr4.tree.Tree import TerminalNodeImpl
