@@ -1667,7 +1667,7 @@ class MonkeyGrammarParser ( Parser ):
 
 
 
-    class ArrayLitetalASContext(ArrayLiteralContext):
+    class ArrayLitetalASTContext(ArrayLiteralContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.ArrayLiteralContext
             super().__init__(parser)
@@ -1682,8 +1682,8 @@ class MonkeyGrammarParser ( Parser ):
             return self.getToken(MonkeyGrammarParser.BLOCK_CLOSE, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitArrayLitetalAS" ):
-                return visitor.visitArrayLitetalAS(self)
+            if hasattr( visitor, "visitArrayLitetalAST" ):
+                return visitor.visitArrayLitetalAST(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -1694,7 +1694,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.ArrayLiteralContext(self, self._ctx, self.state)
         self.enterRule(localctx, 32, self.RULE_arrayLiteral)
         try:
-            localctx = MonkeyGrammarParser.ArrayLitetalASContext(self, localctx)
+            localctx = MonkeyGrammarParser.ArrayLitetalASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 157
             self.match(MonkeyGrammarParser.BLOCK_OPEN)

@@ -154,8 +154,8 @@ class MonkeyGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MonkeyGrammarParser#arrayLitetalAS.
-    def visitArrayLitetalAS(self, ctx:MonkeyGrammarParser.ArrayLitetalASContext):
+    # Visit a parse tree produced by MonkeyGrammarParser#arrayLitetalAST.
+    def visitArrayLitetalAST(self, ctx:MonkeyGrammarParser.ArrayLitetalASTContext):
         return self.visitChildren(ctx)
 
 

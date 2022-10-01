@@ -6,6 +6,8 @@ from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from antlr4.tree.Tree import TerminalNodeImpl
 from antlr4.error.ErrorListener import ErrorListener
 
+from MyVisitor import MyVisitor
+
 eel.init('GUI')
 consoleResultError = ""
 consoleResultTokens = ""
@@ -54,7 +56,7 @@ def startInterpreter(text):
     parser = MonkeyGrammarParser(stream)
     parser._listeners = [MyErrorListener()]
     tree = parser.program()
-    visitor = MonkeyGrammarVisitor()
+    visitor = MyVisitor()
     visitor.visit(tree)
 
 

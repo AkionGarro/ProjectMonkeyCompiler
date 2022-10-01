@@ -50,7 +50,7 @@ primitiveExpression:        DIGIT                                               
 
 arrayFunctions: LEN | FIRST | LAST | REST | PUSH                                    #arrayFunctionsAST;
 
-arrayLiteral: BLOCK_OPEN expressionList BLOCK_CLOSE                                 #arrayLitetalAS;
+arrayLiteral: BLOCK_OPEN expressionList BLOCK_CLOSE                                 #arrayLitetalAST;
 
 functionLiteral: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement            #functionLiteralAST;
 
