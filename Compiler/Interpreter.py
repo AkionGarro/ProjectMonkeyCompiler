@@ -40,7 +40,7 @@ class MyVisitor(MonkeyGrammarVisitor):
 
     def visitAdditionFactorAST(self, ctx: MonkeyGrammarParser.AdditionFactorASTContext):
         for i in range(0,len(ctx.multiplicationExpression())):
-            self.visit(ctx.multiplicationExpression(0))
+            self.visit(ctx.multiplicationExpression(i))
             op2 = (int)(self.replVisitor.stack.pop())
             op1 = (int)(self.replVisitor.stack.pop())
             self.replVisitor.stack.append(op1+op2)
