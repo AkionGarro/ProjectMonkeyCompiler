@@ -36,10 +36,9 @@ elementAccess:              BLOCK_OPEN expression BLOCK_CLOSE                   
 callExpression:             PAR_OPEN expressionList PAR_CLOSE                       #callExpressionAST;
 
 primitiveExpression:        DIGIT                                                   #primitiveExprDigitAST
+                            | boolean                                               #primitiveExprBooleanAST
                             | STRING                                                #primitiveExprStringAST
                             | identifier                                            #primitiveExprIdAST
-                            | TRUE                                                  #primitiveExprTrueAST
-                            | FALSE                                                 #primitiveExprFalseAST
                             | PAR_OPEN expression PAR_CLOSE                         #primitiveExprBlockExprAST
                             | arrayLiteral                                          #primitiveExprArrLitAST
                             | arrayFunctions PAR_OPEN expressionList PAR_CLOSE      #primitiveExprArrFuncAST
@@ -77,6 +76,8 @@ blockStatement: BRACKET_OPEN statement* BRACKET_CLOSE                           
 
 identifier:LETTER(LETTER|DIGIT)*                                                    #identifierAST;
 
+boolean: TRUE | FALSE                                                              #booleanAST;
+
 char: QUOTE CHARIN QUOTE                                                            #charAST;
 
 //line comment
@@ -87,7 +88,7 @@ COMMENT : '/*'.*?'*/'->skip; // Match "/*" stuff "*/"
 
 
 //Constantes booleana
-Boolean: ('true' | 'false');
+
 
 //Constante para cadena de caracteres
 STRING : '"' .*? '"' ;

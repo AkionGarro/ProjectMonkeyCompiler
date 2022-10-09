@@ -11,6 +11,7 @@ from REPL import REPL
 
 eel.init('GUI')
 consoleResultError = ""
+consoleResult = ""
 consoleResultTokens = ""
 repl = REPL()
 
@@ -27,12 +28,18 @@ class MyErrorListener(ErrorListener):
 
 
 @eel.expose
-def getConsoleResult():
+def getConsoleResult(mode):
     global consoleResultError
     if consoleResultError !="" :
         txt = consoleResultError
     else:
-        txt = "Syntactic analysis Sucessfull"
+        if mode == "console":
+            if consoleResult != "":
+                txt = consoleResult
+            else:
+                txt = "Syntactic analysis Sucessfull"
+        else:
+            txt = "Syntactic analysis Sucessfull"
     consoleResultError = ""
     return txt
 
@@ -62,5 +69,8 @@ def startInterpreter(text):
     visitor = MyVisitor()
     visitor.visit(tree)
     repl.data.print()
+    global consoleResult
+    consoleResult = visitor.consoleResult
+    visitor.consoleResult = ""
 
 eel.start('index.html', mode='my_portable_chromium', host='localhost', port=27000, block=True)

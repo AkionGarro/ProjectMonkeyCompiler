@@ -1,4 +1,4 @@
-# Generated from C:/Users/garroakion/Desktop/Projects2Semestre/Compiladores/ProjectMonkeyCompiler/Compiler\MonkeyGrammar.g4 by ANTLR 4.10.1
+# Generated from C:/Users/bryam/Desktop/ProjectMonkeyCompiler/Compiler\MonkeyGrammar.g4 by ANTLR 4.10.1
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .MonkeyGrammarParser import MonkeyGrammarParser
@@ -94,6 +94,11 @@ class MonkeyGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprBooleanAST.
+    def visitPrimitiveExprBooleanAST(self, ctx:MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprStringAST.
     def visitPrimitiveExprStringAST(self, ctx:MonkeyGrammarParser.PrimitiveExprStringASTContext):
         return self.visitChildren(ctx)
@@ -101,16 +106,6 @@ class MonkeyGrammarVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprIdAST.
     def visitPrimitiveExprIdAST(self, ctx:MonkeyGrammarParser.PrimitiveExprIdASTContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprTrueAST.
-    def visitPrimitiveExprTrueAST(self, ctx:MonkeyGrammarParser.PrimitiveExprTrueASTContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprFalseAST.
-    def visitPrimitiveExprFalseAST(self, ctx:MonkeyGrammarParser.PrimitiveExprFalseASTContext):
         return self.visitChildren(ctx)
 
 
@@ -221,6 +216,11 @@ class MonkeyGrammarVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by MonkeyGrammarParser#identifierAST.
     def visitIdentifierAST(self, ctx:MonkeyGrammarParser.IdentifierASTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MonkeyGrammarParser#boolean.
+    def visitBoolean(self, ctx:MonkeyGrammarParser.BooleanContext):
         return self.visitChildren(ctx)
 
 

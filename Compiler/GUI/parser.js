@@ -7,18 +7,20 @@ var gbText= ""
 
 async function showConsoleWithButton() {
     document.getElementById("interpreterCode").value = '';
-    result = await eel.getConsoleResult()();
+    result = await eel.getConsoleResult("")();
     document.getElementById("interpreterCode").value = result;
     line_counter2();
 }
 
 async function showConsoleWithEnter() {
-    error = await eel.getConsoleResult()();
+    error = await eel.getConsoleResult("console")();
     console.log("El error:", error);
     gbText+="\n"
-    gbText+=error
 
-    gbText+="\n"
+    if (error != "Syntactic analysis Sucessfull") {
+        gbText+=error
+         gbText+="\n"
+    }
     document.getElementById("interpreterCode").value = (gbText);
     gbText=""
     line_counter2();
@@ -78,6 +80,12 @@ interpreterCodeTxt.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         var text = msgEnter.value.toString().replace(error,'');
         gbText+= text;
+        console.log("Error:", error);
+        error = "";
+        text = text.split("\n");
+        text = text[text.length-1];
+        console.log("El texto:", text);
+
         eel.startInterpreter(text);
         showConsoleWithEnter();
     }

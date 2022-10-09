@@ -6,51 +6,85 @@ from antlr4.CommonTokenFactory import CommonToken
 
 class MyVisitor(MonkeyGrammarVisitor):
     replVisitor = REPL()
+    consoleResult = ""
 
     def visitProgramAST(self, ctx: MonkeyGrammarParser.ProgramASTContext):
-        return self.visitChildren(ctx)
+        # visit all the children with a for loop
+        for i in range(0, len(ctx.statement())):  # for each statement
+            self.visit(ctx.statement(i))
 
     def visitStatementLetAST(self, ctx: MonkeyGrammarParser.StatementLetASTContext):
-        return self.visitChildren(ctx)
+        # visit all the children with a for loop
+        self.visit(ctx.letStatement())
+
 
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
-        return self.visitChildren(ctx)
+        # visit all the children with a for loop
+        self.visit(ctx.returnStatement())
 
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
-        return self.visitChildren(ctx)
+        # visit all the children with a for loop
+        self.visit(ctx.expressionStatement())
 
     def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext):
+        # visit all the children with a for loop
+        self.visit(ctx.identifier())
         self.visit(ctx.expression())
         self.replVisitor.data.add(ctx.identifier().start.text, self.replVisitor.stack.pop())
 
     def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
-        return self.visitChildren(ctx)
+        self.visit(ctx.expression())
 
     def visitExpressionStatementAST(self, ctx: MonkeyGrammarParser.ExpressionStatementASTContext):
-        return self.visitChildren(ctx)
+        self.visit(ctx.expression())
 
     def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext):
-        return self.visitChildren(ctx)
+        self.visit(ctx.additionExpression())
+        self.visit(ctx.comparison())
 
     def visitComparisonAST(self, ctx: MonkeyGrammarParser.ComparisonASTContext):
-        return self.visitChildren(ctx)
+        for i in range(0, len(ctx.additionExpression())):
+            self.visit(ctx.additionExpression(i))
 
     def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext):
-        return self.visitChildren(ctx)
+        self.visit(ctx.multiplicationExpression())
+        self.visit(ctx.additionFactor())
 
     def visitAdditionFactorAST(self, ctx: MonkeyGrammarParser.AdditionFactorASTContext):
-        for i in range(0,len(ctx.multiplicationExpression())):
+        print("ctx -> ", ctx)
+
+        # get token
+        index = 0
+        for i in range(0, len(ctx.multiplicationExpression())):
             self.visit(ctx.multiplicationExpression(i))
+            token = ctx.getChild(index).symbol
+            index += 2
             op2 = (int)(self.replVisitor.stack.pop())
             op1 = (int)(self.replVisitor.stack.pop())
-            self.replVisitor.stack.append(op1+op2)
+
+            if token.text == "+":
+                self.replVisitor.stack.append(op1 + op2)
+            elif token.text == "-":
+                self.replVisitor.stack.append(op1 - op2)
 
 
     def visitMultiplicationExpressionAST(self, ctx: MonkeyGrammarParser.MultiplicationExpressionASTContext):
-        return self.visitChildren(ctx)
+        self.visit(ctx.elementExpression())
+        self.visit(ctx.multiplicationFactor())
 
     def visitMultiplicationFactorAST(self, ctx: MonkeyGrammarParser.MultiplicationFactorASTContext):
-        return self.visitChildren(ctx)
+        index = 0
+        for i in range(0, len(ctx.elementExpression())):
+            self.visit(ctx.elementExpression(i))
+            token = ctx.getChild(index).symbol
+            index += 2
+            op2 = (int)(self.replVisitor.stack.pop())
+            op1 = (int)(self.replVisitor.stack.pop())
+
+            if token.text == "*":
+                self.replVisitor.stack.append(op1 * op2)
+            elif token.text == "/":
+                self.replVisitor.stack.append(op1 / op2)
 
     def visitElementExpressionAST(self, ctx: MonkeyGrammarParser.ElementExpressionASTContext):
         return self.visitChildren(ctx)
@@ -71,18 +105,17 @@ class MyVisitor(MonkeyGrammarVisitor):
 
     def visitPrimitiveExprIdAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIdASTContext):
         object = self.replVisitor.data.get(ctx.identifier().start.text)
-        if(object!=None):
+        if (object != None):
             self.replVisitor.stack.append(object)
         else:
             print("El identificador no existe")
 
         return self.visitChildren(ctx)
 
-    def visitPrimitiveExprTrueAST(self, ctx: MonkeyGrammarParser.PrimitiveExprTrueASTContext):
-        return self.visitChildren(ctx)
 
-    def visitPrimitiveExprFalseAST(self, ctx: MonkeyGrammarParser.PrimitiveExprFalseASTContext):
-        return self.visitChildren(ctx)
+    def visitPrimitiveExprBooleanAST(self, ctx:MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
+        self.visit(ctx.boolean())
+
 
     def visitPrimitiveExprBlockExprAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBlockExprASTContext):
         return self.visitChildren(ctx)
@@ -142,7 +175,8 @@ class MyVisitor(MonkeyGrammarVisitor):
         try:
 
             self.visit(ctx.expression())
-            print(self.replVisitor.stack.pop())
+            self.consoleResult = self.replVisitor.stack.pop()
+            print("print-> ", self.consoleResult)
         except:
             print("Error")
         return self.visitChildren(ctx)
@@ -154,6 +188,16 @@ class MyVisitor(MonkeyGrammarVisitor):
         return self.visitChildren(ctx)
 
     def visitIdentifierAST(self, ctx: MonkeyGrammarParser.IdentifierASTContext):
+        return self.visitChildren(ctx)
+
+    def visitBoolean(self, ctx:MonkeyGrammarParser.BooleanContext):
+        token = ctx.getChild(0).symbol
+        if token.text == "true":
+            self.replVisitor.stack.append(True)
+            print("es true")
+        elif token.text == "false":
+            self.replVisitor.stack.append(False)
+            print("es false")
         return self.visitChildren(ctx)
 
     def visitCharAST(self, ctx: MonkeyGrammarParser.CharASTContext):
