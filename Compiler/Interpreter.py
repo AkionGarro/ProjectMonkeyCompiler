@@ -57,26 +57,37 @@ class MyVisitor(MonkeyGrammarVisitor):
             index += 2
             op2 = (self.replVisitor.stack.pop())
             op1 = (self.replVisitor.stack.pop())
-            if token.text == "==":
-                flag = (op2==op1)
-                self.replVisitor.stack.append(flag)
-            elif token.text == "!=":
-                flag = (op2 != op1)
-                self.replVisitor.stack.append(flag)
-            elif token.text == "<":
-                flag = (op1<op2)
-                self.replVisitor.stack.append(flag)
-            elif token.text == "<=":
-                flag = (op1 <= op2)
-                self.replVisitor.stack.append(flag)
-            elif token.text == ">":
-                flag = (op1 > op2)
-                self.replVisitor.stack.append(flag)
-            elif token.text == ">=":
-                flag = (op1 >= op2)
-                self.replVisitor.stack.append(flag)
+            if type(op2) == int:
+                if token.text == "==":
+                    flag = (op2==op1)
+                    self.replVisitor.stack.append(flag)
+                elif token.text == "!=":
+                    flag = (op2 != op1)
+                    self.replVisitor.stack.append(flag)
+                elif token.text == "<":
+                    flag = (op1<op2)
+                    self.replVisitor.stack.append(flag)
+                elif token.text == "<=":
+                    flag = (op1 <= op2)
+                    self.replVisitor.stack.append(flag)
+                elif token.text == ">":
+                    flag = (op1 > op2)
+                    self.replVisitor.stack.append(flag)
+                elif token.text == ">=":
+                    flag = (op1 >= op2)
+                    self.replVisitor.stack.append(flag)
+                else:
+                    print("Operador no existe")
             else:
-                print("Operador no existe")
+                if token.text == "==":
+                    flag = (op2 == op1)
+                    self.replVisitor.stack.append(flag)
+                elif token.text == "!=":
+                    flag = (op2 != op1)
+                    self.replVisitor.stack.append(flag)
+                else:
+                    print("No se permite este tipo de operacion en Str")
+
 
 
     def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext):
