@@ -12,23 +12,14 @@ class MyVisitor(MonkeyGrammarVisitor):
         for i in range(0, len(ctx.statement())):
             self.visit(ctx.statement(i))
 
-
-
-
     def visitStatementLetAST(self, ctx: MonkeyGrammarParser.StatementLetASTContext):
         self.visit(ctx.letStatement())
 
-
-    """
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
-    # visit all the children with a for loop
-    self.visit(ctx.returnStatement())
-    """
-
+        self.visit(ctx.returnStatement())
 
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
         self.visit(ctx.expressionStatement())
-
 
 
 
@@ -37,6 +28,8 @@ class MyVisitor(MonkeyGrammarVisitor):
         varName = self.visit(ctx.identifier())
         self.visit(ctx.expression())
         self.replVisitor.data.add(varName, self.replVisitor.stack.pop())
+
+
 
     def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
         self.visit(ctx.expression())
@@ -47,6 +40,9 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext):
         self.visit(ctx.additionExpression())
         self.visit(ctx.comparison())
+
+
+
 
     def visitComparisonAST(self, ctx: MonkeyGrammarParser.ComparisonASTContext):
         index = 0
@@ -128,13 +124,16 @@ class MyVisitor(MonkeyGrammarVisitor):
                 self.replVisitor.stack.append(op1 / op2)
 
     def visitElementExpressionAST(self, ctx: MonkeyGrammarParser.ElementExpressionASTContext):
-        return self.visitChildren(ctx)
+        self.visit(ctx.primitiveExpression())
+        if ctx.getChildCount()>1:
+            self.visit(ctx.getChild(1))
+
 
     def visitElementAccessAST(self, ctx: MonkeyGrammarParser.ElementAccessASTContext):
-        return self.visitChildren(ctx)
+        self.visit(ctx.expression())
 
     def visitCallExpressionAST(self, ctx: MonkeyGrammarParser.CallExpressionASTContext):
-        return self.visitChildren(ctx)
+        self.visit(ctx.expressionList())
 
     def visitPrimitiveExprDigitAST(self, ctx: MonkeyGrammarParser.PrimitiveExprDigitASTContext):
         self.replVisitor.stack.append((int)(ctx.DIGIT().symbol.text))
@@ -145,7 +144,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprIdAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIdASTContext):
-        object = self.replVisitor.data.get(ctx.identifier().start.text)
+        object = self.replVisitor.data.get(self.visit(ctx.identifier()))
         if (object != None):
             self.replVisitor.stack.append(object)
         else:
