@@ -22,13 +22,10 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.visit(ctx.expressionStatement())
 
 
-
-
     def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext):
         varName = self.visit(ctx.identifier())
         self.visit(ctx.expression())
         self.replVisitor.data.add(varName, self.replVisitor.stack.pop())
-
 
 
     def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
@@ -40,9 +37,6 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext):
         self.visit(ctx.additionExpression())
         self.visit(ctx.comparison())
-
-
-
 
     def visitComparisonAST(self, ctx: MonkeyGrammarParser.ComparisonASTContext):
         index = 0
@@ -83,7 +77,6 @@ class MyVisitor(MonkeyGrammarVisitor):
                     self.replVisitor.stack.append(flag)
                 else:
                     print("No se permite este tipo de operacion en Str")
-
 
 
     def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext):
@@ -152,10 +145,8 @@ class MyVisitor(MonkeyGrammarVisitor):
 
         return self.visitChildren(ctx)
 
-
     def visitPrimitiveExprBooleanAST(self, ctx:MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
         self.visit(ctx.boolean())
-
 
     def visitPrimitiveExprBlockExprAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBlockExprASTContext):
         return self.visitChildren(ctx)
@@ -164,7 +155,65 @@ class MyVisitor(MonkeyGrammarVisitor):
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprArrFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprArrFuncASTContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        token = ctx.getChild(0).start.text
+        id = ctx.getChild(2).start.text
+
+        if token == "len":
+            arr = self.replVisitor.stack.pop()
+            if self.consoleResult == "":
+                self.consoleResult = str(len(arr))
+            else:
+                self.consoleResult += "\n" + str(len(arr))
+
+        elif token == "first":
+            arr = self.replVisitor.stack.pop()
+            if self.consoleResult == "":
+                if type(arr) == dict:
+                     self.consoleResult = str(arr[next(iter(arr))])
+                else:
+                    self.consoleResult = "\n" + str(arr[0])
+            else:
+                if type(arr) == dict:
+                    self.consoleResult = str(arr[next(iter(arr))])
+                else:
+                    self.consoleResult = "\n" + str(arr[0])
+
+        elif token == "last":
+            arr = self.replVisitor.stack.pop()
+
+            if type(arr) == dict:
+                self.replVisitor.stack.append(arr[list(arr)[-1]])
+            else:
+                self.replVisitor.stack.append(arr[-1])
+
+
+        elif token == "rest":
+            arr = self.replVisitor.stack.pop()
+
+            if type(arr) == dict:
+                self.replVisitor.stack.append(list(arr.values())[1:])
+            else:
+                self.replVisitor.stack.append(list(arr.values())[1:])
+
+
+        elif token == "push":
+
+            values = []
+
+            while len(self.replVisitor.stack) > 1:
+                values.append(self.replVisitor.stack.pop())
+
+            arr = self.replVisitor.stack.pop()
+
+            #reverse values
+            values.reverse()
+
+            for value in values:
+                arr.append(value)
+
+            self.replVisitor.data.add(id, arr)
+
 
     def visitPrimitiveExprFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprFuncASTContext):
         return self.visitChildren(ctx)
@@ -182,7 +231,14 @@ class MyVisitor(MonkeyGrammarVisitor):
         return self.visitChildren(ctx)
 
     def visitArrayLitetalAST(self, ctx: MonkeyGrammarParser.ArrayLitetalASTContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        array = []
+        for i in range(0, len(self.replVisitor.stack)):
+            array.append(self.replVisitor.stack.pop())
+
+        #reverse array
+        array.reverse()
+        self.replVisitor.stack.append(array)
 
     def visitFunctionLiteralAST(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext):
         return self.visitChildren(ctx)
@@ -194,7 +250,25 @@ class MyVisitor(MonkeyGrammarVisitor):
         return self.visitChildren(ctx)
 
     def visitHashLiteralAST(self, ctx: MonkeyGrammarParser.HashLiteralASTContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        dicc = {}
+        for i in range(0, len(self.replVisitor.stack), 2):
+            value = self.replVisitor.stack.pop()
+            key = self.replVisitor.stack.pop()
+
+            if type(key) is str:
+                key = key[1:-1]
+
+            if type(value) is str:
+                value = value[1:-1]
+
+            dicc[key] = value
+
+        #reverse dictionary
+        dicc = dict(reversed(list(dicc.items())))
+
+        self.replVisitor.stack.append(dicc)
 
     def visitHashContentAST(self, ctx: MonkeyGrammarParser.HashContentASTContext):
         return self.visitChildren(ctx)
@@ -215,7 +289,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         try:
 
             self.visit(ctx.expression())
-            self.consoleResult = self.replVisitor.stack.pop()
+            self.consoleResult = str(self.replVisitor.stack.pop())
             print("print-> ", self.consoleResult)
         except:
             print("Error")
