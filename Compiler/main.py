@@ -30,16 +30,14 @@ class MyErrorListener(ErrorListener):
 @eel.expose
 def getConsoleResult(mode):
     global consoleResultError
-    if consoleResultError !="" :
+    if consoleResultError != "":
         txt = consoleResultError
     else:
-        if mode == "console":
-            if consoleResult != "":
-                txt = consoleResult
-            else:
-                txt = "Syntactic analysis Sucessfull"
+        if consoleResult != "":
+            txt = consoleResult
         else:
             txt = "Syntactic analysis Sucessfull"
+
     consoleResultError = ""
     return txt
 

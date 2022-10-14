@@ -2,8 +2,12 @@ const interpreterCodeTxt = document.getElementById("interpreterCode");
 const lineCounter2 = document.getElementById("lineCounter2");
 var msg = document.getElementById("simpleCode");
 var msgEnter = document.getElementById("interpreterCode");
-var error = ""
+var result = ""
 var gbText= ""
+
+var parentesisAbiertos = 0;
+var saltosIgnorar = 0;
+var parentesisUsado = false;
 
 async function showConsoleWithButton() {
     document.getElementById("interpreterCode").value = '';
@@ -13,12 +17,12 @@ async function showConsoleWithButton() {
 }
 
 async function showConsoleWithEnter() {
-    error = await eel.getConsoleResult("console")();
-    console.log("El error:", error);
+    result = await eel.getConsoleResult("console")();
+    console.log("Resultado: ", result);
     gbText+="\n"
 
-    if (error != "Syntactic analysis Sucessfull") {
-        gbText+=error
+    if (result != "Syntactic analysis Sucessfull") {
+        gbText+=result
          gbText+="\n"
     }
     document.getElementById("interpreterCode").value = (gbText);
@@ -75,18 +79,52 @@ interpreterCodeTxt.addEventListener("input", () => {
     line_counter2();
 });
 
+interpreterCodeTxt.addEventListener('keyup', async function (e) {
+    if (e.key === 'Enter'){
+       if (parentesisAbiertos > 0) {
+            var text = msgEnter.value.toString();
+            gbText+= text;
+            var count = 0;
+            while (count < parentesisAbiertos) {
+                document.getElementById("interpreterCode").value+="\t";
+                count++;
+            }
+            gbText=""
+            //line_counter2();
+        }
+    }
+});
 
-interpreterCodeTxt.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        var text = msgEnter.value.toString().replace(error,'');
-        gbText+= text;
-        console.log("Error:", error);
-        error = "";
-        text = text.split("\n");
-        text = text[text.length-1];
-        console.log("El texto:", text);
+interpreterCodeTxt.addEventListener('keypress', async function (e) {
+     if(e.key === '{') {
+        parentesisAbiertos++;
+        parentesisUsado = true;
+        saltosIgnorar++;
+     }else if(e.key === '}') {
+        parentesisAbiertos--;
+     }
+    else if (e.key === 'Enter') {
+        if (parentesisAbiertos == 0 && parentesisUsado == false) {
 
-        eel.startInterpreter(text);
-        showConsoleWithEnter();
+            var text = msgEnter.value.toString();
+            gbText+= text;
+            console.log("Result: ", result);
+            result = "";
+            text = text.split("\n");
+            text = text[text.length-1];
+            console.log("El texto:", text);
+
+            eel.startInterpreter(text);
+            showConsoleWithEnter();
+        }else if(parentesisAbiertos==0 && parentesisUsado == true){
+            var text = msgEnter.value.toString();
+            gbText+= text;
+            text = text.split("\n");
+            text = text.slice(saltosIgnorar, );
+            text = text.join("\n");
+            console.log("El texto ->", text);
+            eel.startInterpreter(text);
+            showConsoleWithEnter();
+        }
     }
 });
