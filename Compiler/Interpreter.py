@@ -157,12 +157,10 @@ class MyVisitor(MonkeyGrammarVisitor):
 
         if token == "len":
             arr = self.replVisitor.stack.pop()
-
-            self.consoleResult = str(len(arr))
+            self.replVisitor.stack.append(len(arr))
 
         elif token == "first":
             arr = self.replVisitor.stack.pop()
-
             if type(arr) == dict:
                 self.replVisitor.stack.append(arr[next(iter(arr))])
             else:
