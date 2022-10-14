@@ -1,7 +1,7 @@
 from Generated.MonkeyGrammarParser import MonkeyGrammarParser
 from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from REPL import REPL
-from antlr4.CommonTokenFactory import CommonToken
+#from antlr4.CommonTokenFactory import CommonToken
 
 
 class MyVisitor(MonkeyGrammarVisitor):
@@ -21,12 +21,10 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
         self.visit(ctx.expressionStatement())
 
-
     def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext):
         varName = self.visit(ctx.identifier())
         self.visit(ctx.expression())
         self.replVisitor.data.add(varName, self.replVisitor.stack.pop())
-
 
     def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
         self.visit(ctx.expression())
@@ -78,7 +76,6 @@ class MyVisitor(MonkeyGrammarVisitor):
                 else:
                     print("No se permite este tipo de operacion en Str")
 
-
     def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext):
         self.visit(ctx.multiplicationExpression())
         self.visit(ctx.additionFactor())
@@ -96,7 +93,6 @@ class MyVisitor(MonkeyGrammarVisitor):
                 self.replVisitor.stack.append(op1 + op2)
             elif token.text == "-":
                 self.replVisitor.stack.append(op1 - op2)
-
 
     def visitMultiplicationExpressionAST(self, ctx: MonkeyGrammarParser.MultiplicationExpressionASTContext):
         self.visit(ctx.elementExpression())
@@ -161,23 +157,16 @@ class MyVisitor(MonkeyGrammarVisitor):
 
         if token == "len":
             arr = self.replVisitor.stack.pop()
-            if self.consoleResult == "":
-                self.consoleResult = str(len(arr))
-            else:
-                self.consoleResult += "\n" + str(len(arr))
+
+            self.consoleResult = str(len(arr))
 
         elif token == "first":
             arr = self.replVisitor.stack.pop()
-            if self.consoleResult == "":
-                if type(arr) == dict:
-                     self.consoleResult = str(arr[next(iter(arr))])
-                else:
-                    self.consoleResult = "\n" + str(arr[0])
+
+            if type(arr) == dict:
+                self.replVisitor.stack.append(arr[next(iter(arr))])
             else:
-                if type(arr) == dict:
-                    self.consoleResult = str(arr[next(iter(arr))])
-                else:
-                    self.consoleResult = "\n" + str(arr[0])
+                self.replVisitor.stack.append(arr[0])
 
         elif token == "last":
             arr = self.replVisitor.stack.pop()
@@ -187,7 +176,6 @@ class MyVisitor(MonkeyGrammarVisitor):
             else:
                 self.replVisitor.stack.append(arr[-1])
 
-
         elif token == "rest":
             arr = self.replVisitor.stack.pop()
 
@@ -195,7 +183,6 @@ class MyVisitor(MonkeyGrammarVisitor):
                 self.replVisitor.stack.append(list(arr.values())[1:])
             else:
                 self.replVisitor.stack.append(list(arr.values())[1:])
-
 
         elif token == "push":
 
@@ -213,7 +200,6 @@ class MyVisitor(MonkeyGrammarVisitor):
                 arr.append(value)
 
             self.replVisitor.data.add(id, arr)
-
 
     def visitPrimitiveExprFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprFuncASTContext):
         return self.visitChildren(ctx)
@@ -236,7 +222,6 @@ class MyVisitor(MonkeyGrammarVisitor):
         for i in range(0, len(self.replVisitor.stack)):
             array.append(self.replVisitor.stack.pop())
 
-        #reverse array
         array.reverse()
         self.replVisitor.stack.append(array)
 
