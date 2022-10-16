@@ -2,8 +2,9 @@ const interpreterCodeTxt = document.getElementById("interpreterCode");
 const lineCounter2 = document.getElementById("lineCounter2");
 var msg = document.getElementById("simpleCode");
 var msgEnter = document.getElementById("interpreterCode");
-var result = ""
-var gbText= ""
+var result = "";
+var gbText= "";
+var lastKey = "";
 
 var parentesisAbiertos = 0;
 var saltosIgnorar = 0;
@@ -12,19 +13,54 @@ var parentesisUsado = false;
 async function showConsoleWithButton() {
     document.getElementById("interpreterCode").value = '';
     result = await eel.getConsoleResult("")();
-    document.getElementById("interpreterCode").value = result;
+    resultText = "";
+    for (var i = 0; i < result.length; i++) {
+        if(String(typeof result[i]) == "object"){
+            if(i==0){
+                resultText += JSON.stringify(result[i])
+            }else{
+                resultText += "\n" + JSON.stringify(result[i])
+            }
+        }else{
+            if(i==0){
+                resultText = String(result[i]);
+            }else{
+                resultText += "\n" + String(result[i]);
+            }
+        }
+    }
+    document.getElementById("interpreterCode").value = resultText;
     line_counter2();
 }
 
 async function showConsoleWithEnter() {
     result = await eel.getConsoleResult("console")();
-    console.log("Resultado: ", result);
+    resultText = "";
+    for (var i = 0; i < result.length; i++) {
+        if(String(typeof result[i]) == "object"){
+            if(i==0){
+                resultText += JSON.stringify(result[i])
+            }else{
+                resultText += "\n" + JSON.stringify(result[i])
+            }
+        }else{
+            if(i==0){
+                resultText = String(result[i]);
+            }else{
+                resultText += "\n" + String(result[i]);
+            }
+        }
+    }
+    console.log("Resultado: ", resultText);
     gbText+="\n"
 
     if (result != "Syntactic analysis Sucessfull") {
-        gbText+=result
+        gbText+=resultText
          gbText+="\n"
     }
+    slipText = gbText.split("\n");
+    saltosIgnorar = slipText.length - 1;
+    console.log("Saltos: ", saltosIgnorar);
     document.getElementById("interpreterCode").value = (gbText);
     gbText=""
     line_counter2();
@@ -92,26 +128,34 @@ interpreterCodeTxt.addEventListener('keyup', async function (e) {
             gbText=""
             //line_counter2();
         }
+    }else if (e.key === 'Backspace') {
+        if (lastKey == '{'){
+            parentesisAbiertos--;
+        }
+        lastKey = msgEnter.value.toString().slice(-1);
+        console.log("Parentesis abiertos: ", parentesisAbiertos);
     }
 });
 
 interpreterCodeTxt.addEventListener('keypress', async function (e) {
+     lastKey = e.key;
+
      if(e.key === '{') {
         parentesisAbiertos++;
         parentesisUsado = true;
-        saltosIgnorar++;
+
      }else if(e.key === '}') {
-        parentesisAbiertos--;
-     }
-    else if (e.key === 'Enter') {
+        if(parentesisAbiertos > 0) {
+            parentesisAbiertos--;
+        }
+     }else if (e.key === 'Enter') {
         if (parentesisAbiertos == 0 && parentesisUsado == false) {
 
             var text = msgEnter.value.toString();
             gbText+= text;
             console.log("Result: ", result);
             result = "";
-            text = text.split("\n");
-            text = text[text.length-1];
+            text = text.split("\n").slice(saltosIgnorar, )[0];
             console.log("El texto:", text);
 
             eel.startInterpreter(text);
@@ -126,5 +170,6 @@ interpreterCodeTxt.addEventListener('keypress', async function (e) {
             eel.startInterpreter(text);
             showConsoleWithEnter();
         }
+        console.log("Saltos a ignorar: ", saltosIgnorar);
     }
 });

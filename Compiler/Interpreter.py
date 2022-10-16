@@ -221,7 +221,6 @@ class MyVisitor(MonkeyGrammarVisitor):
         array = []
         for i in range(0, len(self.replVisitor.stack)):
             array.append(self.replVisitor.stack.pop())
-
         array.reverse()
         self.replVisitor.stack.append(array)
 
@@ -274,18 +273,17 @@ class MyVisitor(MonkeyGrammarVisitor):
         try:
             self.visit(ctx.expression())
             info = self.replVisitor.stack.pop()
+            print("Type: " + str(type(info)))
             if type(info) is str:
                 info = info[1:-1]
+
+            if type(self.consoleResult) == str and self.consoleResult == "":
+                self.consoleResult = [info]
             else:
-                info = str(info)
-            if self.consoleResult == "":
-                self.consoleResult = info
-            else:
-                self.consoleResult += "\n" + info
+                self.consoleResult.append(info)
             print("print-> ", self.consoleResult)
         except:
             print("Error")
-        return self.visitChildren(ctx)
 
     def visitIfExpressionAST(self, ctx: MonkeyGrammarParser.IfExpressionASTContext):
         self.visit(ctx.expression())
