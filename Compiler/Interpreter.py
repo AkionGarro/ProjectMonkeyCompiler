@@ -122,6 +122,10 @@ class MyVisitor(MonkeyGrammarVisitor):
 
     def visitElementAccessAST(self, ctx: MonkeyGrammarParser.ElementAccessASTContext):
         self.visit(ctx.expression())
+        key = self.replVisitor.stack.pop()
+        hash = self.replVisitor.stack.pop()
+        value = hash[key]
+        self.replVisitor.stack.append(value)
 
     def visitCallExpressionAST(self, ctx: MonkeyGrammarParser.CallExpressionASTContext):
         self.visit(ctx.expressionList())
