@@ -2,8 +2,10 @@ grammar MonkeyGrammar;
 
 //Productions
 
-program:                    statement*                                              #programAST;
+//rogram:                    statement*                                              #programAST;
 
+// create program with counter parameter
+program:                      statement*                                               #programAST;
 
 
 statement:                  LET letStatement                                        #statementLetAST

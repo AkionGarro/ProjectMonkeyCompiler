@@ -48,10 +48,50 @@ class HashMap:
             if item is not None:
                 print(str(item))
 
+class Frame:
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def add_data(self):
+        repl = REPL()
+        repl.datas.append(self.data)
+    def visit(self, args):
+        self.scopes = [0]
+        self.data = HashMap()
+        self.add_data()
+        self.args = args
+        repl = REPL()
+        self.scope = len(repl.datas) - 1
+    def addScope(self, scope):
+        self.scopes.append(scope)
+
+    def setNext(self, next):
+        self.next.append(next)
+
+    def setPrev(self, prev):
+        self.prev = prev
+
+    def getCtx(self):
+        return self.ctx
+
+    def getScopes(self):
+        return self.scopes
+
+    def getNext(self):
+        return self.next
+
+    def getPrev(self):
+        return self.prev
+
 class REPL:
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(REPL, cls).__new__(cls)
             cls.data = HashMap()
             cls.stack = []
+            cls.scope = 0
+            cls.datas = []
+            cls.frame = Frame(None)
+            cls.datas.append(cls.data)
         return cls.instance
+

@@ -273,7 +273,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitProgramAST" ):
                 listener.exitProgramAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitProgramAST" ):
                 return visitor.visitProgramAST(self)
             else:
@@ -345,7 +345,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitStatementReturnAST" ):
                 listener.exitStatementReturnAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitStatementReturnAST" ):
                 return visitor.visitStatementReturnAST(self)
             else:
@@ -372,7 +372,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitStatementLetAST" ):
                 listener.exitStatementLetAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitStatementLetAST" ):
                 return visitor.visitStatementLetAST(self)
             else:
@@ -397,7 +397,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitStatementExpressionAST" ):
                 listener.exitStatementExpressionAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitStatementExpressionAST" ):
                 return visitor.visitStatementExpressionAST(self)
             else:
@@ -489,7 +489,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitLetStatementAST" ):
                 listener.exitLetStatementAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitLetStatementAST" ):
                 return visitor.visitLetStatementAST(self)
             else:
@@ -568,7 +568,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitReturnStatementAST" ):
                 listener.exitReturnStatementAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitReturnStatementAST" ):
                 return visitor.visitReturnStatementAST(self)
             else:
@@ -643,7 +643,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitExpressionStatementAST" ):
                 listener.exitExpressionStatementAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitExpressionStatementAST" ):
                 return visitor.visitExpressionStatementAST(self)
             else:
@@ -719,7 +719,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitExpressionAST" ):
                 listener.exitExpressionAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitExpressionAST" ):
                 return visitor.visitExpressionAST(self)
             else:
@@ -815,7 +815,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitComparisonAST" ):
                 listener.exitComparisonAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitComparisonAST" ):
                 return visitor.visitComparisonAST(self)
             else:
@@ -895,7 +895,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitAdditionExpressionAST" ):
                 listener.exitAdditionExpressionAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitAdditionExpressionAST" ):
                 return visitor.visitAdditionExpressionAST(self)
             else:
@@ -971,7 +971,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitAdditionFactorAST" ):
                 listener.exitAdditionFactorAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitAdditionFactorAST" ):
                 return visitor.visitAdditionFactorAST(self)
             else:
@@ -1051,7 +1051,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitMultiplicationExpressionAST" ):
                 listener.exitMultiplicationExpressionAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitMultiplicationExpressionAST" ):
                 return visitor.visitMultiplicationExpressionAST(self)
             else:
@@ -1127,7 +1127,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitMultiplicationFactorAST" ):
                 listener.exitMultiplicationFactorAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitMultiplicationFactorAST" ):
                 return visitor.visitMultiplicationFactorAST(self)
             else:
@@ -1210,7 +1210,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitElementExpressionAST" ):
                 listener.exitElementExpressionAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitElementExpressionAST" ):
                 return visitor.visitElementExpressionAST(self)
             else:
@@ -1292,7 +1292,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitElementAccessAST" ):
                 listener.exitElementAccessAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitElementAccessAST" ):
                 return visitor.visitElementAccessAST(self)
             else:
@@ -1361,7 +1361,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitCallExpressionAST" ):
                 listener.exitCallExpressionAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitCallExpressionAST" ):
                 return visitor.visitCallExpressionAST(self)
             else:
@@ -1433,7 +1433,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprArrFuncAST" ):
                 listener.exitPrimitiveExprArrFuncAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprArrFuncAST" ):
                 return visitor.visitPrimitiveExprArrFuncAST(self)
             else:
@@ -1458,7 +1458,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprPrintAST" ):
                 listener.exitPrimitiveExprPrintAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprPrintAST" ):
                 return visitor.visitPrimitiveExprPrintAST(self)
             else:
@@ -1483,7 +1483,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprArrLitAST" ):
                 listener.exitPrimitiveExprArrLitAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprArrLitAST" ):
                 return visitor.visitPrimitiveExprArrLitAST(self)
             else:
@@ -1508,7 +1508,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprHashAST" ):
                 listener.exitPrimitiveExprHashAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprHashAST" ):
                 return visitor.visitPrimitiveExprHashAST(self)
             else:
@@ -1532,7 +1532,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprStringAST" ):
                 listener.exitPrimitiveExprStringAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprStringAST" ):
                 return visitor.visitPrimitiveExprStringAST(self)
             else:
@@ -1557,7 +1557,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprBooleanAST" ):
                 listener.exitPrimitiveExprBooleanAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprBooleanAST" ):
                 return visitor.visitPrimitiveExprBooleanAST(self)
             else:
@@ -1586,7 +1586,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprBlockExprAST" ):
                 listener.exitPrimitiveExprBlockExprAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprBlockExprAST" ):
                 return visitor.visitPrimitiveExprBlockExprAST(self)
             else:
@@ -1611,7 +1611,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprFuncAST" ):
                 listener.exitPrimitiveExprFuncAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprFuncAST" ):
                 return visitor.visitPrimitiveExprFuncAST(self)
             else:
@@ -1635,7 +1635,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprDigitAST" ):
                 listener.exitPrimitiveExprDigitAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprDigitAST" ):
                 return visitor.visitPrimitiveExprDigitAST(self)
             else:
@@ -1660,7 +1660,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprIfAST" ):
                 listener.exitPrimitiveExprIfAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprIfAST" ):
                 return visitor.visitPrimitiveExprIfAST(self)
             else:
@@ -1685,7 +1685,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrimitiveExprIdAST" ):
                 listener.exitPrimitiveExprIdAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrimitiveExprIdAST" ):
                 return visitor.visitPrimitiveExprIdAST(self)
             else:
@@ -1822,7 +1822,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitArrayFunctions" ):
                 listener.exitArrayFunctions(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitArrayFunctions" ):
                 return visitor.visitArrayFunctions(self)
             else:
@@ -1893,7 +1893,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitArrayLitetalAST" ):
                 listener.exitArrayLitetalAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitArrayLitetalAST" ):
                 return visitor.visitArrayLitetalAST(self)
             else:
@@ -1967,7 +1967,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitFunctionLiteralAST" ):
                 listener.exitFunctionLiteralAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitFunctionLiteralAST" ):
                 return visitor.visitFunctionLiteralAST(self)
             else:
@@ -2039,7 +2039,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitFunctionParametersAST" ):
                 listener.exitFunctionParametersAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitFunctionParametersAST" ):
                 return visitor.visitFunctionParametersAST(self)
             else:
@@ -2110,7 +2110,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitMoreIdentifiersAST" ):
                 listener.exitMoreIdentifiersAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitMoreIdentifiersAST" ):
                 return visitor.visitMoreIdentifiersAST(self)
             else:
@@ -2189,7 +2189,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitHashLiteralAST" ):
                 listener.exitHashLiteralAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitHashLiteralAST" ):
                 return visitor.visitHashLiteralAST(self)
             else:
@@ -2261,7 +2261,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitHashContentAST" ):
                 listener.exitHashContentAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitHashContentAST" ):
                 return visitor.visitHashContentAST(self)
             else:
@@ -2334,7 +2334,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitMoreHashContentAST" ):
                 listener.exitMoreHashContentAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitMoreHashContentAST" ):
                 return visitor.visitMoreHashContentAST(self)
             else:
@@ -2409,7 +2409,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitExpressionListAST" ):
                 listener.exitExpressionListAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitExpressionListAST" ):
                 return visitor.visitExpressionListAST(self)
             else:
@@ -2431,7 +2431,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitExpressionListEmptyAST" ):
                 listener.exitExpressionListEmptyAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitExpressionListEmptyAST" ):
                 return visitor.visitExpressionListEmptyAST(self)
             else:
@@ -2515,7 +2515,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitMoreExpressionsAST" ):
                 listener.exitMoreExpressionsAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitMoreExpressionsAST" ):
                 return visitor.visitMoreExpressionsAST(self)
             else:
@@ -2593,7 +2593,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitPrintExpressionAST" ):
                 listener.exitPrintExpressionAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitPrintExpressionAST" ):
                 return visitor.visitPrintExpressionAST(self)
             else:
@@ -2670,7 +2670,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitIfExpressionAST" ):
                 listener.exitIfExpressionAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitIfExpressionAST" ):
                 return visitor.visitIfExpressionAST(self)
             else:
@@ -2756,7 +2756,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitBlockStatementAST" ):
                 listener.exitBlockStatementAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitBlockStatementAST" ):
                 return visitor.visitBlockStatementAST(self)
             else:
@@ -2837,7 +2837,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitIdentifierAST" ):
                 listener.exitIdentifierAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitIdentifierAST" ):
                 return visitor.visitIdentifierAST(self)
             else:
@@ -2904,7 +2904,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitBoolean" ):
                 listener.exitBoolean(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitBoolean" ):
                 return visitor.visitBoolean(self)
             else:
@@ -2975,7 +2975,7 @@ class MonkeyGrammarParser ( Parser ):
             if hasattr( listener, "exitCharAST" ):
                 listener.exitCharAST(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
+        def accept(self, visitor:ParseTreeVisitor, frame = None):
             if hasattr( visitor, "visitCharAST" ):
                 return visitor.visitCharAST(self)
             else:
