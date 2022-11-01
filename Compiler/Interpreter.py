@@ -1,12 +1,18 @@
 from Generated.MonkeyGrammarParser import MonkeyGrammarParser
 from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
+from REPL import REPL
 
 
 # from antlr4.CommonTokenFactory import CommonToken
-level = 0
+
+
 class MyVisitor(MonkeyGrammarVisitor):
     replVisitor = REPL()
     consoleResult = ""
+    consoleError = ""
+
+    def addError(self,msg):
+        self.consoleError += msg
         self.consoleError += "\n"
 
     def addConsoleResult(self,msg):
@@ -16,7 +22,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         for i in range(0, len(ctx.statement())):
             self.visit(ctx.statement(i))
 
-    def visitStatementLetAST(self, ctx: MonkeyGrammarParser.StatementLetASTContext, frame = None):
+    def visitStatementLetAST(self, ctx: MonkeyGrammarParser.StatementLetASTContext):
         self.visit(ctx.letStatement())
 
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
@@ -25,60 +31,45 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
         self.visit(ctx.expressionStatement())
 
-    def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext, frame = None):
     def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext):
         varName = self.visit(ctx.identifier())
         self.visit(ctx.expression())
+        try:
+            self.replVisitor.data.add(varName, self.replVisitor.stack.pop())
+        except:
+            self.addError("<LetExpresion>  Error = (Almacenar la variable)")
 
-    def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext, frame = None):
+
+
+    def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
         self.visit(ctx.expression())
 
-    def visitExpressionStatementAST(self, ctx: MonkeyGrammarParser.ExpressionStatementASTContext, frame = None):
+    def visitExpressionStatementAST(self, ctx: MonkeyGrammarParser.ExpressionStatementASTContext):
         self.visit(ctx.expression())
 
 
-    def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext, frame = None):
+    def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext):
         self.visit(ctx.additionExpression())
         self.visit(ctx.comparison())
 
-    def visitComparisonAST(self, ctx: MonkeyGrammarParser.ComparisonASTContext, frame = None):
+    def visitComparisonAST(self, ctx: MonkeyGrammarParser.ComparisonASTContext):
         index = 0
-
+        flag = True
         for i in range(0, len(ctx.additionExpression())):
             self.visit(ctx.additionExpression(i))
             token = ctx.getChild(index).symbol
             index += 2
-            op2 = (self.replVisitor.stack.pop())
-            op1 = (self.replVisitor.stack.pop())
-            if type(op2) == int:
-                if token.text == "==":
-                    flag = (op2 == op1)
-                    self.replVisitor.stack.append(flag)
-                elif token.text == "!=":
-                    flag = (op2 != op1)
-                    self.replVisitor.stack.append(flag)
-                elif token.text == "<":
-                    flag = (op1 < op2)
-                    self.replVisitor.stack.append(flag)
-                elif token.text == "<=":
-                    flag = (op1 <= op2)
-                    self.replVisitor.stack.append(flag)
-                elif token.text == ">":
-                    flag = (op1 > op2)
-                    self.replVisitor.stack.append(flag)
-                elif token.text == ">=":
-                    flag = (op1 >= op2)
-                    self.replVisitor.stack.append(flag)
-                else:
-                    print("Operador no existe")
-            else:
-                if token.text == "==":
-                    flag = (op2 == op1)
-                    self.replVisitor.stack.append(flag)
-                elif token.text == "!=":
-                    flag = (op2 != op1)
-                    self.replVisitor.stack.append(flag)
+            try:
                 op2 = (self.replVisitor.stack.pop())
+                op1 = (self.replVisitor.stack.pop())
+                if type(op1) != type(op2):
+                    self.addError("<Comparison> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
+                    flag= False
+            except:
+                flag=False
+
+            if flag==True:
+                if type(op2) == int:
                     if token.text == "==":
                         flagOperator = (op2 == op1)
                         self.replVisitor.stack.append(flagOperator)
@@ -86,15 +77,30 @@ class MyVisitor(MonkeyGrammarVisitor):
                         flagOperator = (op2 != op1)
                         self.replVisitor.stack.append(flagOperator)
                     elif token.text == "<":
+                        flagOperator = (op1 < op2)
+                        self.replVisitor.stack.append(flagOperator)
                     elif token.text == "<=":
                         flagOperator = (op1 <= op2)
                         self.replVisitor.stack.append(flagOperator)
                     elif token.text == ">":
+                        flagOperator = (op1 > op2)
+                        self.replVisitor.stack.append(flagOperator)
+                    elif token.text == ">=":
+                        flagOperator = (op1 >= op2)
+                        self.replVisitor.stack.append(flagOperator)
+                    else:
+                        self.addError("<Int Operation>  Error = (No existe el operador)")
                 else:
-                    print("No se permite este tipo de operacion en Str")
-
-    def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext, frame = None):
+                    if token.text == "==":
+                        flagOperator = (op2 == op1)
+                        self.replVisitor.stack.append(flagOperator)
                     elif token.text == "!=":
+                        flagOperator = (op2 != op1)
+                        self.replVisitor.stack.append(flagOperator)
+                    else:
+                        self.addError("<Str Operation>  Error = (No existe el operador)")
+
+    def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext):
         self.visit(ctx.multiplicationExpression())
         self.visit(ctx.additionFactor())
 
@@ -107,12 +113,25 @@ class MyVisitor(MonkeyGrammarVisitor):
             token = ctx.getChild(index).symbol
             index += 2
             try:
+                op2 = (self.replVisitor.stack.pop())
+                op1 = (self.replVisitor.stack.pop())
+                if type(op1) != int or type(op2) != int:
+                    self.addError("<Addition> Error = (Solo se permite int)")
+                    flag=False
+                if type(op1) != type(op2):
+                    self.addError("<Addition> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
+                    flag=False
+            except:
+                self.addError("<Addition> Error = (Error en la pila)")
+                flag =False
 
-            if token.text == "+":
-                self.replVisitor.stack.append(op1 + op2)
-                self.replVisitor.stack.append(op1 - op2)
+            if flag==True:
+                if token.text == "+":
+                    self.replVisitor.stack.append((int)(op1 + op2))
+                elif token.text == "-":
+                    self.replVisitor.stack.append((int)(op1 - op2))
 
-    def visitMultiplicationExpressionAST(self, ctx: MonkeyGrammarParser.MultiplicationExpressionASTContext, frame = None):
+    def visitMultiplicationExpressionAST(self, ctx: MonkeyGrammarParser.MultiplicationExpressionASTContext):
         self.visit(ctx.elementExpression())
         self.visit(ctx.multiplicationFactor())
 
@@ -123,205 +142,186 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.visit(ctx.elementExpression(i))
             token = ctx.getChild(index).symbol
             index += 2
-            op2 = (int)(self.replVisitor.stack.pop())
-            op1 = (int)(self.replVisitor.stack.pop())
             try:
+                op2 = (self.replVisitor.stack.pop())
+                op1 = (self.replVisitor.stack.pop())
+                if type(op1) != int or type(op2) != int:
+                    self.addError("<Multiplication> Error = (Solo se permite Int)")
+                    flag=False
+                if type(op1) != type(op2):
+                    self.addError("<Multiplication> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
+                    flag = False
+            except:
+                self.addError("<Multiplication> Error = (Error en la pila)")
+                flag = False
 
-            if token.text == "*":
-                self.replVisitor.stack.append(op1 * op2)
-            elif token.text == "/":
-                self.replVisitor.stack.append(op1 / op2)
             if flag == True:
                 if token.text == "*":
                     self.replVisitor.stack.append((int)(op1 * op2))
                 elif token.text == "/":
                     self.replVisitor.stack.append((int)(op1 / op2))
 
+    def visitElementExpressionAST(self, ctx: MonkeyGrammarParser.ElementExpressionASTContext):
         self.visit(ctx.primitiveExpression())
         if ctx.getChildCount() > 1:
-                    frame = self.replVisitor.data.get(funtionName)
             self.visit(ctx.getChild(1))
 
     def visitElementAccessAST(self, ctx: MonkeyGrammarParser.ElementAccessASTContext):
+        flag = True
         self.visit(ctx.expression())
-        key = self.replVisitor.stack.pop()
-        hash = self.replVisitor.stack.pop()
-        value = hash[key]
-        self.replVisitor.stack.append(value)
+        try:
+            key = self.replVisitor.stack.pop()
+            hash = self.replVisitor.stack.pop()
+            #if type(key) != int:
                 #self.addError("<ElementAccess> Error = (Indice debe ser int)")
                 #flag = False
         except:
             self.addError("<ElementAccess> Error = (Error en la pila)")
+            flag = False
+        if flag == True:
+            value = hash[key]
+            self.replVisitor.stack.append(value)
 
-    def visitCallExpressionAST(self, ctx: MonkeyGrammarParser.CallExpressionASTContext, frame = None):
+    def visitCallExpressionAST(self, ctx: MonkeyGrammarParser.CallExpressionASTContext):
         self.visit(ctx.expressionList())
 
-        try:
-            list1 = self.replVisitor.stack.pop()
-            list1.append((int)(ctx.DIGIT().symbol.text))
-            self.replVisitor.stack.append(list1)
-        except:
-            self.replVisitor.stack.append(list1)
-            self.replVisitor.stack.append((int)(ctx.DIGIT().symbol.text))
+    def visitPrimitiveExprDigitAST(self, ctx: MonkeyGrammarParser.PrimitiveExprDigitASTContext):
+        self.replVisitor.stack.append((int)(ctx.DIGIT().symbol.text))
         return self.visitChildren(ctx)
 
-    def visitPrimitiveExprStringAST(self, ctx: MonkeyGrammarParser.PrimitiveExprStringASTContext, frame = None):
-        list1 = None
-        try:
-            self.replVisitor.stack.append(list1)
-        except:
-            self.replVisitor.stack.append(list1)
-            self.replVisitor.stack.append(ctx.STRING().symbol.text)
-
+    def visitPrimitiveExprStringAST(self, ctx: MonkeyGrammarParser.PrimitiveExprStringASTContext):
+        self.replVisitor.stack.append(ctx.STRING().symbol.text)
         return self.visitChildren(ctx)
 
-    def visitPrimitiveExprIdAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIdASTContext, frame = None):
+    def visitPrimitiveExprIdAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIdASTContext):
         object = self.replVisitor.data.get(self.visit(ctx.identifier()))
         if (object != None):
-            list1 = None
-            try:
-                list1 = self.replVisitor.stack.pop()
-                self.replVisitor.stack.append(list1)
-            except:
-                self.replVisitor.stack.append(list1)
-                self.replVisitor.stack.append(object)
-
+            self.replVisitor.stack.append(object)
         else:
-            print("El identificador no existe")
-
+            self.addError("<PrimitiveExprId> Error = (No se encuentra el id)")
         return self.visitChildren(ctx)
 
-    def visitPrimitiveExprBooleanAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBooleanASTContext, frame = None):
+    def visitPrimitiveExprBooleanAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
         self.visit(ctx.boolean())
 
-        return self.visitChildren(ctx)
+    def visitPrimitiveExprBlockExprAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBlockExprASTContext):
         self.visit(ctx.expression())
 
-    def visitPrimitiveExprArrLitAST(self, ctx: MonkeyGrammarParser.PrimitiveExprArrLitASTContext, frame = None):
-        return self.visitChildren(ctx)
+    def visitPrimitiveExprArrLitAST(self, ctx: MonkeyGrammarParser.PrimitiveExprArrLitASTContext):
+        self.visit(ctx.arrayLiteral())
 
-    def visitPrimitiveExprArrFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprArrFuncASTContext, frame = None):
-        self.visitChildren(ctx)
     def visitPrimitiveExprArrFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprArrFuncASTContext):
+        name = self.visit(ctx.expressionList())
         token = ctx.getChild(0).start.text
         id = ctx.getChild(2).start.text
 
         if token == "len":
-            arr = self.replVisitor.stack.pop()
-            self.replVisitor.stack.append(len(arr))
+            try:
                 arr = self.replVisitor.stack.pop()
+                arr = arr[0]
+                lng =len(arr)
+                self.replVisitor.stack.append(lng)
+            except:
                 self.addError("<ArrFunc len> Error = (No se pudo realizar)")
 
         elif token == "first":
-            arr = self.replVisitor.stack.pop()
-            if type(arr) == dict:
-            else:
             try:
                 arr = self.replVisitor.stack.pop()
                 arr = arr[0]
                 if type(arr) == dict:
                     self.replVisitor.stack.append(arr[next(iter(arr))])
                 else:
+                    self.replVisitor.stack.append(arr[0])
+            except:
+                self.addError("<ArrFunc first> Error = (No se pudo realizar)")
 
         elif token == "last":
-            arr = self.replVisitor.stack.pop()
-
-            if type(arr) == dict:
-                self.replVisitor.stack.append(arr[list(arr)[-1]])
-            else:
-                self.replVisitor.stack.append(arr[-1])
-
+            try:
                 arr = self.replVisitor.stack.pop()
                 arr= arr[0]
                 if type(arr) == dict:
                     self.replVisitor.stack.append(arr[(int)(len(arr) - 1)])
+                else:
                     self.replVisitor.stack.append(arr[-1])
             except:
                 self.addError("<ArrFunc last> Error = (No se pudo realizar)")
         elif token == "rest":
-                self.replVisitor.stack.append(list(arr.values())[1:])
-            else:
-                self.replVisitor.stack.append(list(arr.values())[1:])
+            try:
+                arr = self.replVisitor.stack.pop()
+                arr = arr[0]
+                if type(arr) == dict:
+                    self.replVisitor.stack.append(arr[1:])
+                else:
+                    self.replVisitor.stack.append(arr[1:])
+            except:
+                self.addError("<ArrFunc rest> Error = (No se pudo realizar)")
 
         elif token == "push":
+            try:
+                values = []
 
-            values = []
+                while len(self.replVisitor.stack) > 1:
+                    values.append(self.replVisitor.stack.pop())
 
-            while len(self.replVisitor.stack) > 1:
-                values.append(self.replVisitor.stack.pop())
                 arr = self.replVisitor.stack.pop()
                 element = arr[1]
+                arr = arr[0]
+                arr.append(element)
+                # reverse values
+                values.reverse()
 
+                for value in values:
+                    arr.append(value)
 
-            # reverse values
+                self.replVisitor.data.add(id, arr)
+            except:
+                self.addError("<ArrFunc push> Error = (No se pudo realizar)")
 
-                arr.append(value)
+    def visitPrimitiveExprFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprFuncASTContext):
+        self.visit(ctx.functionLiteral())
 
     def visitPrimitiveExprHashAST(self, ctx: MonkeyGrammarParser.PrimitiveExprHashASTContext):
         self.visit(ctx.hashLiteral())
 
+    def visitPrimitiveExprPrintAST(self, ctx: MonkeyGrammarParser.PrimitiveExprPrintASTContext):
         self.visit(ctx.printExpression())
 
     def visitPrimitiveExprIfAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIfASTContext):
         self.visit(ctx.ifExpression())
 
-    def visitPrimitiveExprPrintAST(self, ctx: MonkeyGrammarParser.PrimitiveExprPrintASTContext, frame = None):
+    def visitArrayFunctions(self, ctx: MonkeyGrammarParser.ArrayFunctionsContext):
         return self.visitChildren(ctx)
 
-    def visitPrimitiveExprIfAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIfASTContext, frame = None):
-        return self.visitChildren(ctx)
+    def visitArrayLitetalAST(self, ctx: MonkeyGrammarParser.ArrayLitetalASTContext):
+        self.visit(ctx.expressionList())
+        exprFull = self.replVisitor.stack.pop()
+        self.replVisitor.stack.append(exprFull)
 
-    def visitArrayFunctions(self, ctx: MonkeyGrammarParser.ArrayFunctionsContext, frame = None):
-        return self.visitChildren(ctx)
 
-    def visitArrayLitetalAST(self, ctx: MonkeyGrammarParser.ArrayLitetalASTContext, frame = None):
-        self.visitChildren(ctx)
-        array = []
-        for i in range(0, len(self.replVisitor.stack)):
-            array.append(self.replVisitor.stack.pop())
-        array.reverse()
-        self.replVisitor.stack.append(array)
-
-    def find_let_fn(self, ctx):
-        if ctx.parentCtx == None:
-            return None
-        else:
-            if ctx.__class__.__name__ == "LetStatementASTContext":
-                print("Funtion Name: ", ctx.start.text)
-                return ctx
-            else:
-                return self.find_let_fn(ctx.parentCtx)
-    def visitParents(self, ctx):
-        # print ctx name
     def visitFunctionLiteralAST(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext):
         self.visit(ctx.functionParameters())
         self.visit(ctx.blockStatement())
 
-            return
-            if name == "FunctionLiteralASTContext":
-                print("ctx: ", ctx.__class__.__name__)
-                self.find_let_fn(ctx.parentCtx)
-
-    def visitFunctionLiteralAST(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext, frame = None):
-        print("\t-- Inicio de funcion --")
-        self.visitParents(ctx)
-        print("\t-- Fin de funcion --\n")
-        self.replVisitor.stack.append(frame)
     def visitFunctionParametersAST(self, ctx: MonkeyGrammarParser.FunctionParametersASTContext):
+        self.visit(ctx.identifier())
+        self.visit(ctx.moreIdentifiers())
 
-    def visitMoreIdentifiersAST(self, ctx: MonkeyGrammarParser.MoreIdentifiersASTContext, frame = None):
-        return self.visitChildren(ctx)
+    def visitMoreIdentifiersAST(self, ctx: MonkeyGrammarParser.MoreIdentifiersASTContext):
+        for i in range(0,len(ctx.identifier())):
+            self.visit(ctx.identifier(i))
 
-        self.visitChildren(ctx)
-        self.visitChildren(ctx)
+    def visitHashLiteralAST(self, ctx: MonkeyGrammarParser.HashLiteralASTContext):
+        self.visit(ctx.hashContent())
+        self.visit(ctx.moreHashContent())
         dicc = {}
         for i in range(0, len(self.replVisitor.stack), 2):
-            value = self.replVisitor.stack.pop()
-            key = self.replVisitor.stack.pop()
+            try:
+                value = self.replVisitor.stack.pop()
+                key = self.replVisitor.stack.pop()
 
+                if type(key) is str:
+                    key = key[1:-1]
 
-            if type(value) is str:
-                value = value[1:-1]
                 if type(value) is str:
                     value = value[1:-1]
 
@@ -334,13 +334,10 @@ class MyVisitor(MonkeyGrammarVisitor):
 
         self.replVisitor.stack.append(dicc)
 
+    def visitHashContentAST(self, ctx: MonkeyGrammarParser.HashContentASTContext):
+        self.visit(ctx.expression(0))
+        self.visit(ctx.expression(1))
 
-    def visitMoreHashContentAST(self, ctx: MonkeyGrammarParser.MoreHashContentASTContext, frame = None):
-        return self.visitChildren(ctx)
-
-    def visitExpressionListAST(self, ctx: MonkeyGrammarParser.ExpressionListASTContext, frame = None):
-        self.replVisitor.stack.append([])
-        self.visitChildren(ctx)
 
     def visitMoreHashContentAST(self, ctx: MonkeyGrammarParser.MoreHashContentASTContext):
         for i in range(0,len(ctx.hashContent())):
