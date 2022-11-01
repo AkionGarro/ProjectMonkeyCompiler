@@ -166,7 +166,7 @@ LETTER: [a-zA-Z_]*;
 
 DIGIT: [0-9]*;
 
-CHARIN: [a-zA-Z0-9]*;
+CHARIN: [a-zA-Z0-9];
 
 //Caracteres ignorados
 WS: (' '|'\t'|'\r'|'\n')+ -> skip;

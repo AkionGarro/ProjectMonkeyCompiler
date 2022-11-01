@@ -30,18 +30,17 @@ class MyErrorListener(ErrorListener):
 @eel.expose
 def getConsoleResult(mode):
     global consoleResultError
-    consoleResultError = consoleResultError.strip()
-    print("getConsoleResult")
-    print(consoleResultError)
-    print("end")
-
-    if consoleResultError != "":
+    global consoleResult
+    if consoleResultError !=['']:
         txt = consoleResultError
+        print("Entera error")
     else:
-        if consoleResult != "":
+        if consoleResult !=['']:
             txt = consoleResult
+            print("Entera res")
         else:
             txt = ["Syntactic analysis Sucessfull"]
+            print("Eno hay")
 
     consoleResultError = ""
     return txt
@@ -50,15 +49,6 @@ def getConsoleResult(mode):
 @eel.expose
 def send_data(msg):
     print(msg)
-
-
-def printTokens(lista):
-    global consoleResultTokens
-    res = ""
-    for t in lista:
-        res += "Line: " + str(t) + "  |  Type: " + str(t.type) + "  |  Lexeme: " + t.text;
-        res += "\n";
-    consoleResultTokens += res
 
 
 @eel.expose
@@ -73,7 +63,10 @@ def startInterpreter(text):
     visitor.visit(tree)
     repl.data.print()
     global consoleResult
-    consoleResult = visitor.consoleResult
+    global consoleResultError
+    consoleResult = [visitor.consoleResult]
+    consoleResultError = [visitor.consoleError]
+    visitor.consoleError = ""
     visitor.consoleResult = ""
 
 eel.start('index.html', mode='my_portable_chromium', host='localhost', port=27000, block=True)
