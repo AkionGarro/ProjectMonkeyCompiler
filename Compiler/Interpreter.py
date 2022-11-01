@@ -172,9 +172,8 @@ class MyVisitor(MonkeyGrammarVisitor):
         try:
             key = self.replVisitor.stack.pop()
             hash = self.replVisitor.stack.pop()
-            #if type(key) != int:
-                #self.addError("<ElementAccess> Error = (Indice debe ser int)")
-                #flag = False
+            if type(key) is str:
+                key = key[1:-1]
         except:
             self.addError("<ElementAccess> Error = (Error en la pila)")
             flag = False
@@ -371,7 +370,7 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.visit(ctx.expression())
             info = self.replVisitor.stack.pop()
             if type(info) is str:
-                info = info[1:-1]
+                #info = info[1:-1]
                 self.addConsoleResult(info)
             else:
                 self.addConsoleResult(str(info))
