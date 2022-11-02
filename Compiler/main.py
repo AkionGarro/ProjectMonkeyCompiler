@@ -31,16 +31,19 @@ class MyErrorListener(ErrorListener):
 def getConsoleResult(mode):
     global consoleResultError
     global consoleResult
+
+    print("Error: \n", consoleResultError)
+    print("\nResult: \n", consoleResult)
     if consoleResultError !=['']:
         txt = consoleResultError
-        print("Entera error")
+        print("console Result Error")
     else:
         if consoleResult !=['']:
             txt = consoleResult
-            print("Entera res")
+            print("console Result")
         else:
             txt = ["Syntactic analysis Sucessfull"]
-            print("Eno hay")
+            print("console Result Empty")
 
     consoleResultError = ""
     return txt

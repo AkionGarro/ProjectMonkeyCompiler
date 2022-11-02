@@ -55,6 +55,7 @@ class REPL:
 
             #las siguientes variables son para el manejo de las datas en visitor
             cls.data = HashMap()# data general
+            #los indices de las datas a la que las funciones acceden
             cls.datas_indices = [0]
 
             #almacena las datas, la principal siempre está.

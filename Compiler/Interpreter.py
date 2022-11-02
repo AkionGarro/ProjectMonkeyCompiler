@@ -18,6 +18,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.consoleResult += msg
         self.consoleResult += "\n"
     def visitProgramAST(self, ctx: MonkeyGrammarParser.ProgramASTContext):
+        len1 = len(ctx.statement())
         for i in range(0, len(ctx.statement())):
             self.visit(ctx.statement(i))
 
@@ -27,11 +28,11 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
 
         try:
-            simbol = ctx.getChild(1).getChild(0).symbol.text
+            simbol = ctx.getChild(1).symbol.text
         except:
             simbol = None
 
-        if simbol == None:
+        if simbol is None:
             self.visit(ctx.returnStatement())
         else:
             return
@@ -178,7 +179,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         else:
             name_class = ctx.__class__.__name__
             if name_class == "FunctionLiteralASTContext":
-                print("Funtion index: ", ctx.indice)
+
                 return [ctx.indice] + self.getIndexes(ctx.parentCtx)
             else:
                 return [] + self.getIndexes(ctx.parentCtx)
@@ -222,8 +223,14 @@ class MyVisitor(MonkeyGrammarVisitor):
         #Se respalda el data actual
         data_aux = self.replVisitor.data
 
+        #Se respaldan los indices de los data
+        datas_indices_aux = self.replVisitor.datas_indices
+
         #Se agrega el nuevo data
         self.replVisitor.data = data
+
+        #Se agregan los indices de los data
+        self.replVisitor.datas_indices = indices
 
         #Se agrega el nuevo data a la lista de datas
         self.replVisitor.add_data(data)
@@ -236,6 +243,9 @@ class MyVisitor(MonkeyGrammarVisitor):
 
         #Se reestablece el data anterior
         self.replVisitor.data = data_aux
+
+        #Se reestablecen los indices de los data
+        self.replVisitor.datas_indices = datas_indices_aux
 
         #Se elimina el data llamada a la funcion
         self.replVisitor.del_data()
@@ -254,7 +264,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                     self.ejecutarFuncion(ctx_funcion, [])
                 else:
                     parametros = self.replVisitor.stack.pop()
-                    #nombre_funcion = ctx.primitiveExpression().identifier().start.text
+                    nombre_funcion = ctx.primitiveExpression().identifier().start.text
                     ctx_funcion = self.replVisitor.stack.pop()
                     self.ejecutarFuncion(ctx_funcion, parametros)
 
@@ -292,11 +302,21 @@ class MyVisitor(MonkeyGrammarVisitor):
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprIdAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIdASTContext):
-        object = self.replVisitor.data.get(self.visit(ctx.identifier()))
+        identifier = ctx.identifier()
+        object = self.replVisitor.data.get(self.visit(identifier))
+        if object == None:
+            indice_datas = self.replVisitor.datas_indices
+
+            for i in range(0, len(indice_datas)):
+                object = self.replVisitor.datas[indice_datas[i]].get(self.visit(identifier))
+                if object != None:
+                    break
+            print("indice_datas: ", indice_datas)
+
         if (object != None):
             self.replVisitor.stack.append(object)
         else:
-            self.addError("<PrimitiveExprId> Error = (No se encuentra el id)")
+            self.addError("<PrimitiveExprId> Error = (No se encuentra el id ", str(ctx.identifier()), ")")
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprBooleanAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBooleanASTContext):

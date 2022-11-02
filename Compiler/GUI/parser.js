@@ -67,6 +67,7 @@ async function showConsoleWithEnter() {
 }
 
 document.getElementById("compileButton").addEventListener("click", async () => {
+    console.log("Código: \n", this.msg.value);
     await eel.startInterpreter(this.msg.value);
     showConsoleWithButton();
 

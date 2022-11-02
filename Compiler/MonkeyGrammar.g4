@@ -9,12 +9,12 @@ program:                      statement*                                        
 
 
 statement:                  LET letStatement                                        #statementLetAST
-                            | RETURN (returnStatement | )                           #statementReturnAST
+                            | RETURN (returnStatement | SEMICOLON | )                           #statementReturnAST
                             | expressionStatement                                   #statementExpressionAST;
 
 letStatement:               identifier ASSIGN expression ( SEMICOLON | )            #letStatementAST;
 
-returnStatement:            (expression ( SEMICOLON | ) | SEMICOLON | )             #returnStatementAST;
+returnStatement:            expression ( SEMICOLON | )                              #returnStatementAST;
 
 expressionStatement:        expression ( SEMICOLON | )                              #expressionStatementAST;
 
@@ -37,7 +37,7 @@ elementExpression:          primitiveExpression (elementAccess | callExpression 
 
 elementAccess:              BLOCK_OPEN expression BLOCK_CLOSE                       #elementAccessAST;
 
-callExpression:             PAR_OPEN (expressionList | ) PAR_CLOSE                       #callExpressionAST;
+callExpression:             PAR_OPEN (expressionList | ) PAR_CLOSE                  #callExpressionAST;
 
 primitiveExpression:        DIGIT                                                   #primitiveExprDigitAST
                             | boolean                                               #primitiveExprBooleanAST
