@@ -163,14 +163,24 @@ class MyVisitor(MonkeyGrammarVisitor):
                 elif token.text == "/":
                     self.replVisitor.stack.append((int)(op1 / op2))
 
+    def getIndexes(self, ctx):
+        indexes = []
+        for i in range(0, len(ctx.expression())):
+            self.visit(ctx.expression(i))
+            indexes.append(self.replVisitor.stack.pop())
+        return indexes
     def getParamsNames(self, ctx):
+
+        #Lista de nombres de parametros
         params = []
         param = ctx.getChild(0).start.text
         params.append(param)
         for i in range(1, len(ctx.children)):
             param = ctx.getChild(i).stop.text
-            params.append(param)
+            if param not in params:
+                params.append(param)
         return params
+
     def ejecutarFuncion(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext, listParams):
 
         #Se crea un nuevo data para la llamada a la funcion
@@ -178,10 +188,14 @@ class MyVisitor(MonkeyGrammarVisitor):
         #Se obtiene el indice de la funcion
         indice_data = self.replVisitor.indice_datas
 
-        list1 = ctx.getChild(2)
-        #Se obtienen los nombres de los parametros
-        cxt_params = self.getParamsNames(list1)
+        list1 = ctx.functionParameters()
+        if list1.children != None:
+            #Se obtienen los nombres de los parametros
+            cxt_params = self.getParamsNames(list1)
+        else:
+            cxt_params = []
 
+        #Si  no coinciden los parametros se lanza un error porque  no se enviaron los parametros correctos
         if len(cxt_params) != len(listParams):
             self.addError("<Function> Error = (Cantidad de parametros incorrecta)")
             return
@@ -189,11 +203,25 @@ class MyVisitor(MonkeyGrammarVisitor):
         for i in range(0, len(cxt_params)):
             data.add(cxt_params[i], listParams[i])
 
+        #Se respalda el data actual
         data_aux = self.replVisitor.data
+
+        #Se agrega el nuevo data
         self.replVisitor.data = data
+
+        #Se agrega el nuevo data a la lista de datas
         self.replVisitor.add_data(data)
-        self.visit(ctx.blockStatement())    #Se ejecuta el bloque de la funcion
+
+        #Se asigna el indice de la llamada a la funcion, para que funciones hijos la puedan usar
+        ctx.indice = indice_data
+
+        # Se ejecuta el bloque de la funcion
+        self.visit(ctx.blockStatement())
+
+        #Se reestablece el data anterior
         self.replVisitor.data = data_aux
+
+        #Se elimina el data llamada a la funcion
         self.replVisitor.del_data()
 
 
@@ -205,10 +233,14 @@ class MyVisitor(MonkeyGrammarVisitor):
             ctxName = ctx.getChild(1).__class__.__name__
             if ctxName == "CallExpressionASTContext":
                 self.visit(ctx.getChild(1))
-                parametros = self.replVisitor.stack.pop()
-                nombre_funcion = ctx.primitiveExpression().identifier().start.text
-                ctx_funcion = self.replVisitor.stack.pop()
-                self.ejecutarFuncion(ctx_funcion, parametros)
+                if ctx.getChild(1).getChild(1).__class__.__name__ == "ExpressionListEmptyASTContext":
+                    ctx_funcion = self.replVisitor.stack.pop()
+                    self.ejecutarFuncion(ctx_funcion, [])
+                else:
+                    parametros = self.replVisitor.stack.pop()
+                    #nombre_funcion = ctx.primitiveExpression().identifier().start.text
+                    ctx_funcion = self.replVisitor.stack.pop()
+                    self.ejecutarFuncion(ctx_funcion, parametros)
 
 
     def visitElementAccessAST(self, ctx: MonkeyGrammarParser.ElementAccessASTContext):

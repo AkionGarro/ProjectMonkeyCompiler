@@ -56,10 +56,10 @@ arrayFunctions: LEN | FIRST | LAST | REST | PUSH                                
 arrayLiteral: BLOCK_OPEN expressionList BLOCK_CLOSE                                 #arrayLitetalAST;
 
 functionLiteral
-locals [datasIndices = [0]]
-: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement                             #functionLiteralAST;
+locals [indice : int]
+: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement                           #functionLiteralAST;
 
-functionParameters: identifier moreIdentifiers                                      #functionParametersAST;
+functionParameters: ((identifier moreIdentifiers) | )                               #functionParametersAST;
 
 moreIdentifiers: (COMMA identifier)*                                                #moreIdentifiersAST;
 
