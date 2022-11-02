@@ -25,7 +25,16 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.visit(ctx.letStatement())
 
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
-        self.visit(ctx.returnStatement())
+
+        try:
+            simbol = ctx.getChild(1).getChild(0).symbol.text
+        except:
+            simbol = None
+
+        if simbol == None:
+            self.visit(ctx.returnStatement())
+        else:
+            return
 
 
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
@@ -164,11 +173,15 @@ class MyVisitor(MonkeyGrammarVisitor):
                     self.replVisitor.stack.append((int)(op1 / op2))
 
     def getIndexes(self, ctx):
-        indexes = []
-        for i in range(0, len(ctx.expression())):
-            self.visit(ctx.expression(i))
-            indexes.append(self.replVisitor.stack.pop())
-        return indexes
+        if ctx.parentCtx == None:
+            return [0]
+        else:
+            name_class = ctx.__class__.__name__
+            if name_class == "FunctionLiteralASTContext":
+                print("Funtion index: ", ctx.indice)
+                return [ctx.indice] + self.getIndexes(ctx.parentCtx)
+            else:
+                return [] + self.getIndexes(ctx.parentCtx)
     def getParamsNames(self, ctx):
 
         #Lista de nombres de parametros
@@ -181,8 +194,11 @@ class MyVisitor(MonkeyGrammarVisitor):
                 params.append(param)
         return params
 
-    def ejecutarFuncion(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext, listParams):
 
+    def ejecutarFuncion(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext, listParams):
+        indices = self.getIndexes(ctx)
+        if len(indices) > 1:
+            indices = indices[1:]
         #Se crea un nuevo data para la llamada a la funcion
         data = HashMap()
         #Se obtiene el indice de la funcion
