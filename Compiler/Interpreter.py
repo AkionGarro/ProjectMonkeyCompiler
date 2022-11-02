@@ -1,10 +1,9 @@
 from Generated.MonkeyGrammarParser import MonkeyGrammarParser
 from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
-from REPL import REPL
+from REPL import REPL, HashMap
 
 
 # from antlr4.CommonTokenFactory import CommonToken
-
 
 class MyVisitor(MonkeyGrammarVisitor):
     replVisitor = REPL()
@@ -28,12 +27,14 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
         self.visit(ctx.returnStatement())
 
+
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
         self.visit(ctx.expressionStatement())
 
     def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext):
         varName = self.visit(ctx.identifier())
         self.visit(ctx.expression())
+
         try:
             self.replVisitor.data.add(varName, self.replVisitor.stack.pop())
         except:
@@ -135,6 +136,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.visit(ctx.elementExpression())
         self.visit(ctx.multiplicationFactor())
 
+
     def visitMultiplicationFactorAST(self, ctx: MonkeyGrammarParser.MultiplicationFactorASTContext):
         index = 0
         flag = True
@@ -161,10 +163,53 @@ class MyVisitor(MonkeyGrammarVisitor):
                 elif token.text == "/":
                     self.replVisitor.stack.append((int)(op1 / op2))
 
+    def getParamsNames(self, ctx):
+        params = []
+        param = ctx.getChild(0).start.text
+        params.append(param)
+        for i in range(1, len(ctx.children)):
+            param = ctx.getChild(i).stop.text
+            params.append(param)
+        return params
+    def ejecutarFuncion(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext, listParams):
+
+        #Se crea un nuevo data para la llamada a la funcion
+        data = HashMap()
+        #Se obtiene el indice de la funcion
+        indice_data = self.replVisitor.indice_datas
+
+        list1 = ctx.getChild(2)
+        #Se obtienen los nombres de los parametros
+        cxt_params = self.getParamsNames(list1)
+
+        if len(cxt_params) != len(listParams):
+            self.addError("<Function> Error = (Cantidad de parametros incorrecta)")
+            return
+        #Se agregan los parametros a la tabla de simbolos
+        for i in range(0, len(cxt_params)):
+            data.add(cxt_params[i], listParams[i])
+
+        data_aux = self.replVisitor.data
+        self.replVisitor.data = data
+        self.replVisitor.add_data(data)
+        self.visit(ctx.blockStatement())    #Se ejecuta el bloque de la funcion
+        self.replVisitor.data = data_aux
+        self.replVisitor.del_data()
+
+
+
+
     def visitElementExpressionAST(self, ctx: MonkeyGrammarParser.ElementExpressionASTContext):
         self.visit(ctx.primitiveExpression())
         if ctx.getChildCount() > 1:
-            self.visit(ctx.getChild(1))
+            ctxName = ctx.getChild(1).__class__.__name__
+            if ctxName == "CallExpressionASTContext":
+                self.visit(ctx.getChild(1))
+                parametros = self.replVisitor.stack.pop()
+                nombre_funcion = ctx.primitiveExpression().identifier().start.text
+                ctx_funcion = self.replVisitor.stack.pop()
+                self.ejecutarFuncion(ctx_funcion, parametros)
+
 
     def visitElementAccessAST(self, ctx: MonkeyGrammarParser.ElementAccessASTContext):
         flag = True
@@ -182,10 +227,16 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.replVisitor.stack.append(value)
 
     def visitCallExpressionAST(self, ctx: MonkeyGrammarParser.CallExpressionASTContext):
+
         self.visit(ctx.expressionList())
 
+
     def visitPrimitiveExprDigitAST(self, ctx: MonkeyGrammarParser.PrimitiveExprDigitASTContext):
-        self.replVisitor.stack.append((int)(ctx.DIGIT().symbol.text))
+        if '.' in ctx.getText():
+            self.replVisitor.stack.append(float(ctx.getText()))
+        else:
+            self.replVisitor.stack.append(int(ctx.getText()))
+
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprStringAST(self, ctx: MonkeyGrammarParser.PrimitiveExprStringASTContext):
@@ -277,6 +328,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 self.addError("<ArrFunc push> Error = (No se pudo realizar)")
 
     def visitPrimitiveExprFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprFuncASTContext):
+
         self.visit(ctx.functionLiteral())
 
     def visitPrimitiveExprHashAST(self, ctx: MonkeyGrammarParser.PrimitiveExprHashASTContext):
@@ -298,8 +350,9 @@ class MyVisitor(MonkeyGrammarVisitor):
 
 
     def visitFunctionLiteralAST(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext):
-        self.visit(ctx.functionParameters())
-        self.visit(ctx.blockStatement())
+        self.replVisitor.stack.append(ctx)
+        #self.visit(ctx.functionParameters())
+        #self.visit(ctx.blockStatement())
 
     def visitFunctionParametersAST(self, ctx: MonkeyGrammarParser.FunctionParametersASTContext):
         self.visit(ctx.identifier())

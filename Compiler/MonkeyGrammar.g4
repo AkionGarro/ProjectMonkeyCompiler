@@ -14,7 +14,7 @@ statement:                  LET letStatement                                    
 
 letStatement:               identifier ASSIGN expression ( SEMICOLON | )            #letStatementAST;
 
-returnStatement:            expression ( SEMICOLON | )                              #returnStatementAST;
+returnStatement:            (expression ( SEMICOLON | ) | SEMICOLON | )             #returnStatementAST;
 
 expressionStatement:        expression ( SEMICOLON | )                              #expressionStatementAST;
 
@@ -37,7 +37,7 @@ elementExpression:          primitiveExpression (elementAccess | callExpression 
 
 elementAccess:              BLOCK_OPEN expression BLOCK_CLOSE                       #elementAccessAST;
 
-callExpression:             PAR_OPEN expressionList PAR_CLOSE                       #callExpressionAST;
+callExpression:             PAR_OPEN (expressionList | ) PAR_CLOSE                       #callExpressionAST;
 
 primitiveExpression:        DIGIT                                                   #primitiveExprDigitAST
                             | boolean                                               #primitiveExprBooleanAST
@@ -55,7 +55,9 @@ arrayFunctions: LEN | FIRST | LAST | REST | PUSH                                
 
 arrayLiteral: BLOCK_OPEN expressionList BLOCK_CLOSE                                 #arrayLitetalAST;
 
-functionLiteral: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement            #functionLiteralAST;
+functionLiteral
+locals [datasIndices = [0]]
+: FN PAR_OPEN functionParameters PAR_CLOSE blockStatement                             #functionLiteralAST;
 
 functionParameters: identifier moreIdentifiers                                      #functionParametersAST;
 

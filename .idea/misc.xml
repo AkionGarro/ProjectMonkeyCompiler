@@ -6,7 +6,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/Compiler/MonkeyGrammar.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\bryam\Desktop\ProjectMonkeyCompiler\Compiler\Generated" />
+          <option name="outputDir" value="C:\Users\bryam\Desktop\compi\ProjectMonkeyCompiler\Compiler\Generated" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />

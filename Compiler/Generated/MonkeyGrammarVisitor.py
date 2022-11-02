@@ -1,4 +1,4 @@
-# Generated from C:/Users/bryam/Desktop/ProjectMonkeyCompiler/Compiler\MonkeyGrammar.g4 by ANTLR 4.10.1
+# Generated from C:/Users/bryam/Desktop/compi/ProjectMonkeyCompiler/Compiler\MonkeyGrammar.g4 by ANTLR 4.10.1
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .MonkeyGrammarParser import MonkeyGrammarParser

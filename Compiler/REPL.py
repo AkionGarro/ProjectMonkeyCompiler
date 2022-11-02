@@ -52,6 +52,29 @@ class REPL:
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(REPL, cls).__new__(cls)
-            cls.data = HashMap()
+
+            #las siguientes variables son para el manejo de las datas en visitor
+            cls.data = HashMap()# data general
+            cls.datas_indices = [0]
+
+            #almacena las datas, la principal siempre está.
+            cls.datas = [cls.data]
+
+            #indice el indice disponible para la data, aumenta y decrementa según se empiece y termine una llamada a función
+            cls.indice_datas = 1
+
+            #pila general
             cls.stack = []
         return cls.instance
+
+    def add_data(self, data):
+        #se aumenta el indice de datas para que la siguiente data se guarde en la siguiente posición
+        self.indice_datas += 1
+        #se crea una nueva data y se agrega a la lista de datas
+        self.datas.append(data)
+
+    def del_data(self):
+        #se decrementa el indice de datas para que la siguiente data se guarde en la siguiente p
+        self.indice_datas -= 1
+        #se elimina la data actual de la lista de datas
+        self.datas.pop()
