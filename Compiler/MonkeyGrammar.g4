@@ -97,7 +97,7 @@ COMMENT : '/*'.*?'*/'->skip; // Match "/*" stuff "*/"
 
 
 //Constante para cadena de caracteres
-STRING : '"' .*? '"' ;
+STRING : '"' .*? '"' | '\'' .*? '\'' ;
 INTEGER: 'integer';
 
 //Operadores relacionales

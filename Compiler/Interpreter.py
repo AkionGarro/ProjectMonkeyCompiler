@@ -301,7 +301,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprStringAST(self, ctx: MonkeyGrammarParser.PrimitiveExprStringASTContext):
-        self.replVisitor.stack.append(ctx.STRING().symbol.text)
+        self.replVisitor.stack.append(ctx.start.text)
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprIdAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIdASTContext):
