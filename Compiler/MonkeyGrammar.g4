@@ -74,7 +74,7 @@ expressionList: expression moreExpressions                                      
 
 moreExpressions: (COMMA expression)*                                                #moreExpressionsAST;
 
-printExpression: PUTS PAR_OPEN expression PAR_CLOSE                                 #printExpressionAST;
+printExpression: PUTS PAR_OPEN expressionList PAR_CLOSE                             #printExpressionAST;
 
 ifExpression: IF expression blockStatement (ELSE blockStatement | )                 #ifExpressionAST;
 

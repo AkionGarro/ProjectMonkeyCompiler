@@ -85,7 +85,7 @@ def serializedATN():
         1,0,0,0,208,204,1,0,0,0,208,207,1,0,0,0,209,47,1,0,0,0,210,211,5,
         42,0,0,211,213,3,10,5,0,212,210,1,0,0,0,213,216,1,0,0,0,214,212,
         1,0,0,0,214,215,1,0,0,0,215,49,1,0,0,0,216,214,1,0,0,0,217,218,5,
-        50,0,0,218,219,5,31,0,0,219,220,3,10,5,0,220,221,5,32,0,0,221,51,
+        50,0,0,218,219,5,31,0,0,219,220,3,46,23,0,220,221,5,32,0,0,221,51,
         1,0,0,0,222,223,5,47,0,0,223,224,3,10,5,0,224,228,3,54,27,0,225,
         226,5,49,0,0,226,229,3,54,27,0,227,229,1,0,0,0,228,225,1,0,0,0,228,
         227,1,0,0,0,229,53,1,0,0,0,230,234,5,29,0,0,231,233,3,2,1,0,232,
@@ -2622,8 +2622,8 @@ class MonkeyGrammarParser ( Parser ):
             return self.getToken(MonkeyGrammarParser.PUTS, 0)
         def PAR_OPEN(self):
             return self.getToken(MonkeyGrammarParser.PAR_OPEN, 0)
-        def expression(self):
-            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionContext,0)
+        def expressionList(self):
+            return self.getTypedRuleContext(MonkeyGrammarParser.ExpressionListContext,0)
 
         def PAR_CLOSE(self):
             return self.getToken(MonkeyGrammarParser.PAR_CLOSE, 0)
@@ -2656,7 +2656,7 @@ class MonkeyGrammarParser ( Parser ):
             self.state = 218
             self.match(MonkeyGrammarParser.PAR_OPEN)
             self.state = 219
-            self.expression()
+            self.expressionList()
             self.state = 220
             self.match(MonkeyGrammarParser.PAR_CLOSE)
         except RecognitionException as re:

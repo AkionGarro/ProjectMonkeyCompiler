@@ -491,13 +491,15 @@ class MyVisitor(MonkeyGrammarVisitor):
 
     def visitPrintExpressionAST(self, ctx: MonkeyGrammarParser.PrintExpressionASTContext):
         try:
-            self.visit(ctx.expression())
+            self.visit(ctx.expressionList())
             info = self.replVisitor.stack.pop()
-            if type(info) is str:
-                #info = info[1:-1]
-                self.addConsoleResult(info)
-            else:
-                self.addConsoleResult(str(info))
+            res = ""
+            for i in range(0, len(info)):
+                if type(info[i]) is str:
+                    res += info[i][1:-1] + " "
+                else:
+                    res += str(info[i]) + " "
+            self.addConsoleResult(res)
         except:
             self.addError("<PrintExpr> Error = (No se pudo realizar)")
 
