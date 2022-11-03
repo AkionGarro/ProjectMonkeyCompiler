@@ -94,6 +94,11 @@ class MonkeyGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprDigitPointAST.
+    def visitPrimitiveExprDigitPointAST(self, ctx:MonkeyGrammarParser.PrimitiveExprDigitPointASTContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprBooleanAST.
     def visitPrimitiveExprBooleanAST(self, ctx:MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
         return self.visitChildren(ctx)

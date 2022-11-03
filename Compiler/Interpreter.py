@@ -120,7 +120,6 @@ class MyVisitor(MonkeyGrammarVisitor):
 
     def visitAdditionFactorAST(self, ctx: MonkeyGrammarParser.AdditionFactorASTContext):
         index = 0
-        flag = True
 
         for i in range(0, len(ctx.multiplicationExpression())):
             self.visit(ctx.multiplicationExpression(i))
@@ -129,21 +128,38 @@ class MyVisitor(MonkeyGrammarVisitor):
             try:
                 op2 = (self.replVisitor.stack.pop())
                 op1 = (self.replVisitor.stack.pop())
-                if type(op1) != int or type(op2) != int:
-                    self.addError("<Addition> Error = (Solo se permite int)")
-                    flag=False
-                if type(op1) != type(op2):
+                if (type(op1) == str and type(op2) == str):
+                    if token.text == "+":
+                        flagOperator = (op1[0:-1] + op2[1:])
+                        self.replVisitor.stack.append(flagOperator)
+                    else:
+                        self.addError("<Addition> Error = (No puede restar strings) "+ op1 + " - " + op2)
+                elif (type(op1) == int and type(op2) == int):
+                    if token.text == "+":
+                        self.replVisitor.stack.append(op1 + op2)
+                    else:
+                        self.replVisitor.stack.append(op1 - op2)
+                elif (type(op1) == int and type(op2) == float):
+                    if token.text == "+":
+                        self.replVisitor.stack.append(float(op1) + op2)
+                    else:
+                        self.replVisitor.stack.append(float(op1) - op2)
+                elif (type(op1) == float and type(op2) == int):
+                    if token.text == "+":
+                        self.replVisitor.stack.append(op1 + float(op2))
+                    else:
+                        self.replVisitor.stack.append(op1 - float(op2))
+                elif (type(op1) == float and type(op2) == float):
+                    if token.text == "+":
+                        self.replVisitor.stack.append(op1 + op2)
+                    else:
+                        self.replVisitor.stack.append(op1 - op2)
+                else:
                     self.addError("<Addition> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
-                    flag=False
+
             except:
                 self.addError("<Addition> Error = (Error en la pila)")
-                flag =False
 
-            if flag==True:
-                if token.text == "+":
-                    self.replVisitor.stack.append((int)(op1 + op2))
-                elif token.text == "-":
-                    self.replVisitor.stack.append((int)(op1 - op2))
 
     def visitMultiplicationExpressionAST(self, ctx: MonkeyGrammarParser.MultiplicationExpressionASTContext):
         self.visit(ctx.elementExpression())
@@ -293,13 +309,13 @@ class MyVisitor(MonkeyGrammarVisitor):
 
 
     def visitPrimitiveExprDigitAST(self, ctx: MonkeyGrammarParser.PrimitiveExprDigitASTContext):
-        if '.' in ctx.getText():
-            self.replVisitor.stack.append(float(ctx.getText()))
-        else:
-            self.replVisitor.stack.append(int(ctx.getText()))
+
+        self.replVisitor.stack.append(int(ctx.getText()))
 
         return self.visitChildren(ctx)
-
+    def visitPrimitiveExprDigitPointAST(self, ctx:MonkeyGrammarParser.PrimitiveExprDigitPointASTContext):
+        self.replVisitor.stack.append(float(ctx.getText()))
+        return self.visitChildren(ctx)
     def visitPrimitiveExprStringAST(self, ctx: MonkeyGrammarParser.PrimitiveExprStringASTContext):
         self.replVisitor.stack.append(ctx.start.text)
         return self.visitChildren(ctx)
@@ -319,7 +335,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         if (object != None):
             self.replVisitor.stack.append(object)
         else:
-            self.addError("<PrimitiveExprId> Error = (No se encuentra el id ", str(ctx.identifier()), ")")
+            self.addError("<PrimitiveExprId> Error = (No se encuentra el id " + str(ctx.identifier()) + ")")
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprBooleanAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBooleanASTContext):

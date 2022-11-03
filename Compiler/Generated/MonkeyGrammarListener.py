@@ -161,6 +161,15 @@ class MonkeyGrammarListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MonkeyGrammarParser#primitiveExprDigitPointAST.
+    def enterPrimitiveExprDigitPointAST(self, ctx:MonkeyGrammarParser.PrimitiveExprDigitPointASTContext):
+        pass
+
+    # Exit a parse tree produced by MonkeyGrammarParser#primitiveExprDigitPointAST.
+    def exitPrimitiveExprDigitPointAST(self, ctx:MonkeyGrammarParser.PrimitiveExprDigitPointASTContext):
+        pass
+
+
     # Enter a parse tree produced by MonkeyGrammarParser#primitiveExprBooleanAST.
     def enterPrimitiveExprBooleanAST(self, ctx:MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
         pass

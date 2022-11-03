@@ -40,6 +40,7 @@ elementAccess:              BLOCK_OPEN expression BLOCK_CLOSE                   
 callExpression:             PAR_OPEN (expressionList | ) PAR_CLOSE                  #callExpressionAST;
 
 primitiveExpression:        DIGIT                                                   #primitiveExprDigitAST
+                            | DIGIT_POINT                                           #primitiveExprDigitPointAST
                             | boolean                                               #primitiveExprBooleanAST
                             | STRING                                                #primitiveExprStringAST
                             | identifier                                            #primitiveExprIdAST
@@ -167,6 +168,9 @@ FN: 'fn';
 LETTER: [a-zA-Z_]*;
 
 DIGIT: [0-9]*;
+
+//digig with point
+DIGIT_POINT: [0-9]*'.'[0-9]*;
 
 CHARIN: [a-zA-Z0-9];
 

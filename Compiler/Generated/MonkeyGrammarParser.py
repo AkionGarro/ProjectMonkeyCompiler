@@ -10,7 +10,7 @@ else:
 
 def serializedATN():
     return [
-        4,1,55,253,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,56,254,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
         7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,
@@ -22,24 +22,24 @@ def serializedATN():
         10,122,8,10,10,10,12,10,125,9,10,1,11,1,11,1,11,1,11,3,11,131,8,
         11,1,12,1,12,1,12,1,12,1,13,1,13,1,13,3,13,140,8,13,1,13,1,13,1,
         14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,
-        14,1,14,1,14,1,14,1,14,3,14,162,8,14,1,15,1,15,1,16,1,16,1,16,1,
-        16,1,17,1,17,1,17,1,17,1,17,1,17,1,18,1,18,1,18,1,18,3,18,180,8,
-        18,1,19,1,19,5,19,184,8,19,10,19,12,19,187,9,19,1,20,1,20,1,20,1,
-        20,1,20,1,21,1,21,1,21,1,21,1,22,1,22,5,22,200,8,22,10,22,12,22,
-        203,9,22,1,23,1,23,1,23,1,23,3,23,209,8,23,1,24,1,24,5,24,213,8,
-        24,10,24,12,24,216,9,24,1,25,1,25,1,25,1,25,1,25,1,26,1,26,1,26,
-        1,26,1,26,1,26,3,26,229,8,26,1,27,1,27,5,27,233,8,27,10,27,12,27,
-        236,9,27,1,27,1,27,1,28,1,28,5,28,242,8,28,10,28,12,28,245,9,28,
+        14,1,14,1,14,1,14,1,14,1,14,3,14,163,8,14,1,15,1,15,1,16,1,16,1,
+        16,1,16,1,17,1,17,1,17,1,17,1,17,1,17,1,18,1,18,1,18,1,18,3,18,181,
+        8,18,1,19,1,19,5,19,185,8,19,10,19,12,19,188,9,19,1,20,1,20,1,20,
+        1,20,1,20,1,21,1,21,1,21,1,21,1,22,1,22,5,22,201,8,22,10,22,12,22,
+        204,9,22,1,23,1,23,1,23,1,23,3,23,210,8,23,1,24,1,24,5,24,214,8,
+        24,10,24,12,24,217,9,24,1,25,1,25,1,25,1,25,1,25,1,26,1,26,1,26,
+        1,26,1,26,1,26,3,26,230,8,26,1,27,1,27,5,27,234,8,27,10,27,12,27,
+        237,9,27,1,27,1,27,1,28,1,28,5,28,243,8,28,10,28,12,28,246,9,28,
         1,29,1,29,1,30,1,30,1,30,1,30,1,30,0,0,31,0,2,4,6,8,10,12,14,16,
         18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,
-        0,6,1,0,5,10,1,0,11,12,1,0,13,14,1,0,33,37,1,0,52,53,1,0,45,46,253,
+        0,6,1,0,5,10,1,0,11,12,1,0,13,14,1,0,33,37,1,0,52,53,1,0,45,46,255,
         0,65,1,0,0,0,2,77,1,0,0,0,4,79,1,0,0,0,6,86,1,0,0,0,8,91,1,0,0,0,
         10,96,1,0,0,0,12,103,1,0,0,0,14,106,1,0,0,0,16,113,1,0,0,0,18,116,
         1,0,0,0,20,123,1,0,0,0,22,126,1,0,0,0,24,132,1,0,0,0,26,136,1,0,
-        0,0,28,161,1,0,0,0,30,163,1,0,0,0,32,165,1,0,0,0,34,169,1,0,0,0,
-        36,179,1,0,0,0,38,185,1,0,0,0,40,188,1,0,0,0,42,193,1,0,0,0,44,201,
-        1,0,0,0,46,208,1,0,0,0,48,214,1,0,0,0,50,217,1,0,0,0,52,222,1,0,
-        0,0,54,230,1,0,0,0,56,239,1,0,0,0,58,246,1,0,0,0,60,248,1,0,0,0,
+        0,0,28,162,1,0,0,0,30,164,1,0,0,0,32,166,1,0,0,0,34,170,1,0,0,0,
+        36,180,1,0,0,0,38,186,1,0,0,0,40,189,1,0,0,0,42,194,1,0,0,0,44,202,
+        1,0,0,0,46,209,1,0,0,0,48,215,1,0,0,0,50,218,1,0,0,0,52,223,1,0,
+        0,0,54,231,1,0,0,0,56,240,1,0,0,0,58,247,1,0,0,0,60,249,1,0,0,0,
         62,64,3,2,1,0,63,62,1,0,0,0,64,67,1,0,0,0,65,63,1,0,0,0,65,66,1,
         0,0,0,66,1,1,0,0,0,67,65,1,0,0,0,68,69,5,38,0,0,69,78,3,4,2,0,70,
         74,5,39,0,0,71,75,3,6,3,0,72,75,5,43,0,0,73,75,1,0,0,0,74,71,1,0,
@@ -62,40 +62,41 @@ def serializedATN():
         1,0,0,0,131,23,1,0,0,0,132,133,5,27,0,0,133,134,3,10,5,0,134,135,
         5,28,0,0,135,25,1,0,0,0,136,139,5,31,0,0,137,140,3,46,23,0,138,140,
         1,0,0,0,139,137,1,0,0,0,139,138,1,0,0,0,140,141,1,0,0,0,141,142,
-        5,32,0,0,142,27,1,0,0,0,143,162,5,53,0,0,144,162,3,58,29,0,145,162,
-        5,3,0,0,146,162,3,56,28,0,147,148,5,31,0,0,148,149,3,10,5,0,149,
-        150,5,32,0,0,150,162,1,0,0,0,151,162,3,32,16,0,152,153,3,30,15,0,
-        153,154,5,31,0,0,154,155,3,46,23,0,155,156,5,32,0,0,156,162,1,0,
-        0,0,157,162,3,34,17,0,158,162,3,40,20,0,159,162,3,50,25,0,160,162,
-        3,52,26,0,161,143,1,0,0,0,161,144,1,0,0,0,161,145,1,0,0,0,161,146,
-        1,0,0,0,161,147,1,0,0,0,161,151,1,0,0,0,161,152,1,0,0,0,161,157,
-        1,0,0,0,161,158,1,0,0,0,161,159,1,0,0,0,161,160,1,0,0,0,162,29,1,
-        0,0,0,163,164,7,3,0,0,164,31,1,0,0,0,165,166,5,27,0,0,166,167,3,
-        46,23,0,167,168,5,28,0,0,168,33,1,0,0,0,169,170,5,51,0,0,170,171,
-        5,31,0,0,171,172,3,36,18,0,172,173,5,32,0,0,173,174,3,54,27,0,174,
-        35,1,0,0,0,175,176,3,56,28,0,176,177,3,38,19,0,177,180,1,0,0,0,178,
-        180,1,0,0,0,179,175,1,0,0,0,179,178,1,0,0,0,180,37,1,0,0,0,181,182,
-        5,42,0,0,182,184,3,56,28,0,183,181,1,0,0,0,184,187,1,0,0,0,185,183,
-        1,0,0,0,185,186,1,0,0,0,186,39,1,0,0,0,187,185,1,0,0,0,188,189,5,
-        29,0,0,189,190,3,42,21,0,190,191,3,44,22,0,191,192,5,30,0,0,192,
-        41,1,0,0,0,193,194,3,10,5,0,194,195,5,44,0,0,195,196,3,10,5,0,196,
-        43,1,0,0,0,197,198,5,42,0,0,198,200,3,42,21,0,199,197,1,0,0,0,200,
-        203,1,0,0,0,201,199,1,0,0,0,201,202,1,0,0,0,202,45,1,0,0,0,203,201,
-        1,0,0,0,204,205,3,10,5,0,205,206,3,48,24,0,206,209,1,0,0,0,207,209,
-        1,0,0,0,208,204,1,0,0,0,208,207,1,0,0,0,209,47,1,0,0,0,210,211,5,
-        42,0,0,211,213,3,10,5,0,212,210,1,0,0,0,213,216,1,0,0,0,214,212,
-        1,0,0,0,214,215,1,0,0,0,215,49,1,0,0,0,216,214,1,0,0,0,217,218,5,
-        50,0,0,218,219,5,31,0,0,219,220,3,46,23,0,220,221,5,32,0,0,221,51,
-        1,0,0,0,222,223,5,47,0,0,223,224,3,10,5,0,224,228,3,54,27,0,225,
-        226,5,49,0,0,226,229,3,54,27,0,227,229,1,0,0,0,228,225,1,0,0,0,228,
-        227,1,0,0,0,229,53,1,0,0,0,230,234,5,29,0,0,231,233,3,2,1,0,232,
-        231,1,0,0,0,233,236,1,0,0,0,234,232,1,0,0,0,234,235,1,0,0,0,235,
-        237,1,0,0,0,236,234,1,0,0,0,237,238,5,30,0,0,238,55,1,0,0,0,239,
-        243,5,52,0,0,240,242,7,4,0,0,241,240,1,0,0,0,242,245,1,0,0,0,243,
-        241,1,0,0,0,243,244,1,0,0,0,244,57,1,0,0,0,245,243,1,0,0,0,246,247,
-        7,5,0,0,247,59,1,0,0,0,248,249,5,41,0,0,249,250,5,54,0,0,250,251,
-        5,41,0,0,251,61,1,0,0,0,20,65,74,77,84,89,94,103,113,123,130,139,
-        161,179,185,201,208,214,228,234,243
+        5,32,0,0,142,27,1,0,0,0,143,163,5,53,0,0,144,163,5,54,0,0,145,163,
+        3,58,29,0,146,163,5,3,0,0,147,163,3,56,28,0,148,149,5,31,0,0,149,
+        150,3,10,5,0,150,151,5,32,0,0,151,163,1,0,0,0,152,163,3,32,16,0,
+        153,154,3,30,15,0,154,155,5,31,0,0,155,156,3,46,23,0,156,157,5,32,
+        0,0,157,163,1,0,0,0,158,163,3,34,17,0,159,163,3,40,20,0,160,163,
+        3,50,25,0,161,163,3,52,26,0,162,143,1,0,0,0,162,144,1,0,0,0,162,
+        145,1,0,0,0,162,146,1,0,0,0,162,147,1,0,0,0,162,148,1,0,0,0,162,
+        152,1,0,0,0,162,153,1,0,0,0,162,158,1,0,0,0,162,159,1,0,0,0,162,
+        160,1,0,0,0,162,161,1,0,0,0,163,29,1,0,0,0,164,165,7,3,0,0,165,31,
+        1,0,0,0,166,167,5,27,0,0,167,168,3,46,23,0,168,169,5,28,0,0,169,
+        33,1,0,0,0,170,171,5,51,0,0,171,172,5,31,0,0,172,173,3,36,18,0,173,
+        174,5,32,0,0,174,175,3,54,27,0,175,35,1,0,0,0,176,177,3,56,28,0,
+        177,178,3,38,19,0,178,181,1,0,0,0,179,181,1,0,0,0,180,176,1,0,0,
+        0,180,179,1,0,0,0,181,37,1,0,0,0,182,183,5,42,0,0,183,185,3,56,28,
+        0,184,182,1,0,0,0,185,188,1,0,0,0,186,184,1,0,0,0,186,187,1,0,0,
+        0,187,39,1,0,0,0,188,186,1,0,0,0,189,190,5,29,0,0,190,191,3,42,21,
+        0,191,192,3,44,22,0,192,193,5,30,0,0,193,41,1,0,0,0,194,195,3,10,
+        5,0,195,196,5,44,0,0,196,197,3,10,5,0,197,43,1,0,0,0,198,199,5,42,
+        0,0,199,201,3,42,21,0,200,198,1,0,0,0,201,204,1,0,0,0,202,200,1,
+        0,0,0,202,203,1,0,0,0,203,45,1,0,0,0,204,202,1,0,0,0,205,206,3,10,
+        5,0,206,207,3,48,24,0,207,210,1,0,0,0,208,210,1,0,0,0,209,205,1,
+        0,0,0,209,208,1,0,0,0,210,47,1,0,0,0,211,212,5,42,0,0,212,214,3,
+        10,5,0,213,211,1,0,0,0,214,217,1,0,0,0,215,213,1,0,0,0,215,216,1,
+        0,0,0,216,49,1,0,0,0,217,215,1,0,0,0,218,219,5,50,0,0,219,220,5,
+        31,0,0,220,221,3,46,23,0,221,222,5,32,0,0,222,51,1,0,0,0,223,224,
+        5,47,0,0,224,225,3,10,5,0,225,229,3,54,27,0,226,227,5,49,0,0,227,
+        230,3,54,27,0,228,230,1,0,0,0,229,226,1,0,0,0,229,228,1,0,0,0,230,
+        53,1,0,0,0,231,235,5,29,0,0,232,234,3,2,1,0,233,232,1,0,0,0,234,
+        237,1,0,0,0,235,233,1,0,0,0,235,236,1,0,0,0,236,238,1,0,0,0,237,
+        235,1,0,0,0,238,239,5,30,0,0,239,55,1,0,0,0,240,244,5,52,0,0,241,
+        243,7,4,0,0,242,241,1,0,0,0,243,246,1,0,0,0,244,242,1,0,0,0,244,
+        245,1,0,0,0,245,57,1,0,0,0,246,244,1,0,0,0,247,248,7,5,0,0,248,59,
+        1,0,0,0,249,250,5,41,0,0,250,251,5,55,0,0,251,252,5,41,0,0,252,61,
+        1,0,0,0,20,65,74,77,84,89,94,103,113,123,130,139,162,180,186,202,
+        209,215,229,235,244
     ]
 
 class MonkeyGrammarParser ( Parser ):
@@ -129,7 +130,7 @@ class MonkeyGrammarParser ( Parser ):
                       "LEN", "FIRST", "LAST", "REST", "PUSH", "LET", "RETURN", 
                       "DOT", "QUOTE", "COMMA", "SEMICOLON", "COLON", "TRUE", 
                       "FALSE", "IF", "ELSEIF", "ELSE", "PUTS", "FN", "LETTER", 
-                      "DIGIT", "CHARIN", "WS" ]
+                      "DIGIT", "DIGIT_POINT", "CHARIN", "WS" ]
 
     RULE_program = 0
     RULE_statement = 1
@@ -227,8 +228,9 @@ class MonkeyGrammarParser ( Parser ):
     FN=51
     LETTER=52
     DIGIT=53
-    CHARIN=54
-    WS=55
+    DIGIT_POINT=54
+    CHARIN=55
+    WS=56
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -296,7 +298,7 @@ class MonkeyGrammarParser ( Parser ):
             self.state = 65
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << MonkeyGrammarParser.STRING) | (1 << MonkeyGrammarParser.BLOCK_OPEN) | (1 << MonkeyGrammarParser.BRACKET_OPEN) | (1 << MonkeyGrammarParser.PAR_OPEN) | (1 << MonkeyGrammarParser.LEN) | (1 << MonkeyGrammarParser.FIRST) | (1 << MonkeyGrammarParser.LAST) | (1 << MonkeyGrammarParser.REST) | (1 << MonkeyGrammarParser.PUSH) | (1 << MonkeyGrammarParser.LET) | (1 << MonkeyGrammarParser.RETURN) | (1 << MonkeyGrammarParser.TRUE) | (1 << MonkeyGrammarParser.FALSE) | (1 << MonkeyGrammarParser.IF) | (1 << MonkeyGrammarParser.PUTS) | (1 << MonkeyGrammarParser.FN) | (1 << MonkeyGrammarParser.LETTER) | (1 << MonkeyGrammarParser.DIGIT))) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << MonkeyGrammarParser.STRING) | (1 << MonkeyGrammarParser.BLOCK_OPEN) | (1 << MonkeyGrammarParser.BRACKET_OPEN) | (1 << MonkeyGrammarParser.PAR_OPEN) | (1 << MonkeyGrammarParser.LEN) | (1 << MonkeyGrammarParser.FIRST) | (1 << MonkeyGrammarParser.LAST) | (1 << MonkeyGrammarParser.REST) | (1 << MonkeyGrammarParser.PUSH) | (1 << MonkeyGrammarParser.LET) | (1 << MonkeyGrammarParser.RETURN) | (1 << MonkeyGrammarParser.TRUE) | (1 << MonkeyGrammarParser.FALSE) | (1 << MonkeyGrammarParser.IF) | (1 << MonkeyGrammarParser.PUTS) | (1 << MonkeyGrammarParser.FN) | (1 << MonkeyGrammarParser.LETTER) | (1 << MonkeyGrammarParser.DIGIT) | (1 << MonkeyGrammarParser.DIGIT_POINT))) != 0):
                 self.state = 62
                 self.statement()
                 self.state = 67
@@ -450,7 +452,7 @@ class MonkeyGrammarParser ( Parser ):
 
 
                 pass
-            elif token in [MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT]:
+            elif token in [MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT, MonkeyGrammarParser.DIGIT_POINT]:
                 localctx = MonkeyGrammarParser.StatementExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 76
@@ -538,7 +540,7 @@ class MonkeyGrammarParser ( Parser ):
                 self.state = 82
                 self.match(MonkeyGrammarParser.SEMICOLON)
                 pass
-            elif token in [MonkeyGrammarParser.EOF, MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.BRACKET_CLOSE, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.LET, MonkeyGrammarParser.RETURN, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT]:
+            elif token in [MonkeyGrammarParser.EOF, MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.BRACKET_CLOSE, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.LET, MonkeyGrammarParser.RETURN, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT, MonkeyGrammarParser.DIGIT_POINT]:
                 pass
             else:
                 raise NoViableAltException(self)
@@ -613,7 +615,7 @@ class MonkeyGrammarParser ( Parser ):
                 self.state = 87
                 self.match(MonkeyGrammarParser.SEMICOLON)
                 pass
-            elif token in [MonkeyGrammarParser.EOF, MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.BRACKET_CLOSE, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.LET, MonkeyGrammarParser.RETURN, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT]:
+            elif token in [MonkeyGrammarParser.EOF, MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.BRACKET_CLOSE, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.LET, MonkeyGrammarParser.RETURN, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT, MonkeyGrammarParser.DIGIT_POINT]:
                 pass
             else:
                 raise NoViableAltException(self)
@@ -688,7 +690,7 @@ class MonkeyGrammarParser ( Parser ):
                 self.state = 92
                 self.match(MonkeyGrammarParser.SEMICOLON)
                 pass
-            elif token in [MonkeyGrammarParser.EOF, MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.BRACKET_CLOSE, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.LET, MonkeyGrammarParser.RETURN, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT]:
+            elif token in [MonkeyGrammarParser.EOF, MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.BRACKET_CLOSE, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.LET, MonkeyGrammarParser.RETURN, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT, MonkeyGrammarParser.DIGIT_POINT]:
                 pass
             else:
                 raise NoViableAltException(self)
@@ -1496,6 +1498,30 @@ class MonkeyGrammarParser ( Parser ):
                 return visitor.visitChildren(self)
 
 
+    class PrimitiveExprDigitPointASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def DIGIT_POINT(self):
+            return self.getToken(MonkeyGrammarParser.DIGIT_POINT, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterPrimitiveExprDigitPointAST" ):
+                listener.enterPrimitiveExprDigitPointAST(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitPrimitiveExprDigitPointAST" ):
+                listener.exitPrimitiveExprDigitPointAST(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimitiveExprDigitPointAST" ):
+                return visitor.visitPrimitiveExprDigitPointAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
     class PrimitiveExprArrLitASTContext(PrimitiveExpressionContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a MonkeyGrammarParser.PrimitiveExpressionContext
@@ -1729,7 +1755,7 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.PrimitiveExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 28, self.RULE_primitiveExpression)
         try:
-            self.state = 161
+            self.state = 162
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [MonkeyGrammarParser.DIGIT]:
@@ -1738,74 +1764,80 @@ class MonkeyGrammarParser ( Parser ):
                 self.state = 143
                 self.match(MonkeyGrammarParser.DIGIT)
                 pass
-            elif token in [MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE]:
-                localctx = MonkeyGrammarParser.PrimitiveExprBooleanASTContext(self, localctx)
+            elif token in [MonkeyGrammarParser.DIGIT_POINT]:
+                localctx = MonkeyGrammarParser.PrimitiveExprDigitPointASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 144
+                self.match(MonkeyGrammarParser.DIGIT_POINT)
+                pass
+            elif token in [MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE]:
+                localctx = MonkeyGrammarParser.PrimitiveExprBooleanASTContext(self, localctx)
+                self.enterOuterAlt(localctx, 3)
+                self.state = 145
                 self.boolean()
                 pass
             elif token in [MonkeyGrammarParser.STRING]:
                 localctx = MonkeyGrammarParser.PrimitiveExprStringASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 3)
-                self.state = 145
+                self.enterOuterAlt(localctx, 4)
+                self.state = 146
                 self.match(MonkeyGrammarParser.STRING)
                 pass
             elif token in [MonkeyGrammarParser.LETTER]:
                 localctx = MonkeyGrammarParser.PrimitiveExprIdASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 4)
-                self.state = 146
+                self.enterOuterAlt(localctx, 5)
+                self.state = 147
                 self.identifier()
                 pass
             elif token in [MonkeyGrammarParser.PAR_OPEN]:
                 localctx = MonkeyGrammarParser.PrimitiveExprBlockExprASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 5)
-                self.state = 147
-                self.match(MonkeyGrammarParser.PAR_OPEN)
+                self.enterOuterAlt(localctx, 6)
                 self.state = 148
-                self.expression()
+                self.match(MonkeyGrammarParser.PAR_OPEN)
                 self.state = 149
+                self.expression()
+                self.state = 150
                 self.match(MonkeyGrammarParser.PAR_CLOSE)
                 pass
             elif token in [MonkeyGrammarParser.BLOCK_OPEN]:
                 localctx = MonkeyGrammarParser.PrimitiveExprArrLitASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 6)
-                self.state = 151
+                self.enterOuterAlt(localctx, 7)
+                self.state = 152
                 self.arrayLiteral()
                 pass
             elif token in [MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH]:
                 localctx = MonkeyGrammarParser.PrimitiveExprArrFuncASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 7)
-                self.state = 152
-                self.arrayFunctions()
+                self.enterOuterAlt(localctx, 8)
                 self.state = 153
-                self.match(MonkeyGrammarParser.PAR_OPEN)
+                self.arrayFunctions()
                 self.state = 154
-                self.expressionList()
+                self.match(MonkeyGrammarParser.PAR_OPEN)
                 self.state = 155
+                self.expressionList()
+                self.state = 156
                 self.match(MonkeyGrammarParser.PAR_CLOSE)
                 pass
             elif token in [MonkeyGrammarParser.FN]:
                 localctx = MonkeyGrammarParser.PrimitiveExprFuncASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 8)
-                self.state = 157
+                self.enterOuterAlt(localctx, 9)
+                self.state = 158
                 self.functionLiteral()
                 pass
             elif token in [MonkeyGrammarParser.BRACKET_OPEN]:
                 localctx = MonkeyGrammarParser.PrimitiveExprHashASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 9)
-                self.state = 158
+                self.enterOuterAlt(localctx, 10)
+                self.state = 159
                 self.hashLiteral()
                 pass
             elif token in [MonkeyGrammarParser.PUTS]:
                 localctx = MonkeyGrammarParser.PrimitiveExprPrintASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 10)
-                self.state = 159
+                self.enterOuterAlt(localctx, 11)
+                self.state = 160
                 self.printExpression()
                 pass
             elif token in [MonkeyGrammarParser.IF]:
                 localctx = MonkeyGrammarParser.PrimitiveExprIfASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 11)
-                self.state = 160
+                self.enterOuterAlt(localctx, 12)
+                self.state = 161
                 self.ifExpression()
                 pass
             else:
@@ -1869,7 +1901,7 @@ class MonkeyGrammarParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 163
+            self.state = 164
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << MonkeyGrammarParser.LEN) | (1 << MonkeyGrammarParser.FIRST) | (1 << MonkeyGrammarParser.LAST) | (1 << MonkeyGrammarParser.REST) | (1 << MonkeyGrammarParser.PUSH))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -1939,11 +1971,11 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.ArrayLitetalASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 165
-            self.match(MonkeyGrammarParser.BLOCK_OPEN)
             self.state = 166
-            self.expressionList()
+            self.match(MonkeyGrammarParser.BLOCK_OPEN)
             self.state = 167
+            self.expressionList()
+            self.state = 168
             self.match(MonkeyGrammarParser.BLOCK_CLOSE)
         except RecognitionException as re:
             localctx.exception = re
@@ -2015,15 +2047,15 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.FunctionLiteralASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 169
-            self.match(MonkeyGrammarParser.FN)
             self.state = 170
-            self.match(MonkeyGrammarParser.PAR_OPEN)
+            self.match(MonkeyGrammarParser.FN)
             self.state = 171
-            self.functionParameters()
+            self.match(MonkeyGrammarParser.PAR_OPEN)
             self.state = 172
-            self.match(MonkeyGrammarParser.PAR_CLOSE)
+            self.functionParameters()
             self.state = 173
+            self.match(MonkeyGrammarParser.PAR_CLOSE)
+            self.state = 174
             self.blockStatement()
         except RecognitionException as re:
             localctx.exception = re
@@ -2087,13 +2119,13 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.FunctionParametersASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 179
+            self.state = 180
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [MonkeyGrammarParser.LETTER]:
-                self.state = 175
-                self.identifier()
                 self.state = 176
+                self.identifier()
+                self.state = 177
                 self.moreIdentifiers()
                 pass
             elif token in [MonkeyGrammarParser.PAR_CLOSE]:
@@ -2169,15 +2201,15 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.MoreIdentifiersASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 185
+            self.state = 186
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==MonkeyGrammarParser.COMMA:
-                self.state = 181
-                self.match(MonkeyGrammarParser.COMMA)
                 self.state = 182
+                self.match(MonkeyGrammarParser.COMMA)
+                self.state = 183
                 self.identifier()
-                self.state = 187
+                self.state = 188
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2247,13 +2279,13 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.HashLiteralASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 188
-            self.match(MonkeyGrammarParser.BRACKET_OPEN)
             self.state = 189
-            self.hashContent()
+            self.match(MonkeyGrammarParser.BRACKET_OPEN)
             self.state = 190
-            self.moreHashContent()
+            self.hashContent()
             self.state = 191
+            self.moreHashContent()
+            self.state = 192
             self.match(MonkeyGrammarParser.BRACKET_CLOSE)
         except RecognitionException as re:
             localctx.exception = re
@@ -2319,11 +2351,11 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.HashContentASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 193
-            self.expression()
             self.state = 194
-            self.match(MonkeyGrammarParser.COLON)
+            self.expression()
             self.state = 195
+            self.match(MonkeyGrammarParser.COLON)
+            self.state = 196
             self.expression()
         except RecognitionException as re:
             localctx.exception = re
@@ -2393,15 +2425,15 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.MoreHashContentASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 201
+            self.state = 202
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==MonkeyGrammarParser.COMMA:
-                self.state = 197
-                self.match(MonkeyGrammarParser.COMMA)
                 self.state = 198
+                self.match(MonkeyGrammarParser.COMMA)
+                self.state = 199
                 self.hashContent()
-                self.state = 203
+                self.state = 204
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2487,15 +2519,15 @@ class MonkeyGrammarParser ( Parser ):
         localctx = MonkeyGrammarParser.ExpressionListContext(self, self._ctx, self.state)
         self.enterRule(localctx, 46, self.RULE_expressionList)
         try:
-            self.state = 208
+            self.state = 209
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT]:
+            if token in [MonkeyGrammarParser.STRING, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT, MonkeyGrammarParser.DIGIT_POINT]:
                 localctx = MonkeyGrammarParser.ExpressionListASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 204
-                self.expression()
                 self.state = 205
+                self.expression()
+                self.state = 206
                 self.moreExpressions()
                 pass
             elif token in [MonkeyGrammarParser.BLOCK_CLOSE, MonkeyGrammarParser.PAR_CLOSE]:
@@ -2574,15 +2606,15 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.MoreExpressionsASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 214
+            self.state = 215
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==MonkeyGrammarParser.COMMA:
-                self.state = 210
-                self.match(MonkeyGrammarParser.COMMA)
                 self.state = 211
+                self.match(MonkeyGrammarParser.COMMA)
+                self.state = 212
                 self.expression()
-                self.state = 216
+                self.state = 217
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2651,13 +2683,13 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.PrintExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 217
-            self.match(MonkeyGrammarParser.PUTS)
             self.state = 218
-            self.match(MonkeyGrammarParser.PAR_OPEN)
+            self.match(MonkeyGrammarParser.PUTS)
             self.state = 219
-            self.expressionList()
+            self.match(MonkeyGrammarParser.PAR_OPEN)
             self.state = 220
+            self.expressionList()
+            self.state = 221
             self.match(MonkeyGrammarParser.PAR_CLOSE)
         except RecognitionException as re:
             localctx.exception = re
@@ -2728,22 +2760,22 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.IfExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 222
-            self.match(MonkeyGrammarParser.IF)
             self.state = 223
-            self.expression()
+            self.match(MonkeyGrammarParser.IF)
             self.state = 224
+            self.expression()
+            self.state = 225
             self.blockStatement()
-            self.state = 228
+            self.state = 229
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [MonkeyGrammarParser.ELSE]:
-                self.state = 225
-                self.match(MonkeyGrammarParser.ELSE)
                 self.state = 226
+                self.match(MonkeyGrammarParser.ELSE)
+                self.state = 227
                 self.blockStatement()
                 pass
-            elif token in [MonkeyGrammarParser.EOF, MonkeyGrammarParser.STRING, MonkeyGrammarParser.EQUAL, MonkeyGrammarParser.NOT_EQUAL, MonkeyGrammarParser.LESS_THAN, MonkeyGrammarParser.LESS_THAN_OR_EQUAL, MonkeyGrammarParser.GREATER_THAN, MonkeyGrammarParser.GREATER_THAN_OR_EQUAL, MonkeyGrammarParser.PLUS, MonkeyGrammarParser.MINUS, MonkeyGrammarParser.MULTIPLY, MonkeyGrammarParser.DIVIDE, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BLOCK_CLOSE, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.BRACKET_CLOSE, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.PAR_CLOSE, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.LET, MonkeyGrammarParser.RETURN, MonkeyGrammarParser.COMMA, MonkeyGrammarParser.SEMICOLON, MonkeyGrammarParser.COLON, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT]:
+            elif token in [MonkeyGrammarParser.EOF, MonkeyGrammarParser.STRING, MonkeyGrammarParser.EQUAL, MonkeyGrammarParser.NOT_EQUAL, MonkeyGrammarParser.LESS_THAN, MonkeyGrammarParser.LESS_THAN_OR_EQUAL, MonkeyGrammarParser.GREATER_THAN, MonkeyGrammarParser.GREATER_THAN_OR_EQUAL, MonkeyGrammarParser.PLUS, MonkeyGrammarParser.MINUS, MonkeyGrammarParser.MULTIPLY, MonkeyGrammarParser.DIVIDE, MonkeyGrammarParser.BLOCK_OPEN, MonkeyGrammarParser.BLOCK_CLOSE, MonkeyGrammarParser.BRACKET_OPEN, MonkeyGrammarParser.BRACKET_CLOSE, MonkeyGrammarParser.PAR_OPEN, MonkeyGrammarParser.PAR_CLOSE, MonkeyGrammarParser.LEN, MonkeyGrammarParser.FIRST, MonkeyGrammarParser.LAST, MonkeyGrammarParser.REST, MonkeyGrammarParser.PUSH, MonkeyGrammarParser.LET, MonkeyGrammarParser.RETURN, MonkeyGrammarParser.COMMA, MonkeyGrammarParser.SEMICOLON, MonkeyGrammarParser.COLON, MonkeyGrammarParser.TRUE, MonkeyGrammarParser.FALSE, MonkeyGrammarParser.IF, MonkeyGrammarParser.PUTS, MonkeyGrammarParser.FN, MonkeyGrammarParser.LETTER, MonkeyGrammarParser.DIGIT, MonkeyGrammarParser.DIGIT_POINT]:
                 pass
             else:
                 raise NoViableAltException(self)
@@ -2815,19 +2847,19 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.BlockStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 230
+            self.state = 231
             self.match(MonkeyGrammarParser.BRACKET_OPEN)
-            self.state = 234
+            self.state = 235
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << MonkeyGrammarParser.STRING) | (1 << MonkeyGrammarParser.BLOCK_OPEN) | (1 << MonkeyGrammarParser.BRACKET_OPEN) | (1 << MonkeyGrammarParser.PAR_OPEN) | (1 << MonkeyGrammarParser.LEN) | (1 << MonkeyGrammarParser.FIRST) | (1 << MonkeyGrammarParser.LAST) | (1 << MonkeyGrammarParser.REST) | (1 << MonkeyGrammarParser.PUSH) | (1 << MonkeyGrammarParser.LET) | (1 << MonkeyGrammarParser.RETURN) | (1 << MonkeyGrammarParser.TRUE) | (1 << MonkeyGrammarParser.FALSE) | (1 << MonkeyGrammarParser.IF) | (1 << MonkeyGrammarParser.PUTS) | (1 << MonkeyGrammarParser.FN) | (1 << MonkeyGrammarParser.LETTER) | (1 << MonkeyGrammarParser.DIGIT))) != 0):
-                self.state = 231
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << MonkeyGrammarParser.STRING) | (1 << MonkeyGrammarParser.BLOCK_OPEN) | (1 << MonkeyGrammarParser.BRACKET_OPEN) | (1 << MonkeyGrammarParser.PAR_OPEN) | (1 << MonkeyGrammarParser.LEN) | (1 << MonkeyGrammarParser.FIRST) | (1 << MonkeyGrammarParser.LAST) | (1 << MonkeyGrammarParser.REST) | (1 << MonkeyGrammarParser.PUSH) | (1 << MonkeyGrammarParser.LET) | (1 << MonkeyGrammarParser.RETURN) | (1 << MonkeyGrammarParser.TRUE) | (1 << MonkeyGrammarParser.FALSE) | (1 << MonkeyGrammarParser.IF) | (1 << MonkeyGrammarParser.PUTS) | (1 << MonkeyGrammarParser.FN) | (1 << MonkeyGrammarParser.LETTER) | (1 << MonkeyGrammarParser.DIGIT) | (1 << MonkeyGrammarParser.DIGIT_POINT))) != 0):
+                self.state = 232
                 self.statement()
-                self.state = 236
+                self.state = 237
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 237
+            self.state = 238
             self.match(MonkeyGrammarParser.BRACKET_CLOSE)
         except RecognitionException as re:
             localctx.exception = re
@@ -2896,21 +2928,21 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.IdentifierASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 239
+            self.state = 240
             self.match(MonkeyGrammarParser.LETTER)
-            self.state = 243
+            self.state = 244
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
-                    self.state = 240
+                    self.state = 241
                     _la = self._input.LA(1)
                     if not(_la==MonkeyGrammarParser.LETTER or _la==MonkeyGrammarParser.DIGIT):
                         self._errHandler.recoverInline(self)
                     else:
                         self._errHandler.reportMatch(self)
                         self.consume() 
-                self.state = 245
+                self.state = 246
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
 
@@ -2963,7 +2995,7 @@ class MonkeyGrammarParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 246
+            self.state = 247
             _la = self._input.LA(1)
             if not(_la==MonkeyGrammarParser.TRUE or _la==MonkeyGrammarParser.FALSE):
                 self._errHandler.recoverInline(self)
@@ -3033,11 +3065,11 @@ class MonkeyGrammarParser ( Parser ):
         try:
             localctx = MonkeyGrammarParser.CharASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 248
-            self.match(MonkeyGrammarParser.QUOTE)
             self.state = 249
-            self.match(MonkeyGrammarParser.CHARIN)
+            self.match(MonkeyGrammarParser.QUOTE)
             self.state = 250
+            self.match(MonkeyGrammarParser.CHARIN)
+            self.state = 251
             self.match(MonkeyGrammarParser.QUOTE)
         except RecognitionException as re:
             localctx.exception = re
