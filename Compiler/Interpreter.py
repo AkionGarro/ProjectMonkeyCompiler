@@ -2,6 +2,7 @@ from Generated.MonkeyGrammarParser import MonkeyGrammarParser
 from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from REPL import REPL, HashMap
 
+cont = 0
 
 # from antlr4.CommonTokenFactory import CommonToken
 
@@ -27,15 +28,17 @@ class MyVisitor(MonkeyGrammarVisitor):
 
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
 
-        try:
-            simbol = ctx.getChild(1).symbol.text
-        except:
-            simbol = None
-
-        if simbol is None:
-            self.visit(ctx.returnStatement())
-        else:
+        #si es 1 es porque es un return vacio, sin nisiquiera un ;
+        if len(ctx.children) == 1:
             return
+        class_name = ctx.getChild(1).__class__.__name__
+
+        #si es un return con un ; pero sin nada
+        if class_name == "TerminalNodeImpl":
+            return
+        #si es un return que sí retorna
+        elif class_name == "ReturnStatementASTContext":
+            self.visit(ctx.getChild(1))
 
 
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
@@ -513,7 +516,15 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.addError("<IfExpr> Error = (No se pudo realizar)")
 
 
+
+
     def visitBlockStatementAST(self, ctx: MonkeyGrammarParser.BlockStatementASTContext):
+
+        global cont
+        if cont == 10:
+            pass
+        else:
+            cont = cont + 1
         for i in range(0,len(ctx.statement())):
             self.visit(ctx.statement(i))
 

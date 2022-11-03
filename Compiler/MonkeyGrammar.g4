@@ -5,11 +5,11 @@ grammar MonkeyGrammar;
 //rogram:                    statement*                                              #programAST;
 
 // create program with counter parameter
-program:                      statement*                                               #programAST;
+program:                      statement*                                            #programAST;
 
 
 statement:                  LET letStatement                                        #statementLetAST
-                            | RETURN (returnStatement | SEMICOLON | )                           #statementReturnAST
+                            | RETURN (returnStatement| SEMICOLON | )               #statementReturnAST
                             | expressionStatement                                   #statementExpressionAST;
 
 letStatement:               identifier ASSIGN expression ( SEMICOLON | )            #letStatementAST;
