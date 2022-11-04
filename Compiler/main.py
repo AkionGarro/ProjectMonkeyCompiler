@@ -35,7 +35,7 @@ def getConsoleResult(mode):
     print("Error: \n", consoleResultError)
     print("\nResult: \n", consoleResult)
     if consoleResultError !=['']:
-        txt = consoleResultError
+        txt = consoleResult + consoleResultError
         print("console Result Error")
     else:
         if consoleResult !=['']:

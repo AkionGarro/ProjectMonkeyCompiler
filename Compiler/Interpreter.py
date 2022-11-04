@@ -233,7 +233,7 @@ class MyVisitor(MonkeyGrammarVisitor):
 
         #Si  no coinciden los parametros se lanza un error porque  no se enviaron los parametros correctos
         if len(cxt_params) != len(listParams):
-            self.addError("<Function> Error = (Cantidad de parametros incorrecta)")
+            self.addError("<Function> Error = (Cantidad de parametros incorrecta, se esperan " + str(len(cxt_params)) + " parametros, pero se enviaron " + str(len(listParams)) + ")")
             return
         #Se agregan los parametros a la tabla de simbolos
         for i in range(0, len(cxt_params)):
@@ -335,7 +335,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         if (object != None):
             self.replVisitor.stack.append(object)
         else:
-            self.addError("<PrimitiveExprId> Error = (No se encuentra el id " + str(ctx.identifier()) + ")")
+            self.addError("<PrimitiveExprId> Error = (No se encuentra el id <<" + str(self.visit(identifier)) + ">>)")
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprBooleanAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
