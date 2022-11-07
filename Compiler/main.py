@@ -1,3 +1,4 @@
+import numpy as np
 from antlr4 import *
 import eel
 from Generated.MonkeyGrammarLexer import MonkeyGrammarLexer
@@ -5,7 +6,11 @@ from Generated.MonkeyGrammarParser import MonkeyGrammarParser
 from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from antlr4.tree.Tree import TerminalNodeImpl
 from antlr4.error.ErrorListener import ErrorListener
+import sys
+sys.setrecursionlimit(2147483647)#para fibonacci hasta 35
+#9223372036854775807
 
+import Interpreter
 from Interpreter import MyVisitor
 from REPL import REPL
 
@@ -35,7 +40,7 @@ def getConsoleResult(mode):
     print("Error: \n", consoleResultError)
     print("\nResult: \n", consoleResult)
     if consoleResultError !=['']:
-        txt = consoleResult + consoleResultError
+        txt = str(consoleResult) + str(consoleResultError)
         print("console Result Error")
     else:
         if consoleResult !=['']:
@@ -71,5 +76,6 @@ def startInterpreter(text):
     consoleResultError = [visitor.consoleError]
     visitor.consoleError = ""
     visitor.consoleResult = ""
+
 
 eel.start('index.html', mode='my_portable_chromium', host='localhost', port=27000, block=True)

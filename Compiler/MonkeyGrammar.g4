@@ -42,8 +42,8 @@ callExpression:             PAR_OPEN (expressionList | ) PAR_CLOSE              
 primitiveExpression:        DIGIT                                                   #primitiveExprDigitAST
                             | DIGIT_POINT                                           #primitiveExprDigitPointAST
                             | boolean                                               #primitiveExprBooleanAST
-                            | STRING                                                #primitiveExprStringAST
                             | identifier                                            #primitiveExprIdAST
+                            | STRING                                                #primitiveExprStringAST
                             | PAR_OPEN expression PAR_CLOSE                         #primitiveExprBlockExprAST
                             | arrayLiteral                                          #primitiveExprArrLitAST
                             | arrayFunctions PAR_OPEN expressionList PAR_CLOSE      #primitiveExprArrFuncAST

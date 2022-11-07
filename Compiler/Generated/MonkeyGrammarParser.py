@@ -63,7 +63,7 @@ def serializedATN():
         5,28,0,0,135,25,1,0,0,0,136,139,5,31,0,0,137,140,3,46,23,0,138,140,
         1,0,0,0,139,137,1,0,0,0,139,138,1,0,0,0,140,141,1,0,0,0,141,142,
         5,32,0,0,142,27,1,0,0,0,143,163,5,53,0,0,144,163,5,54,0,0,145,163,
-        3,58,29,0,146,163,5,3,0,0,147,163,3,56,28,0,148,149,5,31,0,0,149,
+        3,58,29,0,146,163,3,56,28,0,147,163,5,3,0,0,148,149,5,31,0,0,149,
         150,3,10,5,0,150,151,5,32,0,0,151,163,1,0,0,0,152,163,3,32,16,0,
         153,154,3,30,15,0,154,155,5,31,0,0,155,156,3,46,23,0,156,157,5,32,
         0,0,157,163,1,0,0,0,158,163,3,34,17,0,159,163,3,40,20,0,160,163,
@@ -1776,17 +1776,17 @@ class MonkeyGrammarParser ( Parser ):
                 self.state = 145
                 self.boolean()
                 pass
-            elif token in [MonkeyGrammarParser.STRING]:
-                localctx = MonkeyGrammarParser.PrimitiveExprStringASTContext(self, localctx)
-                self.enterOuterAlt(localctx, 4)
-                self.state = 146
-                self.match(MonkeyGrammarParser.STRING)
-                pass
             elif token in [MonkeyGrammarParser.LETTER]:
                 localctx = MonkeyGrammarParser.PrimitiveExprIdASTContext(self, localctx)
+                self.enterOuterAlt(localctx, 4)
+                self.state = 146
+                self.identifier()
+                pass
+            elif token in [MonkeyGrammarParser.STRING]:
+                localctx = MonkeyGrammarParser.PrimitiveExprStringASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 147
-                self.identifier()
+                self.match(MonkeyGrammarParser.STRING)
                 pass
             elif token in [MonkeyGrammarParser.PAR_OPEN]:
                 localctx = MonkeyGrammarParser.PrimitiveExprBlockExprASTContext(self, localctx)

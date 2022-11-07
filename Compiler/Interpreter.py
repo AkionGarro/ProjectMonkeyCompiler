@@ -2,7 +2,8 @@ from Generated.MonkeyGrammarParser import MonkeyGrammarParser
 from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from REPL import REPL, HashMap
 
-cont = 0
+
+
 
 # from antlr4.CommonTokenFactory import CommonToken
 
@@ -11,13 +12,14 @@ class MyVisitor(MonkeyGrammarVisitor):
     consoleResult = ""
     consoleError = ""
 
-    def addError(self,msg):
+    def addError(self, msg):
         self.consoleError += msg
         self.consoleError += "\n"
 
-    def addConsoleResult(self,msg):
+    def addConsoleResult(self, msg):
         self.consoleResult += msg
         self.consoleResult += "\n"
+
     def visitProgramAST(self, ctx: MonkeyGrammarParser.ProgramASTContext):
         len1 = len(ctx.statement())
         for i in range(0, len(ctx.statement())):
@@ -28,18 +30,17 @@ class MyVisitor(MonkeyGrammarVisitor):
 
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
 
-        #si es 1 es porque es un return vacio, sin nisiquiera un ;
+        # si es 1 es porque es un return vacio, sin nisiquiera un ;
         if len(ctx.children) == 1:
             return
         class_name = ctx.getChild(1).__class__.__name__
 
-        #si es un return con un ; pero sin nada
+        # si es un return con un ; pero sin nada
         if class_name == "TerminalNodeImpl":
             return
-        #si es un return que sí retorna
+        # si es un return que sí retorna
         elif class_name == "ReturnStatementASTContext":
             self.visit(ctx.getChild(1))
-
 
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
         self.visit(ctx.expressionStatement())
@@ -53,18 +54,14 @@ class MyVisitor(MonkeyGrammarVisitor):
         except:
             self.addError("<LetExpresion>  Error = (Almacenar la variable)")
 
-
-
     def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
         self.visit(ctx.expression())
 
     def visitExpressionStatementAST(self, ctx: MonkeyGrammarParser.ExpressionStatementASTContext):
         self.visit(ctx.expression())
 
-
     def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext):
-        self.visit(ctx.additionExpression())
-        self.visit(ctx.comparison())
+        self.visitChildren(ctx)
 
     def visitComparisonAST(self, ctx: MonkeyGrammarParser.ComparisonASTContext):
         index = 0
@@ -77,12 +74,13 @@ class MyVisitor(MonkeyGrammarVisitor):
                 op2 = (self.replVisitor.stack.pop())
                 op1 = (self.replVisitor.stack.pop())
                 if type(op1) != type(op2):
-                    self.addError("<Comparison> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
-                    flag= False
+                    self.addError(
+                        "<Comparison> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
+                    flag = False
             except:
-                flag=False
+                flag = False
 
-            if flag==True:
+            if flag == True:
                 if type(op2) == int:
                     if token.text == "==":
                         flagOperator = (op2 == op1)
@@ -115,8 +113,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         self.addError("<Str Operation>  Error = (No existe el operador)")
 
     def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext):
-        self.visit(ctx.multiplicationExpression())
-        self.visit(ctx.additionFactor())
+        self.visitChildren(ctx)
 
     def visitAdditionFactorAST(self, ctx: MonkeyGrammarParser.AdditionFactorASTContext):
         index = 0
@@ -125,15 +122,27 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.visit(ctx.multiplicationExpression(i))
             token = ctx.getChild(index).symbol
             index += 2
+            opa1 = None
+            opa2 = None
+
             try:
                 op2 = (self.replVisitor.stack.pop())
                 op1 = (self.replVisitor.stack.pop())
+                opa2 = type(op2)
+                opa1 = type(op1)
+
+
+                if op1.__class__.__name__ == 'FunctionLiteralASTContext':
+                    op1 = 1
+                if op2.__class__.__name__ == 'FunctionLiteralASTContext':
+                    op2 = 2
+                # print(op2.__class__.__name__)
                 if (type(op1) == str and type(op2) == str):
                     if token.text == "+":
                         flagOperator = (op1[0:-1] + op2[1:])
                         self.replVisitor.stack.append(flagOperator)
                     else:
-                        self.addError("<Addition> Error = (No puede restar strings) "+ op1 + " - " + op2)
+                        self.addError("<Addition> Error = (No puede restar strings) " + op1 + " - " + op2)
                 elif (type(op1) == int and type(op2) == int):
                     if token.text == "+":
                         self.replVisitor.stack.append(op1 + op2)
@@ -155,16 +164,16 @@ class MyVisitor(MonkeyGrammarVisitor):
                     else:
                         self.replVisitor.stack.append(op1 - op2)
                 else:
+                    print("-------------------------- aqui 1 ------------------------------------")
                     self.addError("<Addition> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
 
             except:
+                print("-------------------------- aqui 2 ------------------------------------")
                 self.addError("<Addition> Error = (Error en la pila)")
-
+                self.addError("<Addition> Error = (Datos incompatibles)" + opa1 + " y " + opa2)
 
     def visitMultiplicationExpressionAST(self, ctx: MonkeyGrammarParser.MultiplicationExpressionASTContext):
-        self.visit(ctx.elementExpression())
-        self.visit(ctx.multiplicationFactor())
-
+        self.visitChildren(ctx)
 
     def visitMultiplicationFactorAST(self, ctx: MonkeyGrammarParser.MultiplicationFactorASTContext):
         index = 0
@@ -176,11 +185,13 @@ class MyVisitor(MonkeyGrammarVisitor):
             try:
                 op2 = (self.replVisitor.stack.pop())
                 op1 = (self.replVisitor.stack.pop())
+
                 if type(op1) != int or type(op2) != int:
                     self.addError("<Multiplication> Error = (Solo se permite Int)")
-                    flag=False
+                    flag = False
                 if type(op1) != type(op2):
-                    self.addError("<Multiplication> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
+                    self.addError(
+                        "<Multiplication> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
                     flag = False
             except:
                 self.addError("<Multiplication> Error = (Error en la pila)")
@@ -202,9 +213,10 @@ class MyVisitor(MonkeyGrammarVisitor):
                 return [ctx.indice] + self.getIndexes(ctx.parentCtx)
             else:
                 return [] + self.getIndexes(ctx.parentCtx)
+
     def getParamsNames(self, ctx):
 
-        #Lista de nombres de parametros
+        # Lista de nombres de parametros
         params = []
         param = ctx.getChild(0).start.text
         params.append(param)
@@ -214,63 +226,60 @@ class MyVisitor(MonkeyGrammarVisitor):
                 params.append(param)
         return params
 
-
     def ejecutarFuncion(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext, listParams):
         indices = self.getIndexes(ctx)
         if len(indices) > 1:
             indices = indices[1:]
-        #Se crea un nuevo data para la llamada a la funcion
+        # Se crea un nuevo data para la llamada a la funcion
         data = HashMap()
-        #Se obtiene el indice de la funcion
+        # Se obtiene el indice de la funcion
         indice_data = self.replVisitor.indice_datas
 
         list1 = ctx.functionParameters()
         if list1.children != None:
-            #Se obtienen los nombres de los parametros
+            # Se obtienen los nombres de los parametros
             cxt_params = self.getParamsNames(list1)
         else:
             cxt_params = []
 
-        #Si  no coinciden los parametros se lanza un error porque  no se enviaron los parametros correctos
+        # Si  no coinciden los parametros se lanza un error porque  no se enviaron los parametros correctos
         if len(cxt_params) != len(listParams):
-            self.addError("<Function> Error = (Cantidad de parametros incorrecta, se esperan " + str(len(cxt_params)) + " parametros, pero se enviaron " + str(len(listParams)) + ")")
+            self.addError("<Function> Error = (Cantidad de parametros incorrecta, se esperan " + str(
+                len(cxt_params)) + " parametros, pero se enviaron " + str(len(listParams)) + ")")
             return
-        #Se agregan los parametros a la tabla de simbolos
+        # Se agregan los parametros a la tabla de simbolos
         for i in range(0, len(cxt_params)):
             data.add(cxt_params[i], listParams[i])
 
-        #Se respalda el data actual
+        # Se respalda el data actual
         data_aux = self.replVisitor.data
 
-        #Se respaldan los indices de los data
+        # Se respaldan los indices de los data
         datas_indices_aux = self.replVisitor.datas_indices
 
-        #Se agrega el nuevo data
+        # Se agrega el nuevo data
         self.replVisitor.data = data
 
-        #Se agregan los indices de los data
+        # Se agregan los indices de los data
         self.replVisitor.datas_indices = indices
 
-        #Se agrega el nuevo data a la lista de datas
+        # Se agrega el nuevo data a la lista de datas
         self.replVisitor.add_data(data)
 
-        #Se asigna el indice de la llamada a la funcion, para que funciones hijos la puedan usar
+        # Se asigna el indice de la llamada a la funcion, para que funciones hijos la puedan usar
         ctx.indice = indice_data
 
         # Se ejecuta el bloque de la funcion
         self.visit(ctx.blockStatement())
 
-        #Se reestablece el data anterior
+        # Se reestablece el data anterior
         self.replVisitor.data = data_aux
 
-        #Se reestablecen los indices de los data
+        # Se reestablecen los indices de los data
         self.replVisitor.datas_indices = datas_indices_aux
 
-        #Se elimina el data llamada a la funcion
+        # Se elimina el data llamada a la funcion
         self.replVisitor.del_data()
-
-
-
 
     def visitElementExpressionAST(self, ctx: MonkeyGrammarParser.ElementExpressionASTContext):
         self.visit(ctx.primitiveExpression())
@@ -285,8 +294,8 @@ class MyVisitor(MonkeyGrammarVisitor):
                     parametros = self.replVisitor.stack.pop()
                     nombre_funcion = ctx.primitiveExpression().identifier().start.text
                     ctx_funcion = self.replVisitor.stack.pop()
-                    self.ejecutarFuncion(ctx_funcion, parametros)
 
+                    self.ejecutarFuncion(ctx_funcion, parametros)
 
     def visitElementAccessAST(self, ctx: MonkeyGrammarParser.ElementAccessASTContext):
         flag = True
@@ -307,22 +316,29 @@ class MyVisitor(MonkeyGrammarVisitor):
 
         self.visit(ctx.expressionList())
 
-
     def visitPrimitiveExprDigitAST(self, ctx: MonkeyGrammarParser.PrimitiveExprDigitASTContext):
 
         self.replVisitor.stack.append(int(ctx.getText()))
 
         return self.visitChildren(ctx)
-    def visitPrimitiveExprDigitPointAST(self, ctx:MonkeyGrammarParser.PrimitiveExprDigitPointASTContext):
+
+    def visitPrimitiveExprDigitPointAST(self, ctx: MonkeyGrammarParser.PrimitiveExprDigitPointASTContext):
         self.replVisitor.stack.append(float(ctx.getText()))
         return self.visitChildren(ctx)
+
     def visitPrimitiveExprStringAST(self, ctx: MonkeyGrammarParser.PrimitiveExprStringASTContext):
         self.replVisitor.stack.append(ctx.start.text)
-        return self.visitChildren(ctx)
+        return
 
     def visitPrimitiveExprIdAST(self, ctx: MonkeyGrammarParser.PrimitiveExprIdASTContext):
-        identifier = ctx.identifier()
+        try:
+            identifier = ctx.identifier()
+        except:
+            print("Error")
+
         object = self.replVisitor.data.get(self.visit(identifier))
+
+        # Si el objeto no existe se busca en los datas padres de la funcion
         if object == None:
             indice_datas = self.replVisitor.datas_indices
 
@@ -330,7 +346,6 @@ class MyVisitor(MonkeyGrammarVisitor):
                 object = self.replVisitor.datas[indice_datas[i]].get(self.visit(identifier))
                 if object != None:
                     break
-            print("indice_datas: ", indice_datas)
 
         if (object != None):
             self.replVisitor.stack.append(object)
@@ -356,7 +371,7 @@ class MyVisitor(MonkeyGrammarVisitor):
             try:
                 arr = self.replVisitor.stack.pop()
                 arr = arr[0]
-                lng =len(arr)
+                lng = len(arr)
                 self.replVisitor.stack.append(lng)
             except:
                 self.addError("<ArrFunc len> Error = (No se pudo realizar)")
@@ -375,7 +390,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         elif token == "last":
             try:
                 arr = self.replVisitor.stack.pop()
-                arr= arr[0]
+                arr = arr[0]
                 if type(arr) == dict:
                     self.replVisitor.stack.append(arr[(int)(len(arr) - 1)])
                 else:
@@ -435,18 +450,17 @@ class MyVisitor(MonkeyGrammarVisitor):
         exprFull = self.replVisitor.stack.pop()
         self.replVisitor.stack.append(exprFull)
 
-
     def visitFunctionLiteralAST(self, ctx: MonkeyGrammarParser.FunctionLiteralASTContext):
         self.replVisitor.stack.append(ctx)
-        #self.visit(ctx.functionParameters())
-        #self.visit(ctx.blockStatement())
+        # self.visit(ctx.functionParameters())
+        # self.visit(ctx.blockStatement())
 
     def visitFunctionParametersAST(self, ctx: MonkeyGrammarParser.FunctionParametersASTContext):
         self.visit(ctx.identifier())
         self.visit(ctx.moreIdentifiers())
 
     def visitMoreIdentifiersAST(self, ctx: MonkeyGrammarParser.MoreIdentifiersASTContext):
-        for i in range(0,len(ctx.identifier())):
+        for i in range(0, len(ctx.identifier())):
             self.visit(ctx.identifier(i))
 
     def visitHashLiteralAST(self, ctx: MonkeyGrammarParser.HashLiteralASTContext):
@@ -477,9 +491,8 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.visit(ctx.expression(0))
         self.visit(ctx.expression(1))
 
-
     def visitMoreHashContentAST(self, ctx: MonkeyGrammarParser.MoreHashContentASTContext):
-        for i in range(0,len(ctx.hashContent())):
+        for i in range(0, len(ctx.hashContent())):
             self.visit(ctx.hashContent(i))
 
     def visitExpressionListAST(self, ctx: MonkeyGrammarParser.ExpressionListASTContext):
@@ -488,21 +501,18 @@ class MyVisitor(MonkeyGrammarVisitor):
         exprFull.append(self.replVisitor.stack.pop())
         self.visit(ctx.moreExpressions())
         moreExpression = self.replVisitor.stack.pop()
-        for i in range(0,len(moreExpression)):
+        for i in range(0, len(moreExpression)):
             exprFull.append(moreExpression[i])
         self.replVisitor.stack.append(exprFull)
 
-
-
     def visitExpressionListEmptyAST(self, ctx: MonkeyGrammarParser.ExpressionListEmptyASTContext):
-        print("ExprListEmpty")
+        return
 
     def visitMoreExpressionsAST(self, ctx: MonkeyGrammarParser.MoreExpressionsASTContext):
         expr = []
-        for i in range(0,len(ctx.expression())):
+        for i in range(0, len(ctx.expression())):
             self.visit(ctx.expression(i))
             expr.append(self.replVisitor.stack.pop())
-        print(expr)
         self.replVisitor.stack.append(expr)
 
     def visitPrintExpressionAST(self, ctx: MonkeyGrammarParser.PrintExpressionASTContext):
@@ -533,17 +543,8 @@ class MyVisitor(MonkeyGrammarVisitor):
         except:
             self.addError("<IfExpr> Error = (No se pudo realizar)")
 
-
-
-
     def visitBlockStatementAST(self, ctx: MonkeyGrammarParser.BlockStatementASTContext):
-
-        global cont
-        if cont == 10:
-            pass
-        else:
-            cont = cont + 1
-        for i in range(0,len(ctx.statement())):
+        for i in range(0, len(ctx.statement())):
             self.visit(ctx.statement(i))
 
     def visitIdentifierAST(self, ctx: MonkeyGrammarParser.IdentifierASTContext):

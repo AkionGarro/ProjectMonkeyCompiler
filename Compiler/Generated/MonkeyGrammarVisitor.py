@@ -104,13 +104,13 @@ class MonkeyGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprStringAST.
-    def visitPrimitiveExprStringAST(self, ctx:MonkeyGrammarParser.PrimitiveExprStringASTContext):
+    # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprIdAST.
+    def visitPrimitiveExprIdAST(self, ctx:MonkeyGrammarParser.PrimitiveExprIdASTContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprIdAST.
-    def visitPrimitiveExprIdAST(self, ctx:MonkeyGrammarParser.PrimitiveExprIdASTContext):
+    # Visit a parse tree produced by MonkeyGrammarParser#primitiveExprStringAST.
+    def visitPrimitiveExprStringAST(self, ctx:MonkeyGrammarParser.PrimitiveExprStringASTContext):
         return self.visitChildren(ctx)
 
 

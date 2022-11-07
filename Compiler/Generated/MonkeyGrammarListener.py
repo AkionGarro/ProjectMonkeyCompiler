@@ -179,21 +179,21 @@ class MonkeyGrammarListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by MonkeyGrammarParser#primitiveExprStringAST.
-    def enterPrimitiveExprStringAST(self, ctx:MonkeyGrammarParser.PrimitiveExprStringASTContext):
-        pass
-
-    # Exit a parse tree produced by MonkeyGrammarParser#primitiveExprStringAST.
-    def exitPrimitiveExprStringAST(self, ctx:MonkeyGrammarParser.PrimitiveExprStringASTContext):
-        pass
-
-
     # Enter a parse tree produced by MonkeyGrammarParser#primitiveExprIdAST.
     def enterPrimitiveExprIdAST(self, ctx:MonkeyGrammarParser.PrimitiveExprIdASTContext):
         pass
 
     # Exit a parse tree produced by MonkeyGrammarParser#primitiveExprIdAST.
     def exitPrimitiveExprIdAST(self, ctx:MonkeyGrammarParser.PrimitiveExprIdASTContext):
+        pass
+
+
+    # Enter a parse tree produced by MonkeyGrammarParser#primitiveExprStringAST.
+    def enterPrimitiveExprStringAST(self, ctx:MonkeyGrammarParser.PrimitiveExprStringASTContext):
+        pass
+
+    # Exit a parse tree produced by MonkeyGrammarParser#primitiveExprStringAST.
+    def exitPrimitiveExprStringAST(self, ctx:MonkeyGrammarParser.PrimitiveExprStringASTContext):
         pass
 
 
