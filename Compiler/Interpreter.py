@@ -3,8 +3,6 @@ from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from REPL import REPL, HashMap
 
 
-
-
 # from antlr4.CommonTokenFactory import CommonToken
 
 class MyVisitor(MonkeyGrammarVisitor):
@@ -130,7 +128,6 @@ class MyVisitor(MonkeyGrammarVisitor):
                 op1 = (self.replVisitor.stack.pop())
                 opa2 = type(op2)
                 opa1 = type(op1)
-
 
                 if op1.__class__.__name__ == 'FunctionLiteralASTContext':
                     op1 = 1
@@ -296,6 +293,8 @@ class MyVisitor(MonkeyGrammarVisitor):
                     ctx_funcion = self.replVisitor.stack.pop()
 
                     self.ejecutarFuncion(ctx_funcion, parametros)
+            else:
+                self.visit(ctx.getChild(1))
 
     def visitElementAccessAST(self, ctx: MonkeyGrammarParser.ElementAccessASTContext):
         flag = True
@@ -305,6 +304,7 @@ class MyVisitor(MonkeyGrammarVisitor):
             hash = self.replVisitor.stack.pop()
             if type(key) is str:
                 key = key[1:-1]
+
         except:
             self.addError("<ElementAccess> Error = (Error en la pila)")
             flag = False
@@ -464,10 +464,37 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.visit(ctx.identifier(i))
 
     def visitHashLiteralAST(self, ctx: MonkeyGrammarParser.HashLiteralASTContext):
-        self.visit(ctx.hashContent())
-        self.visit(ctx.moreHashContent())
+
         dicc = {}
-        for i in range(0, len(self.replVisitor.stack), 2):
+        self.visit(ctx.hashContent())
+        try:
+            value = self.replVisitor.stack.pop()
+            key = self.replVisitor.stack.pop()
+
+            if type(key) is str:
+                key = key[1:-1]
+
+            if type(value) is str:
+                value = value[1:-1]
+
+            dicc[key] = value
+        except:
+            self.addError("<Hashliteral> Error = (No se pudo realizar)")
+
+        self.visit(ctx.moreHashContent())
+        moreHash = self.replVisitor.stack.pop()
+        for key, value in moreHash.items():
+            dicc[key] = value
+        self.replVisitor.stack.append(dicc)
+
+    def visitHashContentAST(self, ctx: MonkeyGrammarParser.HashContentASTContext):
+        self.visit(ctx.expression(0))
+        self.visit(ctx.expression(1))
+
+    def visitMoreHashContentAST(self, ctx: MonkeyGrammarParser.MoreHashContentASTContext):
+        dicc = {}
+        for i in range(0, len(ctx.hashContent())):
+            self.visit(ctx.hashContent(i))
             try:
                 value = self.replVisitor.stack.pop()
                 key = self.replVisitor.stack.pop()
@@ -482,18 +509,9 @@ class MyVisitor(MonkeyGrammarVisitor):
             except:
                 self.addError("<Hashliteral> Error = (No se pudo realizar)")
 
-        # reverse dictionary
+                # reverse dictionary
         dicc = dict(reversed(list(dicc.items())))
-
         self.replVisitor.stack.append(dicc)
-
-    def visitHashContentAST(self, ctx: MonkeyGrammarParser.HashContentASTContext):
-        self.visit(ctx.expression(0))
-        self.visit(ctx.expression(1))
-
-    def visitMoreHashContentAST(self, ctx: MonkeyGrammarParser.MoreHashContentASTContext):
-        for i in range(0, len(ctx.hashContent())):
-            self.visit(ctx.hashContent(i))
 
     def visitExpressionListAST(self, ctx: MonkeyGrammarParser.ExpressionListASTContext):
         exprFull = []
@@ -522,7 +540,10 @@ class MyVisitor(MonkeyGrammarVisitor):
             res = ""
             for i in range(0, len(info)):
                 if type(info[i]) is str:
-                    res += info[i][1:-1] + " "
+                    if info[i][0]=='"':
+                        res += info[i][1:-1] + " "
+                    else:
+                        res += info[i] + " "
                 else:
                     res += str(info[i]) + " "
             self.addConsoleResult(res)
