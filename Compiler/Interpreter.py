@@ -110,6 +110,10 @@ class MyVisitor(MonkeyGrammarVisitor):
             name_class = ctx.__class__.__name__
             if name_class == "ExpressionStatementASTContext":
                 return True
+            elif name_class == "ReturnStatementASTContext":
+                return False
+            elif name_class == "LetStatementASTContext":
+                return False
             else:
                 return self.isExpressionStatement(ctx.parentCtx)
 
