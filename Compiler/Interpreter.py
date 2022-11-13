@@ -9,6 +9,9 @@ class MyVisitor(MonkeyGrammarVisitor):
     replVisitor = REPL()
     consoleResult = ""
     consoleError = ""
+    returnFlag = False
+    returnFlagPuts = None
+    activePuts = False
 
     def addError(self, msg):
         self.consoleError += msg
@@ -24,23 +27,36 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.visit(ctx.statement(i))
 
     def visitStatementLetAST(self, ctx: MonkeyGrammarParser.StatementLetASTContext):
+        if self.returnFlag:
+            self.returnFlag = False
+            return
         self.visit(ctx.letStatement())
 
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
 
+        self.returnFlag = True
         # si es 1 es porque es un return vacio, sin nisiquiera un ;
         if len(ctx.children) == 1:
+            if self.activePuts:
+                self.returnFlagPuts = False
             return
         class_name = ctx.getChild(1).__class__.__name__
 
         # si es un return con un ; pero sin nada
         if class_name == "TerminalNodeImpl":
+            if self.activePuts:
+                self.returnFlagPuts = False
             return
         # si es un return que sí retorna
         elif class_name == "ReturnStatementASTContext":
+            if self.activePuts:
+                self.returnFlagPuts = True
             self.visit(ctx.getChild(1))
 
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
+        if self.returnFlag:
+            self.returnFlag = False
+            return
         self.visit(ctx.expressionStatement())
 
     def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext):
@@ -59,6 +75,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.visit(ctx.expression())
 
     def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext):
+
         self.visitChildren(ctx)
 
     def visitComparisonAST(self, ctx: MonkeyGrammarParser.ComparisonASTContext):
@@ -266,8 +283,21 @@ class MyVisitor(MonkeyGrammarVisitor):
         # Se asigna el indice de la llamada a la funcion, para que funciones hijos la puedan usar
         ctx.indice = indice_data
 
+        # respaldos del return para el input
+
+        returnFlag_aux = self.returnFlag
+        returnFlagPuts_aux = self.returnFlagPuts
+
+        self.returnFlag = False
+        self.returnFlagPuts = None
+
+
         # Se ejecuta el bloque de la funcion
         self.visit(ctx.blockStatement())
+
+        # Se restauran los respaldos
+        self.returnFlag = returnFlag_aux
+        self.returnFlagPuts = returnFlagPuts_aux
 
         # Se reestablece el data anterior
         self.replVisitor.data = data_aux
@@ -278,6 +308,21 @@ class MyVisitor(MonkeyGrammarVisitor):
         # Se elimina el data llamada a la funcion
         self.replVisitor.del_data()
 
+    def validarReturn(self, ctx):
+        # verifica que después de ejecutada una función con return no quede basura en la pila
+        if ctx.parentCtx == None:
+            return
+        else:
+            name_class = ctx.__class__.__name__
+            if name_class == "StatementExpressionASTContext":
+                self.replVisitor.stack.pop()# se elimina el return de la pila porque no se va a usar
+                return
+            elif name_class == "StatementLetASTContex":
+                return
+            elif name_class == "StatementReturnASTContext":
+                return
+            else:
+                self.validarReturn(ctx.parentCtx)
     def visitElementExpressionAST(self, ctx: MonkeyGrammarParser.ElementExpressionASTContext):
         self.visit(ctx.primitiveExpression())
         if ctx.getChildCount() > 1:
@@ -293,6 +338,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                     ctx_funcion = self.replVisitor.stack.pop()
 
                     self.ejecutarFuncion(ctx_funcion, parametros)
+                self.validarReturn(ctx)
             else:
                 self.visit(ctx.getChild(1))
 
@@ -534,13 +580,15 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.replVisitor.stack.append(expr)
 
     def visitPrintExpressionAST(self, ctx: MonkeyGrammarParser.PrintExpressionASTContext):
+        self.returnFlagPuts = None
+        self.activePuts = True
         try:
             self.visit(ctx.expressionList())
             info = self.replVisitor.stack.pop()
             res = ""
             for i in range(0, len(info)):
                 if type(info[i]) is str:
-                    if info[i][0]=='"':
+                    if info[i][0] == '"':
                         res += info[i][1:-1] + " "
                     else:
                         res += info[i] + " "
@@ -548,9 +596,16 @@ class MyVisitor(MonkeyGrammarVisitor):
                     res += str(info[i]) + " "
             self.addConsoleResult(res)
         except:
-            self.addError("<PrintExpr> Error = (No se pudo realizar)")
+            if self.returnFlagPuts == False:
+                self.addError("<Print> Error = (La función no retorna nada)")
+            else:
+                self.addError("<PrintExpr> Error = (No se pudo realizar)")
+        finally:
+            self.returnFlagPuts = False
+            self.activePuts = False
 
     def visitIfExpressionAST(self, ctx: MonkeyGrammarParser.IfExpressionASTContext):
+
         self.visit(ctx.expression())
 
         try:

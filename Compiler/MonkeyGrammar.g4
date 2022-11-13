@@ -9,7 +9,7 @@ program:                      statement*                                        
 
 
 statement:                  LET letStatement                                        #statementLetAST
-                            | RETURN (returnStatement| SEMICOLON | )               #statementReturnAST
+                            | RETURN (returnStatement| SEMICOLON | )                #statementReturnAST
                             | expressionStatement                                   #statementExpressionAST;
 
 letStatement:               identifier ASSIGN expression ( SEMICOLON | )            #letStatementAST;

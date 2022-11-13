@@ -7,7 +7,7 @@ from Generated.MonkeyGrammarVisitor import MonkeyGrammarVisitor
 from antlr4.tree.Tree import TerminalNodeImpl
 from antlr4.error.ErrorListener import ErrorListener
 import sys
-sys.setrecursionlimit(2147483647)#para fibonacci hasta 35
+sys.setrecursionlimit(2147483647)#para fibonacci hasta 27
 #9223372036854775807
 
 import Interpreter
@@ -40,7 +40,7 @@ def getConsoleResult(mode):
     print("Error: \n", consoleResultError)
     print("\nResult: \n", consoleResult)
     if consoleResultError !=['']:
-        txt = consoleResultError
+        txt = [consoleResultError]
         print("console Result Error")
     else:
         if consoleResult !=['']:
