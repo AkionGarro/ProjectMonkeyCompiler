@@ -32,32 +32,46 @@ class MyVisitor(MonkeyGrammarVisitor):
             return
         self.visit(ctx.letStatement())
 
+    def comprobarReturn(self, ctx):
+        if ctx.parentCtx == None:
+            self.addError("<Return> Error = (Return fuera de función) linea: " + str(ctx.start.line))
+            return False
+        else:
+            name_class = ctx.__class__.__name__
+            if name_class == "FunctionLiteralASTContext":
+                return True
+            else:
+                return self.comprobarReturn(ctx.parentCtx)
+
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
-
-        self.returnFlag = True
-        # si es 1 es porque es un return vacio, sin nisiquiera un ;
-        if len(ctx.children) == 1:
-            if len(self.returns) > 0:
-                self.returns[-1] = False
-            if len(self.returnsExpr) > 0:
-                self.returnsExpr[-1] = False
+        res = self.comprobarReturn(ctx)
+        if res == False:
             return
-        class_name = ctx.getChild(1).__class__.__name__
+        else:
+            self.returnFlag = True
+            # si es 1 es porque es un return vacio, sin nisiquiera un ;
+            if len(ctx.children) == 1:
+                if len(self.returns) > 0:
+                    self.returns[-1] = False
+                if len(self.returnsExpr) > 0:
+                    self.returnsExpr[-1] = False
+                return
+            class_name = ctx.getChild(1).__class__.__name__
 
-        # si es un return con un ; pero sin nada
-        if class_name == "TerminalNodeImpl":
-            if len(self.returns) > 0:
-                self.returns[-1] = False
-            if len(self.returnsExpr) > 0:
-                self.returnsExpr[-1] = False
-            return
-        # si es un return que sí retorna
-        elif class_name == "ReturnStatementASTContext":
-            if len(self.returns) > 0:
-                self.returns[-1] = True
-            if len(self.returnsExpr) > 0:
-                self.returnsExpr[-1] = False
-            self.visit(ctx.getChild(1))
+            # si es un return con un ; pero sin nada
+            if class_name == "TerminalNodeImpl":
+                if len(self.returns) > 0:
+                    self.returns[-1] = False
+                if len(self.returnsExpr) > 0:
+                    self.returnsExpr[-1] = False
+                return
+            # si es un return que sí retorna
+            elif class_name == "ReturnStatementASTContext":
+                if len(self.returns) > 0:
+                    self.returns[-1] = True
+                if len(self.returnsExpr) > 0:
+                    self.returnsExpr[-1] = True
+                self.visit(ctx.getChild(1))
 
     def visitStatementExpressionAST(self, ctx: MonkeyGrammarParser.StatementExpressionASTContext):
         if self.returnFlag:
@@ -72,7 +86,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         try:
             self.replVisitor.data.add(varName, self.replVisitor.stack.pop())
         except:
-            self.addError("<LetExpresion>  Error = (Almacenar la variable)")
+            self.addError("<LetExpresion>  Error = (Almacenar la variable) linea: " + str(ctx.start.line))
 
     def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
         self.visit(ctx.expression())
@@ -85,7 +99,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.visitChildren(ctx)
         if len(self.returnsExpr) > 0:
             if self.returnsExpr[-1] == False:
-                self.addError("<Expression> Error = (La función no retorna nada)")
+                self.addError("<Expression> Error = (La función no retorna nada) linea: " + str(ctx.start.line))
 
             self.returnsExpr.pop()
 
@@ -101,7 +115,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 op1 = (self.replVisitor.stack.pop())
                 if type(op1) != type(op2):
                     self.addError(
-                        "<Comparison> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
+                        "<Comparison> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)) + " linea: " + str(ctx.start.line))
                     flag = False
             except:
                 flag = False
@@ -127,7 +141,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         flagOperator = (op1 >= op2)
                         self.replVisitor.stack.append(flagOperator)
                     else:
-                        self.addError("<Int Operation>  Error = (No existe el operador)")
+                        self.addError("<Int Operation>  Error = (No existe el operador) linea: " + str(ctx.start.line))
                 else:
                     if token.text == "==":
                         flagOperator = (op2 == op1)
@@ -136,7 +150,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         flagOperator = (op2 != op1)
                         self.replVisitor.stack.append(flagOperator)
                     else:
-                        self.addError("<Str Operation>  Error = (No existe el operador)")
+                        self.addError("<Str Operation>  Error = (No existe el operador) linea: " + str(ctx.start.line))
 
     def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext):
         self.visitChildren(ctx)
@@ -167,7 +181,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         flagOperator = (op1[0:-1] + op2[1:])
                         self.replVisitor.stack.append(flagOperator)
                     else:
-                        self.addError("<Addition> Error = (No puede restar strings) " + op1 + " - " + op2)
+                        self.addError("<Addition> Error = (No puede restar strings) " + op1 + " - " + op2 + " linea: " + str(ctx.start.line))
                 elif (type(op1) == int and type(op2) == int):
                     if token.text == "+":
                         self.replVisitor.stack.append(op1 + op2)
@@ -189,13 +203,11 @@ class MyVisitor(MonkeyGrammarVisitor):
                     else:
                         self.replVisitor.stack.append(op1 - op2)
                 else:
-                    print("-------------------------- aqui 1 ------------------------------------")
-                    self.addError("<Addition> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
+
+                    self.addError("<Addition> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)) + " linea: " + str(ctx.start.line))
 
             except:
-                print("-------------------------- aqui 2 ------------------------------------")
-                self.addError("<Addition> Error = (Error en la pila)")
-                self.addError("<Addition> Error = (Datos incompatibles)" + opa1 + " y " + opa2)
+                self.addError("<Addition> Error = (Datos incompatibles)" + opa1 + " y " + opa2 + " linea: " + str(ctx.start.line))
 
     def visitMultiplicationExpressionAST(self, ctx: MonkeyGrammarParser.MultiplicationExpressionASTContext):
         self.visitChildren(ctx)
@@ -203,6 +215,8 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitMultiplicationFactorAST(self, ctx: MonkeyGrammarParser.MultiplicationFactorASTContext):
         index = 0
         flag = True
+        opa1 = None
+        opa2 = None
         for i in range(0, len(ctx.elementExpression())):
             self.visit(ctx.elementExpression(i))
             token = ctx.getChild(index).symbol
@@ -210,23 +224,64 @@ class MyVisitor(MonkeyGrammarVisitor):
             try:
                 op2 = (self.replVisitor.stack.pop())
                 op1 = (self.replVisitor.stack.pop())
+                opa2 = type(op2)
+                opa1 = type(op1)
 
-                if type(op1) != int or type(op2) != int:
-                    self.addError("<Multiplication> Error = (Solo se permite Int)")
-                    flag = False
-                if type(op1) != type(op2):
-                    self.addError(
-                        "<Multiplication> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)))
-                    flag = False
+                if op1.__class__.__name__ == 'FunctionLiteralASTContext':
+                    op1 = 1
+                if op2.__class__.__name__ == 'FunctionLiteralASTContext':
+                    op2 = 2
+                # print(op2.__class__.__name__)
+                if (type(op1) == str and type(op2) == str):
+                    if token.text == "*":
+                        self.addError(
+                            "<Addition> Error = (No pueden multiplicar 2 strings) " + op1 + " * " + op2 + " linea: " + str(
+                                ctx.start.line))
+                    else:
+                        self.addError(
+                            "<Addition> Error = (No pueden dividir strings) " + op1 + " / " + op2 + " linea: " + str(
+                                ctx.start.line))
+                elif (type(op1) == int and type(op2) == int):
+                    if token.text == "*":
+                        self.replVisitor.stack.append(op1 * op2)
+                    else:
+                        self.replVisitor.stack.append(op1 / op2)
+                elif (type(op1) == int and type(op2) == float):
+                    if token.text == "*":
+                        self.replVisitor.stack.append(float(op1) * op2)
+                    else:
+                        self.replVisitor.stack.append(float(op1) / op2)
+                elif (type(op1) == float and type(op2) == int):
+                    if token.text == "*":
+                        self.replVisitor.stack.append(op1 * float(op2))
+                    else:
+                        self.replVisitor.stack.append(op1 / float(op2))
+                elif (type(op1) == float and type(op2) == float):
+                    if token.text == "*":
+                        self.replVisitor.stack.append(op1 * op2)
+                    else:
+                        self.replVisitor.stack.append(op1 / op2)
+                elif ((type(op1) == str and type(op2) == int) ):
+                    if token.text == "*":
+                        self.replVisitor.stack.append(op1[1:-1] * op2)
+                    else:
+                        self.addError(
+                            "<Addition> Error = (No puede dividir un string) " + op1 + " / " + str(op2) + " linea: " + str(
+                                ctx.start.line))
+                elif (type(op1) == int and type(op2) == str):
+                    if token.text == "*":
+                        self.replVisitor.stack.append(op1 * op2[1:-1])
+                    else:
+                        self.addError(
+                            "<Addition> Error = (No puede dividir un string) " + op1 + " / " + op2 + " linea: " + str(
+                                ctx.start.line))
+                else:
+
+                    self.addError("<Addition> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(
+                        type(op2)) + " linea: " + str(ctx.start.line))
             except:
-                self.addError("<Multiplication> Error = (Error en la pila)")
-                flag = False
+                self.addError("<Multiplication> Error = (Error en la pila) linea: " + str(ctx.start.line))
 
-            if flag == True:
-                if token.text == "*":
-                    self.replVisitor.stack.append((int)(op1 * op2))
-                elif token.text == "/":
-                    self.replVisitor.stack.append((int)(op1 / op2))
 
     def getIndexes(self, ctx):
         if ctx.parentCtx == None:
@@ -620,7 +675,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.replVisitor.stack.append(expr)
 
     def visitPrintExpressionAST(self, ctx: MonkeyGrammarParser.PrintExpressionASTContext):
-        self.returns.append(False) # se asume que el print nunca retorna
+        self.returns.append(None) # se asume que el print no tiene llamada a funcion
         try:
             self.visit(ctx.expressionList())
             info = self.replVisitor.stack.pop()
