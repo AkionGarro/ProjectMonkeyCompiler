@@ -325,7 +325,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         # Si  no coinciden los parametros se lanza un error porque  no se enviaron los parametros correctos
         if len(cxt_params) != len(listParams):
             self.addError("<Function> Error = (Cantidad de parametros incorrecta, se esperan " + str(
-                len(cxt_params)) + " parametros, pero se enviaron " + str(len(listParams)) + ")")
+                len(cxt_params)) + " parametros, pero se enviaron " + str(len(listParams)) + ")  linea: " + str(ctx.start.line))
             return
         # Se agregan los parametros a la tabla de simbolos
         for i in range(0, len(cxt_params)):
@@ -428,7 +428,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         self.ejecutarFuncion(ctx_funcion, parametros)
                     else:
                         # Si no existe se lanza un error
-                        self.addError("<CallFuntion> Error = (La función <<" + nombre_funcion + ">> no existe)")
+                        self.addError("<CallFuntion> Error = (La función <<" + nombre_funcion + ">> no existe) linea: " + str(ctx.start.line))
                         return
 
 
@@ -447,7 +447,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 key = key[1:-1]
 
         except:
-            self.addError("<ElementAccess> Error = (Error en la pila)")
+            self.addError("<ElementAccess> Error = (Error en la pila) linea: " + str(ctx.start.line))
             flag = False
         if flag == True:
             value = hash[key]
@@ -491,7 +491,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         if (object != None):
             self.replVisitor.stack.append(object)
         else:
-            self.addError("<PrimitiveExprId> Error = (No se encuentra el id <<" + str(self.visit(identifier)) + ">>)")
+            self.addError("<PrimitiveExprId> Error = (No se encuentra el id <<" + str(self.visit(identifier)) + ">>) linea: " + str(ctx.start.line))
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprBooleanAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
@@ -515,7 +515,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 lng = len(arr)
                 self.replVisitor.stack.append(lng)
             except:
-                self.addError("<ArrFunc len> Error = (No se pudo realizar)")
+                self.addError("<ArrFunc len> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
         elif token == "first":
             try:
@@ -526,7 +526,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 else:
                     self.replVisitor.stack.append(arr[0])
             except:
-                self.addError("<ArrFunc first> Error = (No se pudo realizar)")
+                self.addError("<ArrFunc first> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
         elif token == "last":
             try:
@@ -537,7 +537,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 else:
                     self.replVisitor.stack.append(arr[-1])
             except:
-                self.addError("<ArrFunc last> Error = (No se pudo realizar)")
+                self.addError("<ArrFunc last> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
         elif token == "rest":
             try:
                 arr = self.replVisitor.stack.pop()
@@ -547,7 +547,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 else:
                     self.replVisitor.stack.append(arr[1:])
             except:
-                self.addError("<ArrFunc rest> Error = (No se pudo realizar)")
+                self.addError("<ArrFunc rest> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
         elif token == "push":
             try:
@@ -568,7 +568,7 @@ class MyVisitor(MonkeyGrammarVisitor):
 
                 self.replVisitor.data.add(id, arr)
             except:
-                self.addError("<ArrFunc push> Error = (No se pudo realizar)")
+                self.addError("<ArrFunc push> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
     def visitPrimitiveExprFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprFuncASTContext):
 
@@ -620,7 +620,7 @@ class MyVisitor(MonkeyGrammarVisitor):
 
             dicc[key] = value
         except:
-            self.addError("<Hashliteral> Error = (No se pudo realizar)")
+            self.addError("<Hashliteral> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
         self.visit(ctx.moreHashContent())
         moreHash = self.replVisitor.stack.pop()
@@ -648,7 +648,7 @@ class MyVisitor(MonkeyGrammarVisitor):
 
                 dicc[key] = value
             except:
-                self.addError("<Hashliteral> Error = (No se pudo realizar)")
+                self.addError("<Hashliteral> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
                 # reverse dictionary
         dicc = dict(reversed(list(dicc.items())))
@@ -692,13 +692,13 @@ class MyVisitor(MonkeyGrammarVisitor):
         except:
             if len(self.returns) > 0:
                 if self.returns[-1] == False:
-                    self.addError("<Print> Error = (La función no retorna nada)")
+                    self.addError("<Print> Error = (La función no retorna nada) linea: " + str(ctx.start.line))
                 else:
-                    self.addError("<Print> Error = (No se pudo realizar)")
+                    self.addError("<Print> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
                 self.returns.pop()
             else:
-                self.addError("<Print> Error = (No se pudo realizar)")
+                self.addError("<Print> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
     def visitIfExpressionAST(self, ctx: MonkeyGrammarParser.IfExpressionASTContext):
 
@@ -713,7 +713,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 if ctx.blockStatement(1) != None:
                     self.visit(ctx.blockStatement(1))
         except:
-            self.addError("<IfExpr> Error = (No se pudo realizar)")
+            self.addError("<IfExpr> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
 
     def visitBlockStatementAST(self, ctx: MonkeyGrammarParser.BlockStatementASTContext):
         for i in range(0, len(ctx.statement())):
