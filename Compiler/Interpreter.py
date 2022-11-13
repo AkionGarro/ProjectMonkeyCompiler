@@ -103,13 +103,23 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitExpressionStatementAST(self, ctx: MonkeyGrammarParser.ExpressionStatementASTContext):
         self.visit(ctx.expression())
 
+    def isExpressionStatement(self, ctx):
+        if ctx.parentCtx == None:
+            return False
+        else:
+            name_class = ctx.__class__.__name__
+            if name_class == "ExpressionStatementASTContext":
+                return True
+            else:
+                return self.isExpressionStatement(ctx.parentCtx)
+
     def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext):
         if self.errorFlag:
             return
         self.returnsExpr.append(True)  # se asume que el exp siempre retorna
         self.visitChildren(ctx)
         if len(self.returnsExpr) > 0:
-            if self.returnsExpr[-1] == False:
+            if self.returnsExpr[-1] == False and self.isExpressionStatement(ctx) == False:
                 self.addError("<Expression> Error = (La función no retorna nada) linea: " + str(ctx.start.line))
                 self.errorFlag = True
             self.returnsExpr.pop()
