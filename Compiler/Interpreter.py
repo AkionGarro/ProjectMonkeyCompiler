@@ -354,9 +354,27 @@ class MyVisitor(MonkeyGrammarVisitor):
                 else:
                     parametros = self.replVisitor.stack.pop()
                     nombre_funcion = ctx.primitiveExpression().identifier().start.text
-                    ctx_funcion = self.replVisitor.stack.pop()
 
-                    self.ejecutarFuncion(ctx_funcion, parametros)
+                    object = self.replVisitor.data.get(nombre_funcion)
+
+                    # Si el objeto no existe se busca en los datas padres de la funcion
+                    if object == None:
+                        indice_datas = self.replVisitor.datas_indices
+
+                        for i in range(0, len(indice_datas)):
+                            object = self.replVisitor.datas[indice_datas[i]].get(nombre_funcion)
+                            if object != None:
+                                break
+
+                    if (object != None):
+                        ctx_funcion = self.replVisitor.stack.pop()
+                        self.ejecutarFuncion(ctx_funcion, parametros)
+                    else:
+                        self.addError("<CallFuntion> Error = (La función <<" + nombre_funcion + ">> no existe)")
+                        return
+
+
+
                 self.validarReturn(ctx)
             else:
                 self.visit(ctx.getChild(1))

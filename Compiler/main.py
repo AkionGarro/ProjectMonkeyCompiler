@@ -40,7 +40,13 @@ def getConsoleResult(mode):
     print("Error: \n", consoleResultError)
     print("\nResult: \n", consoleResult)
     if consoleResultError !=['']:
-        txt = consoleResult + consoleResultError
+        try:
+            txt = consoleResult + consoleResultError
+        except:
+            try:
+                txt = [consoleResultError] + consoleResult
+            except:
+                txt = consoleResultError + [consoleResult]
         print("console Result Error")
     else:
         if consoleResult !=['']:
