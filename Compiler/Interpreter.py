@@ -139,10 +139,15 @@ class MyVisitor(MonkeyGrammarVisitor):
                 op2 = (self.replVisitor.stack.pop())
                 op1 = (self.replVisitor.stack.pop())
                 if type(op1) != type(op2):
-                    self.addError(
-                        "<Comparison> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)) + " linea: " + str(ctx.start.line))
-                    flag = False
-                    self.errorFlag = True
+                    if  type(op1) == int and  type(op2) == float:
+                        op2 = int(op2)
+                    if type(op2) == int and  type(op1) == float:
+                        op1 = int(op1)
+                    else:
+                        self.addError(
+                            "<Comparison> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)) + " linea: " + str(ctx.start.line))
+                        flag = False
+                        self.errorFlag = True
             except:
                 flag = False
 
@@ -751,9 +756,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 self.errorFlag = True
 
     def visitIfExpressionAST(self, ctx: MonkeyGrammarParser.IfExpressionASTContext):
-
         self.visit(ctx.expression())
-
         try:
             flag = self.replVisitor.stack.pop()
             if flag == True:
