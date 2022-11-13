@@ -50,6 +50,7 @@ class MyVisitor(MonkeyGrammarVisitor):
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
         if self.errorFlag:
             return
+
         res = self.comprobarReturn(ctx)
         if res == False:
             return
