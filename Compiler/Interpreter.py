@@ -12,6 +12,8 @@ class MyVisitor(MonkeyGrammarVisitor):
     returnFlag = False
     returns = []
     returnsExpr = []
+    errorFlag = False
+
 
     def addError(self, msg):
         self.consoleError += msg
@@ -27,6 +29,8 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.visit(ctx.statement(i))
 
     def visitStatementLetAST(self, ctx: MonkeyGrammarParser.StatementLetASTContext):
+        if self.errorFlag:
+            return
         if self.returnFlag:
             self.returnFlag = False
             return
@@ -44,6 +48,8 @@ class MyVisitor(MonkeyGrammarVisitor):
                 return self.comprobarReturn(ctx.parentCtx)
 
     def visitStatementReturnAST(self, ctx: MonkeyGrammarParser.StatementReturnASTContext):
+        if self.errorFlag:
+            return
         res = self.comprobarReturn(ctx)
         if res == False:
             return
@@ -77,6 +83,8 @@ class MyVisitor(MonkeyGrammarVisitor):
         if self.returnFlag:
             self.returnFlag = False
             return
+        if self.errorFlag:
+            return
         self.visit(ctx.expressionStatement())
 
     def visitLetStatementAST(self, ctx: MonkeyGrammarParser.LetStatementASTContext):
@@ -87,6 +95,7 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.replVisitor.data.add(varName, self.replVisitor.stack.pop())
         except:
             self.addError("<LetExpresion>  Error = (Almacenar la variable) linea: " + str(ctx.start.line))
+            self.errorFlag = True
 
     def visitReturnStatementAST(self, ctx: MonkeyGrammarParser.ReturnStatementASTContext):
         self.visit(ctx.expression())
@@ -95,12 +104,14 @@ class MyVisitor(MonkeyGrammarVisitor):
         self.visit(ctx.expression())
 
     def visitExpressionAST(self, ctx: MonkeyGrammarParser.ExpressionASTContext):
+        if self.errorFlag:
+            return
         self.returnsExpr.append(True)  # se asume que el exp siempre retorna
         self.visitChildren(ctx)
         if len(self.returnsExpr) > 0:
             if self.returnsExpr[-1] == False:
                 self.addError("<Expression> Error = (La función no retorna nada) linea: " + str(ctx.start.line))
-
+                self.errorFlag = True
             self.returnsExpr.pop()
 
     def visitComparisonAST(self, ctx: MonkeyGrammarParser.ComparisonASTContext):
@@ -117,6 +128,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                     self.addError(
                         "<Comparison> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)) + " linea: " + str(ctx.start.line))
                     flag = False
+                    self.errorFlag = True
             except:
                 flag = False
 
@@ -142,6 +154,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         self.replVisitor.stack.append(flagOperator)
                     else:
                         self.addError("<Int Operation>  Error = (No existe el operador) linea: " + str(ctx.start.line))
+                        self.errorFlag = True
                 else:
                     if token.text == "==":
                         flagOperator = (op2 == op1)
@@ -151,6 +164,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         self.replVisitor.stack.append(flagOperator)
                     else:
                         self.addError("<Str Operation>  Error = (No existe el operador) linea: " + str(ctx.start.line))
+                        self.errorFlag = True
 
     def visitAdditionExpressionAST(self, ctx: MonkeyGrammarParser.AdditionExpressionASTContext):
         self.visitChildren(ctx)
@@ -182,6 +196,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         self.replVisitor.stack.append(flagOperator)
                     else:
                         self.addError("<Addition> Error = (No puede restar strings) " + op1 + " - " + op2 + " linea: " + str(ctx.start.line))
+                        self.errorFlag = True
                 elif (type(op1) == int and type(op2) == int):
                     if token.text == "+":
                         self.replVisitor.stack.append(op1 + op2)
@@ -205,9 +220,10 @@ class MyVisitor(MonkeyGrammarVisitor):
                 else:
 
                     self.addError("<Addition> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(type(op2)) + " linea: " + str(ctx.start.line))
-
+                    self.errorFlag = True
             except:
                 self.addError("<Addition> Error = (Datos incompatibles)" + opa1 + " y " + opa2 + " linea: " + str(ctx.start.line))
+                self.errorFlag = True
 
     def visitMultiplicationExpressionAST(self, ctx: MonkeyGrammarParser.MultiplicationExpressionASTContext):
         self.visitChildren(ctx)
@@ -237,10 +253,12 @@ class MyVisitor(MonkeyGrammarVisitor):
                         self.addError(
                             "<Addition> Error = (No pueden multiplicar 2 strings) " + op1 + " * " + op2 + " linea: " + str(
                                 ctx.start.line))
+                        self.errorFlag = True
                     else:
                         self.addError(
                             "<Addition> Error = (No pueden dividir strings) " + op1 + " / " + op2 + " linea: " + str(
                                 ctx.start.line))
+                        self.errorFlag = True
                 elif (type(op1) == int and type(op2) == int):
                     if token.text == "*":
                         self.replVisitor.stack.append(op1 * op2)
@@ -268,6 +286,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                         self.addError(
                             "<Addition> Error = (No puede dividir un string) " + op1 + " / " + str(op2) + " linea: " + str(
                                 ctx.start.line))
+                        self.errorFlag = True
                 elif (type(op1) == int and type(op2) == str):
                     if token.text == "*":
                         self.replVisitor.stack.append(op1 * op2[1:-1])
@@ -275,12 +294,15 @@ class MyVisitor(MonkeyGrammarVisitor):
                         self.addError(
                             "<Addition> Error = (No puede dividir un string) " + op1 + " / " + op2 + " linea: " + str(
                                 ctx.start.line))
+                        self.errorFlag = True
                 else:
 
                     self.addError("<Addition> Error = (Datos incompatibles)" + str(type(op1)) + " y " + str(
                         type(op2)) + " linea: " + str(ctx.start.line))
+                    self.errorFlag = True
             except:
                 self.addError("<Multiplication> Error = (Error en la pila) linea: " + str(ctx.start.line))
+                self.errorFlag = True
 
 
     def getIndexes(self, ctx):
@@ -326,6 +348,7 @@ class MyVisitor(MonkeyGrammarVisitor):
         if len(cxt_params) != len(listParams):
             self.addError("<Function> Error = (Cantidad de parametros incorrecta, se esperan " + str(
                 len(cxt_params)) + " parametros, pero se enviaron " + str(len(listParams)) + ")  linea: " + str(ctx.start.line))
+            self.errorFlag = True
             return
         # Se agregan los parametros a la tabla de simbolos
         for i in range(0, len(cxt_params)):
@@ -429,6 +452,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                     else:
                         # Si no existe se lanza un error
                         self.addError("<CallFuntion> Error = (La función <<" + nombre_funcion + ">> no existe) linea: " + str(ctx.start.line))
+                        self.errorFlag = True
                         return
 
 
@@ -448,6 +472,7 @@ class MyVisitor(MonkeyGrammarVisitor):
 
         except:
             self.addError("<ElementAccess> Error = (Error en la pila) linea: " + str(ctx.start.line))
+            self.errorFlag = True
             flag = False
         if flag == True:
             value = hash[key]
@@ -492,6 +517,7 @@ class MyVisitor(MonkeyGrammarVisitor):
             self.replVisitor.stack.append(object)
         else:
             self.addError("<PrimitiveExprId> Error = (No se encuentra el id <<" + str(self.visit(identifier)) + ">>) linea: " + str(ctx.start.line))
+            self.errorFlag = True
         return self.visitChildren(ctx)
 
     def visitPrimitiveExprBooleanAST(self, ctx: MonkeyGrammarParser.PrimitiveExprBooleanASTContext):
@@ -516,6 +542,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 self.replVisitor.stack.append(lng)
             except:
                 self.addError("<ArrFunc len> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+                self.errorFlag = True
 
         elif token == "first":
             try:
@@ -527,6 +554,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                     self.replVisitor.stack.append(arr[0])
             except:
                 self.addError("<ArrFunc first> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+                self.errorFlag = True
 
         elif token == "last":
             try:
@@ -538,6 +566,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                     self.replVisitor.stack.append(arr[-1])
             except:
                 self.addError("<ArrFunc last> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+                self.errorFlag = True
         elif token == "rest":
             try:
                 arr = self.replVisitor.stack.pop()
@@ -548,6 +577,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                     self.replVisitor.stack.append(arr[1:])
             except:
                 self.addError("<ArrFunc rest> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+                self.errorFlag = True
 
         elif token == "push":
             try:
@@ -569,6 +599,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 self.replVisitor.data.add(id, arr)
             except:
                 self.addError("<ArrFunc push> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+                self.errorFlag = True
 
     def visitPrimitiveExprFuncAST(self, ctx: MonkeyGrammarParser.PrimitiveExprFuncASTContext):
 
@@ -621,6 +652,7 @@ class MyVisitor(MonkeyGrammarVisitor):
             dicc[key] = value
         except:
             self.addError("<Hashliteral> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+            self.errorFlag = True
 
         self.visit(ctx.moreHashContent())
         moreHash = self.replVisitor.stack.pop()
@@ -649,6 +681,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                 dicc[key] = value
             except:
                 self.addError("<Hashliteral> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+                self.errorFlag = True
 
                 # reverse dictionary
         dicc = dict(reversed(list(dicc.items())))
@@ -693,12 +726,15 @@ class MyVisitor(MonkeyGrammarVisitor):
             if len(self.returns) > 0:
                 if self.returns[-1] == False:
                     self.addError("<Print> Error = (La función no retorna nada) linea: " + str(ctx.start.line))
+                    self.errorFlag = True
                 else:
                     self.addError("<Print> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+                    self.errorFlag = True
 
                 self.returns.pop()
             else:
                 self.addError("<Print> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+                self.errorFlag = True
 
     def visitIfExpressionAST(self, ctx: MonkeyGrammarParser.IfExpressionASTContext):
 
@@ -714,6 +750,7 @@ class MyVisitor(MonkeyGrammarVisitor):
                     self.visit(ctx.blockStatement(1))
         except:
             self.addError("<IfExpr> Error = (No se pudo realizar) linea: " + str(ctx.start.line))
+            self.errorFlag = True
 
     def visitBlockStatementAST(self, ctx: MonkeyGrammarParser.BlockStatementASTContext):
         for i in range(0, len(ctx.statement())):
